@@ -138,7 +138,7 @@ function Badges() {
                   <Badge badgeContent={4} color="secondary">
                     <MailIcon color="action" />
                   </Badge>
-                  <Badge badgeContent={4} color="success">
+                  <Badge badgeContent={100} color="success">
                     <MailIcon color="action" />
                   </Badge>
                 </Stack>

@@ -1,4 +1,4 @@
-import { Box, Card, Container } from '@mui/material';
+import { Avatar, Box, Card, Container } from '@mui/material';
 import { resourceKeys } from '../../../locales';
 import { styled } from '@mui/material/styles';
 import { Helmet } from 'react-helmet-async';
@@ -27,7 +27,8 @@ const SignInPage = () => {
           py={5}
           alignItems={'center'}
         >
-          Logo
+          <img src="static/images/avatars/logo.jpg" alt="" />
+          {/* <Avatar alt={"logo"} src={"/static/images/avatars/logo.jpg"} /> */}
         </Box>
         <Card sx={{ p: 10, mb: 10, borderRadius: 5 }}>
           <h1>{t(resourceKeys.SIGN_IN.TITLE)}</h1>

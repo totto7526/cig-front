@@ -128,6 +128,12 @@ const menuItems: MenuItems[] = [
         icon: TrafficTwoToneIcon,
         link: '/components/forms'
       },
+
+      {
+        name: 'Registro Cliente',
+        icon: AccountCircleTwoToneIcon,
+        link: '/components/forms'
+      },
     ]
   },
   {

@@ -217,6 +217,10 @@ const routes: RouteObject[] = [
       {
         path: 'forms',
         element: <Forms />
+      },
+      {
+        path: 'register',
+        element: <Avatars />
       }
     ]
   }

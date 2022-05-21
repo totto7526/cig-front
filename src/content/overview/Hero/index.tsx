@@ -82,9 +82,9 @@ function Hero() {
     <Container maxWidth="lg" sx={{ textAlign: 'center' }}>
       <Grid spacing={{ xs: 6, md: 10 }} justifyContent="center" alignItems="center" container>
         <Grid item md={10} lg={8} mx="auto">
-          <LabelWrapper color="success">Version 1.1.0</LabelWrapper>
+          <LabelWrapper color="success">Version 0.0.1</LabelWrapper>
           <TypographyH1 sx={{ mb: 2 }} variant="h1">
-            Tokyo Free White React Admin Dashboard
+            BIENVENIDO A ALMACEN CADENA EL CIG
           </TypographyH1>
           <TypographyH2
             sx={{ lineHeight: 1.5, pb: 4 }}
@@ -92,28 +92,28 @@ function Hero() {
             color="text.secondary"
             fontWeight="normal"
           >
-            High performance React template built with lots of powerful Material-UI components across multiple product niches for fast & perfect apps development processes
-          </TypographyH2>
+            Almacen cadena el cig es un almacen que distribuye productos para el hogar a credito o de contado por el oriente antioqueño           
+            </TypographyH2>
           <Button
             component={RouterLink}
             to="/dashboards/crypto"
             size="large"
             variant="contained"
           >
-            Browse Live Preview
+            ¡Visitanos!
           </Button>
           <Button
             sx={{ ml: 2 }}
             component="a"
             target="_blank"
             rel="noopener"
-            href="https://bloomui.com/product/tokyo-free-white-react-typescript-material-ui-admin-dashboard"
+            href="https://wa.me/c/573113396022"
             size="large"
             variant="text"
           >
-            Key Features
+            WhatsApp
           </Button>
-          <Grid container spacing={3} mt={5}>
+          {/* <Grid container spacing={3} mt={5}>
             <Grid item md={6}>
               <MuiAvatar>
                 <img src="/static/images/logo/material-ui.svg" alt="Material-UI" />
@@ -130,7 +130,7 @@ function Hero() {
                 <Box sx={{ pb: 2 }}><b>Built with Typescript</b></Box><Typography component="span" variant="subtitle2"> - Tokyo Free White features a modern technology stack and is built with React + Typescript.</Typography>
               </Typography>
             </Grid>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Grid>
     </Container>
