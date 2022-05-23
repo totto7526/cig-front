@@ -15,6 +15,9 @@ import RedeemTwoToneIcon from '@mui/icons-material/RedeemTwoTone';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
 import TrafficTwoToneIcon from '@mui/icons-material/TrafficTwoTone';
 import VerifiedUserTwoToneIcon from '@mui/icons-material/VerifiedUserTwoTone';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+
 
 export interface MenuItem {
   link?: string;
@@ -84,6 +87,16 @@ const menuItems: MenuItems[] = [
     heading: 'Components',
     items: [
       {
+        name:'Registro Empleado',
+        icon: PersonAddIcon,
+        link: '/components/WorkerAdd'
+      }, 
+      {
+        name: 'Registro Cliente',
+        icon: AddShoppingCartIcon,
+        link: '/components/ClientAdd'
+      },
+      {
         name: 'Buttons',
         icon: BallotTwoToneIcon,
         link: '/components/buttons'
@@ -127,13 +140,7 @@ const menuItems: MenuItems[] = [
         name: 'Forms',
         icon: TrafficTwoToneIcon,
         link: '/components/forms'
-      },
-
-      {
-        name: 'Registro Cliente',
-        icon: AccountCircleTwoToneIcon,
-        link: '/components/forms'
-      },
+      }
     ]
   },
   {

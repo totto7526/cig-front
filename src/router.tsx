@@ -59,8 +59,18 @@ const Tooltips = Loader(
 const Avatars = Loader(
   lazy(() => import('src/content/pages/Components/Avatars'))
 );
-const Cards = Loader(lazy(() => import('src/content/pages/Components/Cards')));
-const Forms = Loader(lazy(() => import('src/content/pages/Components/Forms')));
+const Cards = Loader(
+  lazy(() => import('src/content/pages/Components/Cards'))
+);
+const Forms = Loader(
+  lazy(() => import('src/content/pages/Components/Forms'))
+);
+const ClientAdd = Loader(
+  lazy(() => import('src/content/pages/Components/ClientAdd'))
+);
+const WorkerAdd = Loader(
+  lazy(()=> import('src/content/pages/Components/WorkerAdd'))
+);
 
 // Status
 
@@ -183,6 +193,14 @@ const routes: RouteObject[] = [
         element: <Navigate to="/components/buttons" replace />
       },
       {
+        path: 'clientAdd',
+        element: <ClientAdd/>
+      },
+      {
+        path: 'workerAdd',
+        element: <WorkerAdd/>
+      },
+      {
         path: 'buttons',
         element: <Buttons />
       },
@@ -218,10 +236,6 @@ const routes: RouteObject[] = [
         path: 'forms',
         element: <Forms />
       },
-      {
-        path: 'register',
-        element: <Avatars />
-      }
     ]
   }
 ];
