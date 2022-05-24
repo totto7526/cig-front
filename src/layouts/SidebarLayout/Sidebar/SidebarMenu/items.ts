@@ -84,62 +84,62 @@ const menuItems: MenuItems[] = [
     ]
   },
   {
-    heading: 'Components',
+    heading: 'Admin',
     items: [
       {
         name:'Registro Empleado',
         icon: PersonAddIcon,
-        link: '/components/WorkerAdd'
+        link: '/admin/agregar-empleado'
       }, 
       {
         name: 'Registro Cliente',
         icon: AddShoppingCartIcon,
-        link: '/components/ClientAdd'
+        link: '/admin/agregar-cliente'
       },
       {
         name: 'Buttons',
         icon: BallotTwoToneIcon,
-        link: '/components/buttons'
+        link: '/admin/buttons'
       },
       {
         name: 'Modals',
         icon: BeachAccessTwoToneIcon,
-        link: '/components/modals'
+        link: '/admin/modals'
       },
       {
         name: 'Accordions',
         icon: EmojiEventsTwoToneIcon,
-        link: '/components/accordions'
+        link: '/admin/accordions'
       },
       {
         name: 'Tabs',
         icon: FilterVintageTwoToneIcon,
-        link: '/components/tabs'
+        link: '/admin/tabs'
       },
       {
         name: 'Badges',
         icon: HowToVoteTwoToneIcon,
-        link: '/components/badges'
+        link: '/admin/badges'
       },
       {
         name: 'Tooltips',
         icon: LocalPharmacyTwoToneIcon,
-        link: '/components/tooltips'
+        link: '/admin/tooltips'
       },
       {
         name: 'Avatars',
         icon: RedeemTwoToneIcon,
-        link: '/components/avatars'
+        link: '/admin/avatars'
       },
       {
         name: 'Cards',
         icon: SettingsTwoToneIcon,
-        link: '/components/cards'
+        link: '/admin/cards'
       },
       {
         name: 'Forms',
         icon: TrafficTwoToneIcon,
-        link: '/components/forms'
+        link: '/admin/forms'
       }
     ]
   },

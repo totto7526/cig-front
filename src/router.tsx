@@ -185,19 +185,19 @@ const routes: RouteObject[] = [
     ]
   },
   {
-    path: '/components',
+    path: '/admin',
     element: <SidebarLayout />,
     children: [
       {
         path: '',
-        element: <Navigate to="/components/buttons" replace />
+        element: <Navigate to="/admin/buttons" replace />
       },
       {
-        path: 'clientAdd',
+        path: 'agregar-cliente',
         element: <ClientAdd/>
       },
       {
-        path: 'workerAdd',
+        path: 'agregar-empleado',
         element: <WorkerAdd/>
       },
       {

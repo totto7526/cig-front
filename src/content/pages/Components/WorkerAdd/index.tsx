@@ -3,7 +3,7 @@ import PageTitle from 'src/components/PageTitle';
 import { useState } from 'react';
 
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
-import { Container, Grid, Card, CardHeader, CardContent, Divider } from '@mui/material';
+import { Container, Grid, Card, CardHeader, CardContent, Divider, Button } from '@mui/material';
 import Footer from 'src/components/Footer';
 
 import Box from '@mui/material/Box';
@@ -27,31 +27,31 @@ import Switch from '@mui/material/Switch';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-const currencies = [
+const currenciesBarrio = [
   {
-    value: 'USD',
-    label: '$',
+    value: 1,
+    label: 'manrique',
   },
   {
-    value: 'EUR',
-    label: '€',
+    value: 2,
+    label: 'porvenir',
   },
   {
-    value: 'BTC',
-    label: '฿',
+    value: 3,
+    label: 'diamante',
   },
   {
-    value: 'JPY',
-    label: '¥',
+    value: 4,
+    label: 'plan60',
   },
 ];
 
 function WorkerAdd() {
 
-  const [currency, setCurrency] = useState('EUR');
+  const [currencyBarrio, setCurrencyBarrio] = useState(' ');
 
-  const handleChange = (event) => {
-    setCurrency(event.target.value);
+  const handleChangeBarrio= (event) => {
+    setCurrencyBarrio(event.target.value);
   };
 
   const [value, setValue] = useState(30);
@@ -125,11 +125,13 @@ function WorkerAdd() {
                      <TextField
                       id="outlined-number"
                       label="Numero Identificación"
+                      color='success'
                       type="number"
                     />
                     <TextField
                       id="outlined-number"
                       label="Telefono"
+                      color='success'
                       type="number"
                     />
                     <TextField
@@ -140,54 +142,32 @@ function WorkerAdd() {
                       defaultValue=" "
                     />
                     <TextField
-                      required
-                      id="outliend-required"
+                      id="outlined-select-currency"
+                      select
                       label="Barrio"
-                      color='success'
-                      defaultValue=" "
-                    />
-                    <TextField
-                      required
-                      id="outliend-required"
-                      label="Ciudad"
-                      color='success'
-                      defaultValue=" "
-                    />
-                    <TextField
-                      required
-                      id="outliend-required"
-                      label="Region"
-                      color='success'
-                      defaultValue=" "
-                    />
-                    <TextField
-                      required
-                      id="outliend-required"
-                      label="Departamento"
-                      color='success'
-                      defaultValue=" "
-                    />
-                    <TextField
-                      required
-                      id="outliend-required"
-                      label="Pais"
-                      color='success'
-                      defaultValue=" "
-                    />
-                    <TextField
-                      required
-                      id="outliend-required"
-                      label="Username"
-                      color='success'
-                      defaultValue=" "
-                    />                    
-                    <TextField
-                        id="outlined-password-input"
-                        label="Password"
-                        type="password"
-                        color='success'
-                        autoComplete="current-password"
-                    />
+                      value={currencyBarrio}
+                      onChange={handleChangeBarrio}
+                      helperText="Por favor seleccione un barrio"
+                    >
+                      {currenciesBarrio.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                    <div>
+                      <FormControl component="fieldset">
+                        <FormLabel component="legend">Estado Empleado</FormLabel>
+                          <RadioGroup row aria-label="Estado Empleado" name="row-radio-buttons-group"defaultValue={"Activo"}>
+                            <FormControlLabel value="Activo" control={<Radio />} label="Activo" />
+                            <FormControlLabel value="Inactivo" control={<Radio />} label="Inactivo" />
+                           <FormControlLabel value="other" control={<Radio />} label="Other" />
+                          </RadioGroup>
+                      </FormControl>
+                    </div>
+                    <div>
+                      <Button sx={{ margin: 1 }} variant="contained">GUARDAR</Button>
+                    </div>
                   </div>
                 </Box>
               </CardContent>

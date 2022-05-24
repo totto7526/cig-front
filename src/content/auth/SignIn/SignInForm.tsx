@@ -16,8 +16,8 @@ const SignInForm = () => {
 
   const handleSubmit = () => {
     const credentials = new Credential(username, b64Encode(password));
-
     authenticate(credentials);
+
   };
 
   errorInSession();

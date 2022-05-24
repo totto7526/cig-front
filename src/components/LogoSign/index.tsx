@@ -1,4 +1,4 @@
-import { Box, Tooltip } from '@mui/material';
+import { Avatar, Box, Tooltip } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 
@@ -72,14 +72,15 @@ const LogoSignInner = styled(Box)(
 
 function Logo() {
 
+    // <LogoSignWrapper>
+    //   <LogoSign>
+    //     <LogoSignInner />
+    //   </LogoSign>
+    // </LogoSignWrapper>
   return (
     <Tooltip title="Almacen Cadena El Cig" arrow>
       <LogoWrapper to="/overview">
-        <LogoSignWrapper>
-          <LogoSign>
-            <LogoSignInner />
-          </LogoSign>
-        </LogoSignWrapper>
+        {<Avatar alt={"logo"} src={"/static/images/avatars/logo.jpg"} />}
       </LogoWrapper>
     </Tooltip>
   );

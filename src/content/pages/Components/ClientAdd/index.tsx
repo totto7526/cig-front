@@ -3,7 +3,7 @@ import PageTitle from 'src/components/PageTitle';
 import { useState } from 'react';
 
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
-import { Container, Grid, Card, CardHeader, CardContent, Divider } from '@mui/material';
+import { Container, Grid, Card, CardHeader, CardContent, Divider, Button } from '@mui/material';
 import Footer from 'src/components/Footer';
 
 import Box from '@mui/material/Box';
@@ -27,33 +27,56 @@ import Switch from '@mui/material/Switch';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-const currencies = [
+const currenciesCiudad= [
   {
-    value: 'USD',
-    label: '$',
+    value: 1,
+    label: 'Rionegro',
   },
   {
-    value: 'EUR',
-    label: '€',
+    value: 2,
+    label: 'Marinilla',
   },
   {
-    value: 'BTC',
-    label: '฿',
+    value: 3,
+    label: 'Medellin',
   },
   {
-    value: 'JPY',
-    label: '¥',
+    value: 4,
+    label: 'Santuario',
+  },
+];
+
+const currenciesBarrio = [
+  {
+    value: 1,
+    label: 'manrique',
+  },
+  {
+    value: 2,
+    label: 'porvenir',
+  },
+  {
+    value: 3,
+    label: 'diamante',
+  },
+  {
+    value: 4,
+    label: 'plan60',
   },
 ];
 
 function ClientAdd() {
 
-  const [currency, setCurrency] = useState('EUR');
+  const [currencyCiudad, setCurrencyCiudad] = useState(' ');
+  const [currencyBarrio, setCurrencyBarrio] = useState(' ');
 
-  const handleChange = (event) => {
-    setCurrency(event.target.value);
+  const handleChangeCiudad = (event) => {
+    setCurrencyCiudad(event.target.value);
   };
 
+  const handleChangeBarrio = (event) => {
+    setCurrencyBarrio(event.target.value);
+  };
   const [value, setValue] = useState(30);
 
   const handleChange2 = (event, newValue) => {
@@ -133,68 +156,53 @@ function ClientAdd() {
                       type="number"
                     />
                     <TextField
-                      required
-                      id="outliend-required"
-                      label="Dirección"
-                      color='success'
-                      defaultValue=" "
-                    />
-                    <TextField
-                      required
-                      id="outliend-required"
-                      label="Barrio"
-                      color='success'
-                      defaultValue=" "
-                    />
-                    <TextField
-                      required
-                      id="outliend-number"
-                      label="Zona"
-                      color='success'
-                      type='number'
-                    />
-                    <TextField
-                      required
-                      id="outliend-required"
+                      id="outlined-select-currency"
+                      select
                       label="Ciudad"
-                      color='success'
-                      defaultValue=" "
-                    />
+                      value={currencyCiudad}
+                      onChange={handleChangeCiudad}
+                      helperText="Por favor seleccione una ciudad"
+                    >
+                      {currenciesCiudad.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
                     <TextField
-                      required
-                      id="outliend-required"
-                      label="Region"
-                      color='success'
-                      defaultValue=" "
-                    />
-                    <TextField
-                      required
-                      id="outliend-required"
-                      label="Departamento"
-                      color='success'
-                      defaultValue=" "
-                    />
-                    <TextField
-                      required
-                      id="outliend-required"
-                      label="Pais"
-                      color='success'
-                      defaultValue=" "
-                    />
+                      id="outlined-select-currency"
+                      select
+                      label="Barrio"
+                      value={currencyBarrio}
+                      onChange={handleChangeBarrio}
+                      helperText="Por favor seleccione un barrio"
+                    >
+                      {currenciesBarrio.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
                     <TextField
                       required
                       id="outliend-number"
                       label="Cupo"
                       color='success'
-                      defaultValue=" "
+                      defaultValue="150000"
                     />
-                    <TextField
-                      required
-                      id="outliend-number"
-                      label="Saldo Deuda"
-                      color='success'
-                      defaultValue=" "
-                    />
+                    <div>
+                      <FormControl component="fieldset">
+                        <FormLabel component="legend">Estado Cliente</FormLabel>
+                          <RadioGroup row aria-label="Estado Cliente" name="row-radio-buttons-group" defaultValue={"Activo"}>
+                            <FormControlLabel value="Activo" control={<Radio />} label="Activo" />
+                            <FormControlLabel value="Inactivo" control={<Radio />} label="Inactivo" />
+                            <FormControlLabel value="other" control={<Radio />} label="Other" />
+                          </RadioGroup>
+                        </FormControl>
+                    </div>
+                    <div>
+                      <Button sx={{ margin: 1 }} variant="contained">GUARDAR</Button>
+                    </div>
                   </div>
                 </Box>
               </CardContent>
