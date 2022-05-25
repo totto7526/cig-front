@@ -17,6 +17,8 @@ import TrafficTwoToneIcon from '@mui/icons-material/TrafficTwoTone';
 import VerifiedUserTwoToneIcon from '@mui/icons-material/VerifiedUserTwoTone';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 
 
 export interface MenuItem {
@@ -95,6 +97,16 @@ const menuItems: MenuItems[] = [
         name: 'Registro Cliente',
         icon: AddShoppingCartIcon,
         link: '/admin/agregar-cliente'
+      },
+      {
+        name:'Registro Producto',
+        icon: AddCircleOutlineIcon,
+        link: '/admin/agregar-producto'
+      },
+      { 
+        name:'Editar Producto',
+        icon: ModeEditIcon,
+        link:'/admin/editar-producto'
       },
       {
         name: 'Buttons',

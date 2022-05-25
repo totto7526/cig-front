@@ -71,6 +71,12 @@ const ClientAdd = Loader(
 const WorkerAdd = Loader(
   lazy(()=> import('src/content/pages/Components/WorkerAdd'))
 );
+const ProductAdd = Loader(
+  lazy(()=> import('src/content/pages/Components/ProductAdd'))
+);
+const EditProducts = Loader(
+  lazy(() => import('src/content/applications/EditProducts'))
+);
 
 // Status
 
@@ -86,6 +92,8 @@ const StatusComingSoon = Loader(
 const StatusMaintenance = Loader(
   lazy(() => import('src/content/pages/Status/Maintenance'))
 );
+
+
 
 const routes: RouteObject[] = [
   {
@@ -199,6 +207,14 @@ const routes: RouteObject[] = [
       {
         path: 'agregar-empleado',
         element: <WorkerAdd/>
+      },
+      {
+        path: 'agregar-producto',
+        element: <ProductAdd/>
+      },
+      {
+        path: 'editar-producto',
+        element: <EditProducts />
       },
       {
         path: 'buttons',
