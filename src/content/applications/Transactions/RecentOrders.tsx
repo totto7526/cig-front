@@ -14,9 +14,9 @@ function RecentOrders() {
       orderID: 'VUVX709ET7BY',
       sourceName: 'Bank Account',
       sourceDesc: '*** 1111',
-      amountCrypto: 34.4565,
+      amountCrypto: 34.4565, 
       amount: 56787,
-      cryptoCurrency: 'ETH',
+      cryptoCurrency:'ETH',
       currency: '$'
     },
     {
@@ -29,7 +29,7 @@ function RecentOrders() {
       sourceDesc: '*** 1111',
       amountCrypto: 6.58454334,
       amount: 8734587,
-      cryptoCurrency: 'BTC',
+      cryptoCurrency:'BTC',
       currency: '$'
     },
     {

@@ -43,15 +43,15 @@ interface Filters {
 const getStatusLabel = (cryptoOrderStatus: CryptoOrderStatus): JSX.Element => {
   const map = {
     failed: {
-      text: 'Failed',
+      text: 'agotado',
       color: 'error'
     },
     completed: {
-      text: 'Completed',
+      text: 'disponible',
       color: 'success'
     },
     pending: {
-      text: 'Pending',
+      text: 'Pedido',
       color: 'warning'
     }
   };
@@ -102,16 +102,16 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ cryptoOrders }) => {
       name: 'All'
     },
     {
-      id: 'completed',
-      name: 'Completed'
+      id: 'disponible',
+      name: 'disponible'
     },
     {
-      id: 'pending',
-      name: 'Pending'
+      id: 'pedido',
+      name: 'Pedido'
     },
     {
-      id: 'failed',
-      name: 'Failed'
+      id: 'agotado',
+      name: 'agotado'
     }
   ];
 
