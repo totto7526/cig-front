@@ -26,21 +26,21 @@ import {
 } from '@mui/material';
 
 import Label from 'src/components/Label';
-import { CryptoProduct, CryptoProductStatus } from 'src/models/crypto_order';
+import { CryptoWorker, CryptoWorkerStatus } from 'src/models/crypto_order';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
 
 interface RecentOrdersTableProps {
   className?: string;
-  CryptoProducts: CryptoProduct[];
+  CryptoWorkers: CryptoWorker[];
 }
 
 interface Filters {
-  status?: CryptoProductStatus;
+  status?: CryptoWorkerStatus;
 }
 
-const getStatusLabel = (CryptoProductStatus: CryptoProductStatus): JSX.Element => {
+const getStatusLabel = (CryptoWorkerStatus: CryptoWorkerStatus): JSX.Element => {
   const map = {
     failed: {
       text: 'failed',
@@ -56,19 +56,19 @@ const getStatusLabel = (CryptoProductStatus: CryptoProductStatus): JSX.Element =
     }
   };
 
-  const { text, color }: any = map[CryptoProductStatus];
+  const { text, color }: any = map[CryptoWorkerStatus];
 
   return <Label color={color}>{text}</Label>;
 };
 
 const applyFilters = (
-  CryptoProducts: CryptoProduct[],
+  CryptoWorkers: CryptoWorker[],
   filters: Filters
-): CryptoProduct[] => {
-  return CryptoProducts.filter((CryptoProduct) => {
+): CryptoWorker[] => {
+  return CryptoWorkers.filter((CryptoWorker) => {
     let matches = true;
 
-    if (filters.status && CryptoProduct.status !== filters.status) {
+    if (filters.status && CryptoWorker.status !== filters.status) {
       matches = false;
     }
 
@@ -77,19 +77,19 @@ const applyFilters = (
 };
 
 const applyPagination = (
-  CryptoProducts: CryptoProduct[],
+  CryptoWorkers: CryptoWorker[],
   page: number,
   limit: number
-): CryptoProduct[] => {
-  return CryptoProducts.slice(page * limit, page * limit + limit);
+): CryptoWorker[] => {
+  return CryptoWorkers.slice(page * limit, page * limit + limit);
 };
 
-const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoProducts }) => {
+const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoWorkers }) => {
 
-  const [selectedCryptoProducts, setSelectedCryptoProducts] = useState<string[]>(
+  const [selectedCryptoWorkers, setSelectedCryptoWorkers] = useState<string[]>(
     []
   );
-  const selectedBulkActions = selectedCryptoProducts.length > 0;
+  const selectedBulkActions = selectedCryptoWorkers.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
@@ -103,7 +103,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoProducts }) => {
     },
     {
       id: 'completed',
-      name: 'cpmpleted'
+      name: 'completed'
     },
     {
       id: 'failed',
@@ -128,28 +128,28 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoProducts }) => {
     }));
   };
 
-  const handleSelectAllCryptoProducts = (
+  const handleSelectAllCryptoWorkers = (
     event: ChangeEvent<HTMLInputElement>
   ): void => {
-    setSelectedCryptoProducts(
+    setSelectedCryptoWorkers(
       event.target.checked
-        ? CryptoProducts.map((CryptoProduct) => CryptoProduct.id)
+        ? CryptoWorkers.map((CryptoWorker) => CryptoWorker.id)
         : []
     );
   };
 
-  const handleSelectOneCryptoProduct = (
+  const handleSelectOneCryptoWorker = (
     event: ChangeEvent<HTMLInputElement>,
-    CryptoProductId: string
+    CryptoWorkerId: string
   ): void => {
-    if (!selectedCryptoProducts.includes(CryptoProductId)) {
-      setSelectedCryptoProducts((prevSelected) => [
+    if (!selectedCryptoWorkers.includes(CryptoWorkerId)) {
+      setSelectedCryptoWorkers((prevSelected) => [
         ...prevSelected,
-        CryptoProductId
+        CryptoWorkerId
       ]);
     } else {
-      setSelectedCryptoProducts((prevSelected) =>
-        prevSelected.filter((id) => id !== CryptoProductId)
+      setSelectedCryptoWorkers((prevSelected) =>
+        prevSelected.filter((id) => id !== CryptoWorkerId)
       );
     }
   };
@@ -162,17 +162,17 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoProducts }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredCryptoProducts = applyFilters(CryptoProducts, filters);
-  const paginatedCryptoProducts = applyPagination(
-    filteredCryptoProducts,
+  const filteredCryptoWorkers = applyFilters(CryptoWorkers, filters);
+  const paginatedCryptoWorkers = applyPagination(
+    filteredCryptoWorkers,
     page,
     limit
   );
-  const selectedSomeCryptoProducts =
-    selectedCryptoProducts.length > 0 &&
-    selectedCryptoProducts.length < CryptoProducts.length;
-  const selectedAllCryptoProducts =
-    selectedCryptoProducts.length === CryptoProducts.length;
+  const selectedSomeCryptoWorkers =
+    selectedCryptoWorkers.length > 0 &&
+    selectedCryptoWorkers.length < CryptoWorkers.length;
+  const selectedAllCryptoWorkers =
+    selectedCryptoWorkers.length === CryptoWorkers.length;
   const theme = useTheme();
 
   return (
@@ -214,38 +214,40 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoProducts }) => {
               <TableCell padding="checkbox">
                 <Checkbox
                   color="primary"
-                  checked={selectedAllCryptoProducts}
-                  indeterminate={selectedSomeCryptoProducts}
-                  onChange={handleSelectAllCryptoProducts}
+                  checked={selectedAllCryptoWorkers}
+                  indeterminate={selectedSomeCryptoWorkers}
+                  onChange={handleSelectAllCryptoWorkers}
                 />
               </TableCell>
-              <TableCell>Nombre Producto</TableCell>
-              <TableCell>Referencia Producto</TableCell>
-              <TableCell>Descripcion</TableCell>
-              <TableCell align="right">Medidas</TableCell>
+              <TableCell>Nombre Completo</TableCell>
+              <TableCell>Apellidos</TableCell>
+              <TableCell>Cedula</TableCell>
+              <TableCell>Telefono</TableCell>
+              <TableCell align="right">Direccion</TableCell>
+              <TableCell align="right">Barrio</TableCell>
               <TableCell align="right">Estado</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedCryptoProducts.map((CryptoProduct) => {
-              const isCryptoProductSelected = selectedCryptoProducts.includes(
-                CryptoProduct.id
+            {paginatedCryptoWorkers.map((CryptoWorker) => {
+              const isCryptoWorkerSelected = selectedCryptoWorkers.includes(
+                CryptoWorker.id
               );
               return (
                 <TableRow
                   hover
-                  key={CryptoProduct.id}
-                  selected={isCryptoProductSelected}
+                  key={CryptoWorker.id}
+                  selected={isCryptoWorkerSelected}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
                       color="primary"
-                      checked={isCryptoProductSelected}
+                      checked={isCryptoWorkerSelected}
                       onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        handleSelectOneCryptoProduct(event, CryptoProduct.id)
+                        handleSelectOneCryptoWorker(event, CryptoWorker.id)
                       }
-                      value={isCryptoProductSelected}
+                      value={isCryptoWorkerSelected}
                     />
                   </TableCell>
                   <TableCell>
@@ -256,7 +258,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoProducts }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoProduct.nameProduct}
+                      {CryptoWorker.firstName +' ' +CryptoWorker.secondName}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -267,7 +269,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoProducts }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoProduct.reference}
+                      {CryptoWorker.firstLastName + ' ' +CryptoWorker.secondLastName}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -278,7 +280,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoProducts }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoProduct.Description}
+                      {CryptoWorker.idNumber}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
@@ -289,14 +291,36 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoProducts }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoProduct.lengthProduct + 'X' + CryptoProduct.widthProduct}
+                      {CryptoWorker.phoneNumber}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {CryptoWorker.direction}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {CryptoProduct.units}
+                      {CryptoWorker.neighborhood}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
-                    {getStatusLabel(CryptoProduct.status)}
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {CryptoWorker.direction}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    {getStatusLabel(CryptoWorker.status)}
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>
@@ -335,7 +359,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoProducts }) => {
       <Box p={2}>
         <TablePagination
           component="div"
-          count={filteredCryptoProducts.length}
+          count={filteredCryptoWorkers.length}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}
@@ -348,11 +372,11 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoProducts }) => {
 };
 
 RecentOrdersTable.propTypes = {
-  CryptoProducts: PropTypes.array.isRequired
+  CryptoWorkers: PropTypes.array.isRequired
 };
 
 RecentOrdersTable.defaultProps = {
-  CryptoProducts: []
+  CryptoWorkers: []
 };
 
 export default RecentOrdersTable;

@@ -19,6 +19,9 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import { linkClasses } from '@mui/material';
 
 
 export interface MenuItem {
@@ -107,6 +110,16 @@ const menuItems: MenuItems[] = [
         name:'Editar Producto',
         icon: ModeEditIcon,
         link:'/admin/editar-producto'
+      },
+      { 
+        name:'Editar Cliente',
+        icon: HowToRegIcon,
+        link:'/admin/editar-cliente',
+      },
+      {
+        name:'Editar Empleado',
+        icon: AssignmentIndIcon,
+        link: '/admin/editar-empleado',
       },
       {
         name: 'Buttons',

@@ -77,6 +77,12 @@ const ProductAdd = Loader(
 const EditProducts = Loader(
   lazy(() => import('src/content/applications/EditProducts'))
 );
+const EditClients = Loader(
+  lazy(() => import('src/content/applications/EditClients'))
+);
+const EditWorkers = Loader(
+  lazy(() => import('src/content/applications/EditWorker'))
+);
 
 // Status
 
@@ -215,6 +221,14 @@ const routes: RouteObject[] = [
       {
         path: 'editar-producto',
         element: <EditProducts />
+      },
+      {
+        path:'editar-cliente',
+        element: <EditClients />
+      },
+      {
+        path:'editar-empleado',
+        element: <EditWorkers/>
       },
       {
         path: 'buttons',
