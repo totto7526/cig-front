@@ -309,15 +309,13 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoClients }) => {
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {CryptoClient.quota}
+
+                    <Typography variant="body2" color="text.secondary" noWrap>
+                      {numeral(CryptoClient.quota).format(
+                        `${CryptoClient.currency}0,0.00`
+                      )}
                     </Typography>
+
                   </TableCell>
                   <TableCell align="right">
                     {getStatusLabel(CryptoClient.status)}

@@ -17,7 +17,8 @@ function RecentClientsOrders() {
       phoneNumber: 5321065,
       cityName: 'Marinilla',
       neighborhood: 'Plan 60',
-      quota: 300.000,
+      quota: 300000,
+      currency: '$'
     },
     {
       id: '2',
@@ -30,7 +31,8 @@ function RecentClientsOrders() {
       phoneNumber: 5322309,
       cityName: 'Marinilla',
       neighborhood: 'Maria Auxiliadora',
-      quota: 100.000,
+      quota: 100000,
+      currency: '$'
     },
     {
       id: '3',
@@ -43,7 +45,8 @@ function RecentClientsOrders() {
       phoneNumber: 5322309,
       cityName: 'Rionegro',
       neighborhood: 'Centro',
-      quota: 250.000,
+      quota: 250000,
+      currency: '$'
     },
     {
       id: '4',
@@ -56,7 +59,8 @@ function RecentClientsOrders() {
       phoneNumber: 5329988,
       cityName: 'Marinilla',
       neighborhood: 'Plan 60',
-      quota: 300.000,
+      quota: 300000,
+      currency: '$'
     },
     {
       id: '5',
@@ -69,7 +73,8 @@ function RecentClientsOrders() {
       phoneNumber: 5480921,
       cityName: 'Marinilla',
       neighborhood: 'Acacias',
-      quota: 433.000,
+      quota: 433000,
+      currency: '$'
     }
   ];
 

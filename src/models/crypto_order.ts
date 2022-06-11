@@ -40,6 +40,7 @@ export interface CryptoClient {
   cityName: string;
   neighborhood: string;
   quota: number;
+  currency: string;
 }
 
 export interface CryptoWorker {
