@@ -65,10 +65,43 @@ const currenciesBarrio = [
   },
 ];
 
+const currenciesParentesco = [
+  {
+    value: 1,
+    label: 'Mama',
+  },
+  {
+    value: 2,
+    label: 'Papa',
+  },
+  {
+    value: 3,
+    label: 'herman@',
+  },
+  {
+    value: 4,
+    label: 'Ti@',
+  },
+  {
+    value: 5,
+    label:'Prim@'
+  },
+  {
+    value:6,
+    label: 'Sobrin@'
+  },
+  {
+    value:7,
+    label: 'Amig@'
+  },
+];
+
 function ClientAdd() {
 
   const [currencyCiudad, setCurrencyCiudad] = useState(' ');
   const [currencyBarrio, setCurrencyBarrio] = useState(' ');
+  const [currencyParentescoUno, setCurrencyParentescoUno] = useState(' ');
+  const [currencyParentescoDos, setCurrencyParentescoDos] = useState(' ');
 
   const handleChangeCiudad = (event) => {
     setCurrencyCiudad(event.target.value);
@@ -77,6 +110,15 @@ function ClientAdd() {
   const handleChangeBarrio = (event) => {
     setCurrencyBarrio(event.target.value);
   };
+
+  const handleChangeParentescoUno = (event) => {
+    setCurrencyParentescoUno(event.target.value);
+  };
+
+  const handleChangeParentescoDos = (event) => {
+    setCurrencyParentescoDos(event.target.value);
+  };
+
   const [value, setValue] = useState(30);
 
   const handleChange2 = (event, newValue) => {
@@ -207,6 +249,76 @@ function ClientAdd() {
                 </Box>
               </CardContent>
             </Card>
+            <Grid item xs={12}>
+            <Card>
+              <CardHeader title="Datos referencias" />
+              <Divider />
+                <CardContent>
+                  <Box
+                    component="form"
+                    sx={{
+                      '& .MuiTextField-root': { m: 5, width: '25ch' },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                  >
+                  <div>
+                    <TextField
+                        required
+                        id="outlined-required"
+                        label="Nombre Completo"
+                        color="success"
+                        defaultValue=" "
+                    />
+                    <TextField
+                        id="outlined-number-reference1"
+                        label="Telefono"
+                        type="number"
+                      />
+                    <TextField
+                      id="outlined-select-currency"
+                      select
+                      label="parentesco"
+                      value={currencyParentescoUno}
+                      onChange={handleChangeParentescoUno}
+                      helperText="Por favor seleccione un parentesco">
+                      {currenciesParentesco.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+
+                    <TextField
+                      required
+                      id="outlined-required"
+                      label="Nombre Completo"
+                      color="success"
+                      defaultValue=" "
+                    />
+                    <TextField
+                      id="outlined-number"
+                      label="Telefono"
+                      type="number"
+                    />
+                    <TextField
+                      id="outlined-select-currency"
+                      select
+                      label="parentesco"
+                      value={currencyParentescoDos}
+                      onChange={handleChangeParentescoDos}
+                      helperText="Por favor seleccione un parentesco">
+                      {currenciesParentesco.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  </div>
+                  </Box>
+                </CardContent>
+              </Card>
+            </Grid>  
           </Grid>
         </Grid>
       </Container>

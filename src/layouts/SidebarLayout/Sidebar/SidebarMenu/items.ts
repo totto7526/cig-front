@@ -49,6 +49,51 @@ const menuItems: MenuItems[] = [
     ]
   },
   {
+    heading: 'Empleados',
+    items: [
+      {
+        name:'Registro Empleados',
+        icon: PersonAddIcon,
+        link: '/empleados/agregar-empleados'
+      },
+      {
+        name:'Editar Empleados',
+        icon: AssignmentIndIcon,
+        link: '/empleados/editar-empleados',
+      },
+    ]
+  },
+  {
+    heading: 'Productos',
+    items: [
+      {
+        name:'Registro Productos',
+        icon: AddCircleOutlineIcon,
+        link: '/productos/agregar-productos'
+      },
+      { 
+        name:'Editar Productos',
+        icon: ModeEditIcon,
+        link:'/productos/editar-productos'
+      },
+    ]
+  },
+  {
+    heading: 'Clientes',
+    items: [
+      {
+        name: 'Registro Clientes',
+        icon: AddShoppingCartIcon,
+        link: '/clientes/agregar-clientes'
+      },
+      { 
+        name:'Editar Clientes',
+        icon: HowToRegIcon,
+        link:'/clientes/editar-clientes',
+      },
+    ]
+  },
+  {
     heading: 'Dashboards',
     items: [
       {
@@ -91,36 +136,6 @@ const menuItems: MenuItems[] = [
   {
     heading: 'Admin',
     items: [
-      {
-        name:'Registro Empleado',
-        icon: PersonAddIcon,
-        link: '/admin/agregar-empleado'
-      }, 
-      {
-        name: 'Registro Cliente',
-        icon: AddShoppingCartIcon,
-        link: '/admin/agregar-cliente'
-      },
-      {
-        name:'Registro Producto',
-        icon: AddCircleOutlineIcon,
-        link: '/admin/agregar-producto'
-      },
-      { 
-        name:'Editar Producto',
-        icon: ModeEditIcon,
-        link:'/admin/editar-producto'
-      },
-      { 
-        name:'Editar Cliente',
-        icon: HowToRegIcon,
-        link:'/admin/editar-cliente',
-      },
-      {
-        name:'Editar Empleado',
-        icon: AssignmentIndIcon,
-        link: '/admin/editar-empleado',
-      },
       {
         name: 'Buttons',
         icon: BallotTwoToneIcon,

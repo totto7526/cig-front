@@ -18,7 +18,13 @@ function RecentClientsOrders() {
       cityName: 'Marinilla',
       neighborhood: 'Plan 60',
       quota: 300000,
-      currency: '$'
+      currency: '$',
+      referenceCompleteName: 'Mariana Garcia',
+      referencePhoneNumber:1234567,
+      relationship:'herman@',
+      referenceCompleteNameSecond: 'Sebastian Valega',
+      referencePhoneNumberSecond:891011,
+      relationshipSecond:'Ti@',
     },
     {
       id: '2',
@@ -32,7 +38,13 @@ function RecentClientsOrders() {
       cityName: 'Marinilla',
       neighborhood: 'Maria Auxiliadora',
       quota: 100000,
-      currency: '$'
+      currency: '$',
+      referenceCompleteName: 'Mariana Garcia',
+      referencePhoneNumber:1234567,
+      relationship:'herman@',
+      referenceCompleteNameSecond: 'Sebastian Valega',
+      referencePhoneNumberSecond:891011,
+      relationshipSecond:'Ti@',
     },
     {
       id: '3',
@@ -46,7 +58,13 @@ function RecentClientsOrders() {
       cityName: 'Rionegro',
       neighborhood: 'Centro',
       quota: 250000,
-      currency: '$'
+      currency: '$',
+      referenceCompleteName: 'Mariana Garcia',
+      referencePhoneNumber:1234567,
+      relationship:'herman@',
+      referenceCompleteNameSecond: 'Sebastian Valega',
+      referencePhoneNumberSecond:891011,
+      relationshipSecond:'Ti@',
     },
     {
       id: '4',
@@ -60,7 +78,13 @@ function RecentClientsOrders() {
       cityName: 'Marinilla',
       neighborhood: 'Plan 60',
       quota: 300000,
-      currency: '$'
+      currency: '$',
+      referenceCompleteName: 'Mariana Garcia',
+      referencePhoneNumber:1234567,
+      relationship:'herman@',
+      referenceCompleteNameSecond: 'Sebastian Valega',
+      referencePhoneNumberSecond:891011,
+      relationshipSecond:'Ti@',
     },
     {
       id: '5',
@@ -74,7 +98,13 @@ function RecentClientsOrders() {
       cityName: 'Marinilla',
       neighborhood: 'Acacias',
       quota: 433000,
-      currency: '$'
+      currency: '$',
+      referenceCompleteName: 'Mariana Garcia',
+      referencePhoneNumber:1234567,
+      relationship:'herman@',
+      referenceCompleteNameSecond: 'Sebastian Valega',
+      referencePhoneNumberSecond:891011,
+      relationshipSecond:'Ti@',
     }
   ];
 

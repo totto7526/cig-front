@@ -168,6 +168,51 @@ const routes: RouteObject[] = [
     ]
   },
   {
+    path: '/empleados',
+    element: <SidebarLayout />,
+    children: [
+      {
+        path: 'agregar-empleados',
+        element: <WorkerAdd/>
+      },
+      {
+        path:'editar-empleados',
+        element: <EditWorkers/>
+      },
+      
+    ]
+  },
+  {
+    path: '/productos',
+    element: <SidebarLayout />,
+    children: [
+      {
+        path: 'agregar-productos',
+        element: <ProductAdd/>
+      },
+      {
+        path: 'editar-productos',
+        element: <EditProducts />
+      },
+      
+    ]
+  },
+  {
+    path: '/clientes',
+    element: <SidebarLayout />,
+    children: [
+      {
+        path: 'agregar-clientes',
+        element: <ClientAdd/>
+      },
+      {
+        path:'editar-clientes',
+        element: <EditClients />
+      },
+      
+    ]
+  },
+  {
     path: '/management',
     element: <SidebarLayout />,
     children: [
@@ -205,30 +250,6 @@ const routes: RouteObject[] = [
       {
         path: '',
         element: <Navigate to="/admin/buttons" replace />
-      },
-      {
-        path: 'agregar-cliente',
-        element: <ClientAdd/>
-      },
-      {
-        path: 'agregar-empleado',
-        element: <WorkerAdd/>
-      },
-      {
-        path: 'agregar-producto',
-        element: <ProductAdd/>
-      },
-      {
-        path: 'editar-producto',
-        element: <EditProducts />
-      },
-      {
-        path:'editar-cliente',
-        element: <EditClients />
-      },
-      {
-        path:'editar-empleado',
-        element: <EditWorkers/>
       },
       {
         path: 'buttons',

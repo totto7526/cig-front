@@ -224,8 +224,12 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoClients }) => {
               <TableCell>Cedula</TableCell>
               <TableCell>Telefono</TableCell>
               <TableCell align="right">Direccion</TableCell>
-              <TableCell align="right">Cupo</TableCell>
-              <TableCell align="right">Estado</TableCell>
+              <TableCell>Cupo</TableCell>
+              <TableCell align="right">Referencia</TableCell>
+              <TableCell align="right">Telefono</TableCell>
+              <TableCell align="right">Referencia</TableCell>
+              <TableCell align="right">Telefono</TableCell>
+              <TableCell align='center'>Estado</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
@@ -317,6 +321,61 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoClients }) => {
                     </Typography>
 
                   </TableCell>
+
+                  <TableCell align="right">
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {CryptoClient.referenceCompleteName}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" noWrap>
+                      {CryptoClient.relationship}
+                    </Typography>
+                  </TableCell>     
+
+                  <TableCell align="right">
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {CryptoClient.referencePhoneNumber}
+                    </Typography>
+                  </TableCell>
+
+                  <TableCell align="right">
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {CryptoClient.referenceCompleteNameSecond}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" noWrap>
+                      {CryptoClient.relationshipSecond}
+                    </Typography>
+                  </TableCell>     
+
+                  <TableCell align="right">
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {CryptoClient.referencePhoneNumberSecond}
+                    </Typography>
+                  </TableCell>
+
                   <TableCell align="right">
                     {getStatusLabel(CryptoClient.status)}
                   </TableCell>

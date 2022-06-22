@@ -41,6 +41,12 @@ export interface CryptoClient {
   neighborhood: string;
   quota: number;
   currency: string;
+  referenceCompleteName: string;
+  referencePhoneNumber: number;
+  relationship:string;
+  referenceCompleteNameSecond: string;
+  referencePhoneNumberSecond: number;
+  relationshipSecond:string;
 }
 
 export interface CryptoWorker {
