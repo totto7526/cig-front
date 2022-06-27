@@ -86,6 +86,9 @@ const EditWorkers = Loader(
 const Liquidateroute = Loader(
   lazy(() => import('src/content/pages/Components/Liquidateroute'))
 );
+const AssignRoute = Loader(
+  lazy(() => import('src/content/pages/Components/AssignRoute'))
+);
 
 
 // Status
@@ -223,6 +226,10 @@ const routes: RouteObject[] = [
       {
         path: 'liquidar-ruta',
         element: <Liquidateroute/>
+      },
+      {
+        path:'asignar-ruta',
+        element: <AssignRoute/>
       },
     ]
   },

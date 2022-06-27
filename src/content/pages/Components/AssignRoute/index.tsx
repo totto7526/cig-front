@@ -37,15 +37,56 @@ const currenciesEmpleados = [
     label:'   ',
   },
 ];
+const currenciesCiudad= [
+  {
+    value: 1,
+    label: 'Rionegro',
+  },
+  {
+    value: 2,
+    label: 'Marinilla',
+  },
+  {
+    value: 3,
+    label: 'Medellin',
+  },
+  {
+    value: 4,
+    label: 'Santuario',
+  },
+];
+
+const currenciesZone= [
+  {
+    value: 1,
+    label: '1',
+  },
+  {
+    value: 2,
+    label:'2',
+  },
+  {
+    value:3,
+    label:'3',
+  },
+];
 
 
-function Liquidateroute() {
+function AssignRoute() {
 
+  const [currencyCiudad, setCurrencyCiudad] = useState(' ');
   const [currencyEmpleados, setCurrencyEmpleados] = useState(' ');
+  const [currencyZone, setCurrencyZone]= useState(' ');
 
   const handleChangeEmpleados= (event) => {
     setCurrencyEmpleados(event.target.value);
   };
+  const handleChangeCiudad = (event) => {
+    setCurrencyCiudad(event.target.value);
+  };
+  const handleChangeZone = (event) => {
+    setCurrencyZone(event.target.value);
+  }
 
   const [value, setValue] = useState(30);
 
@@ -57,12 +98,12 @@ function Liquidateroute() {
   return (
     <>
       <Helmet>
-        <title>LiquidarRuta - Components</title>
+        <title>AsiganrRuta - Components</title>
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
-          heading="liquidar ruta"
-          subHeading="Proceso para liquidar una ruta o producido de un empleado"
+          heading="asignar ruta"
+          subHeading="Proceso para asignar una ruta a un empleado"
           docs="https://material-ui.com/components/text-fields/" />
       </PageTitleWrapper>
       <Container maxWidth="lg">
@@ -75,18 +116,18 @@ function Liquidateroute() {
         >
           <Grid item xs={12}>
             <Card>
-              <CardHeader title="Datos Producido" />
+              <CardHeader title="Datos Ruta" />
               <Divider />
               <CardContent>
                 <Box
                   component="form"
                   sx={{
-                    '& .MuiTextField-root': { mr: 10, mb:5, ml:5, mt:5, width: '25ch' },
+                    '& .MuiTextField-root': { m:6, width: '35ch' },
                   }}
                   noValidate
                   autoComplete="off"
                 >
-                  <div>
+                <div>
                   <TextField
                       id="outlined-select-currency"
                       select
@@ -109,58 +150,48 @@ function Liquidateroute() {
                         </MenuItem>
                       ))}
                     </TextField>
+                  </div>
+                </Box>
+                <Box
+                  component="form"
+                  sx={{
+                    '& .MuiTextField-root': { mr: 10, mb:5, ml:5, mt:5, width: '25ch' },
+                  }}
+                  noValidate
+                  autoComplete="off"
+                >  
+                  <div>
                     <TextField
-                      label="Total Cobrado"
-                      id="filled-start-adornment"
-                      color="success"
-                      sx={{ m: 1, width: '25ch' }}
-                        InputProps={{
-                          startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                        }}
-                      variant="filled"
-                    />   
+                      id="outlined-select-currency"
+                      select
+                      label="Ciudad"
+                      value={currencyCiudad}
+                      onChange={handleChangeCiudad}
+                      helperText="Por favor seleccione una ciudad"
+                    >
+                      {currenciesCiudad.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                        
                     <TextField
-                      label="Total Iniciales"
-                      id="filled-start-adornment"
-                      color="success"
-                      sx={{ m: 1, width: '25ch' }}
-                        InputProps={{
-                          startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                        }}
-                      variant="filled"
-                    />   
-                    <TextField
-                      label="Total Ventas"
-                      id="filled-start-adornment"
-                      color="success"
-                      sx={{ m: 1, width: '25ch' }}
-                        InputProps={{
-                          startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                        }}
-                      variant="filled"
-                    />        
-                    <TextField
-                      label="Total en Efectivo"
-                      id="filled-start-adornment"
-                      color="success"
-                      sx={{ m: 1, width: '25ch' }}
-                        InputProps={{
-                          startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                        }}
-                      variant="filled"
-                    />     
+                      id="outlined-select-currency"
+                      select
+                      label="Zona"
+                      value={currencyZone}
+                      onChange={handleChangeZone}
+                      helperText="Por favor seleccione una zona"
+                    >
+                      {currenciesZone.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
                     <div>
-                      <FormControl component="fieldset">
-                        <FormLabel component="legend">Estado Liquidación</FormLabel>
-                          <RadioGroup row aria-label="Estado Liquidacion" name="row-radio-buttons-group"defaultValue={"Se pago"}>
-                            <FormControlLabel value="Se pago" control={<Radio />} label="Se pago" />
-                            <FormControlLabel value="Sin pagar" control={<Radio />} label="Sin pagar" />
-                           <FormControlLabel value="Otro" control={<Radio />} label="Otro" />
-                          </RadioGroup>
-                      </FormControl>
-                    </div>
-                    <div>
-                      <Button sx={{ margin: 1 }} variant="contained">Liquidar</Button>
+                      <Button sx={{ margin: 1 }} variant="contained">Asignar</Button>
                     </div>
                   </div>
                 </Box>
@@ -174,4 +205,4 @@ function Liquidateroute() {
   );
 }
 
-export default Liquidateroute;
+export default AssignRoute;

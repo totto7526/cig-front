@@ -21,6 +21,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
+import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlined';
 import { linkClasses } from '@mui/material';
 
 
@@ -101,6 +102,12 @@ const menuItems: MenuItems[] = [
         icon: AddShoppingCartIcon,
         link: '/seguimientoEmpleado/liquidar-ruta'
       },
+      {
+        name:'Asignar Ruta',
+        icon: AddLocationAltOutlinedIcon,
+        link: '/seguimientoEmpleado/asignar-ruta'
+
+      }
     ]
   },
   {
