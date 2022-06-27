@@ -94,6 +94,16 @@ const menuItems: MenuItems[] = [
     ]
   },
   {
+    heading: 'SEGUIMIENTO EMPLEADO',
+    items: [
+      {
+        name: 'Liquidar Ruta',
+        icon: AddShoppingCartIcon,
+        link: '/seguimientoEmpleado/liquidar-ruta'
+      },
+    ]
+  },
+  {
     heading: 'Dashboards',
     items: [
       {

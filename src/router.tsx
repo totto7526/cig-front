@@ -83,6 +83,10 @@ const EditClients = Loader(
 const EditWorkers = Loader(
   lazy(() => import('src/content/applications/EditWorker'))
 );
+const Liquidateroute = Loader(
+  lazy(() => import('src/content/pages/Components/Liquidateroute'))
+);
+
 
 // Status
 
@@ -210,6 +214,16 @@ const routes: RouteObject[] = [
         element: <EditClients />
       },
       
+    ]
+  },
+  {
+    path: '/seguimientoEmpleado',
+    element: <SidebarLayout />,
+    children: [
+      {
+        path: 'liquidar-ruta',
+        element: <Liquidateroute/>
+      },
     ]
   },
   {
