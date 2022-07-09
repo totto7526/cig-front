@@ -20,7 +20,6 @@ import FormLabel from '@mui/material/FormLabel';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 
 
-
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 const currenciesEmpleados = [
@@ -88,11 +87,7 @@ function AssignRoute() {
     setCurrencyZone(event.target.value);
   }
 
-  const [value, setValue] = useState(30);
-
-  const handleChange2 = (event, newValue) => {
-    setValue(newValue);
-  };
+  
 
 
   return (
@@ -102,7 +97,7 @@ function AssignRoute() {
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
-          heading="asignar ruta"
+          heading="Asignar ruta"
           subHeading="Proceso para asignar una ruta a un empleado"
           docs="https://material-ui.com/components/text-fields/" />
       </PageTitleWrapper>
@@ -116,13 +111,13 @@ function AssignRoute() {
         >
           <Grid item xs={12}>
             <Card>
-              <CardHeader title="Datos Ruta" />
+              <CardHeader title="Complete los campos para asignar la ruta" />
               <Divider />
               <CardContent>
                 <Box
                   component="form"
                   sx={{
-                    '& .MuiTextField-root': { m:6, width: '35ch' },
+                    '& .MuiTextField-root': { m:5, width: '35ch' },
                   }}
                   noValidate
                   autoComplete="off"
@@ -155,7 +150,7 @@ function AssignRoute() {
                 <Box
                   component="form"
                   sx={{
-                    '& .MuiTextField-root': { mr: 10, mb:5, ml:5, mt:5, width: '25ch' },
+                    '& .MuiTextField-root': { m:5, width: '25ch' },
                   }}
                   noValidate
                   autoComplete="off"
@@ -191,7 +186,7 @@ function AssignRoute() {
                       ))}
                     </TextField>
                     <div>
-                      <Button sx={{ margin: 1 }} variant="contained">Asignar</Button>
+                      <Button sx={{ margin: 5, width: '25ch'}} variant="contained">Asignar</Button>
                     </div>
                   </div>
                 </Box>

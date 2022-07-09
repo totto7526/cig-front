@@ -97,35 +97,61 @@ const currenciesParentesco = [
 ];
 
 function ClientAdd() {
-
-  const [currencyCiudad, setCurrencyCiudad] = useState(' ');
-  const [currencyBarrio, setCurrencyBarrio] = useState(' ');
-  const [currencyParentescoUno, setCurrencyParentescoUno] = useState(' ');
-  const [currencyParentescoDos, setCurrencyParentescoDos] = useState(' ');
-
-  const handleChangeCiudad = (event) => {
-    setCurrencyCiudad(event.target.value);
-  };
-
-  const handleChangeBarrio = (event) => {
-    setCurrencyBarrio(event.target.value);
-  };
-
-  const handleChangeParentescoUno = (event) => {
-    setCurrencyParentescoUno(event.target.value);
-  };
-
-  const handleChangeParentescoDos = (event) => {
-    setCurrencyParentescoDos(event.target.value);
-  };
-
-  const [value, setValue] = useState(30);
-
-  const handleChange2 = (event, newValue) => {
-    setValue(newValue);
-  };
+  // const [value, setValue] = useState(30);
 
 
+  const [cliente, setCliente] = useState({
+    primerNombre: '',
+    segundoNombre: '',
+    primerApellido: '',
+    segundoApellido: '',
+    numeroIdentificacion: '',
+    telefono: '',
+    ciudad: '',
+    barrio: '',
+    cupo: '',
+    estado:''
+  })
+
+  const onChangeFormulario = e => {
+    setCliente({
+      ...cliente,
+      [e.target.name]: e.target.value
+    })
+  }
+
+
+  const submitCrearCliente = (e) => {
+    // Se enviaria el cliente al back
+    console.log(cliente)
+    console.log(referencia)
+
+    // aqui estaria la respuesta del back
+    console.log("Se ha creado el cliente exitosamente");
+    console.log("Referencia creada con exito");
+  }
+
+const [referencia, setReferencia] = useState({
+  nombreCompleto: '',
+  telefono:'',
+  parentesco:'',
+  nombreCompletoS:' ',
+  telefonoS:' ',
+  parentescoS:' '
+})
+
+const onChangeFormularioReferencia = e => {
+  setReferencia({
+    ...referencia,
+    [e.target.name]: e.target.value
+  })
+}
+
+
+
+
+  
+  
   return (
     <>
       <Helmet>
@@ -133,7 +159,7 @@ function ClientAdd() {
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
-          heading="registro cliente"
+          heading="Registro cliente"
           subHeading="Proceso para registrar un cliente nuevo"
           docs="https://material-ui.com/components/text-fields/" />
       </PageTitleWrapper>
@@ -148,7 +174,7 @@ function ClientAdd() {
           <Grid item xs={12}>
             <Card>
               <CardHeader title="Datos Personales" />
-              <Divider />
+              <Divider/>
               <CardContent>
                 <Box
                   component="form"
@@ -157,14 +183,20 @@ function ClientAdd() {
                   }}
                   noValidate
                   autoComplete="off"
+                  onClick={
+                    submitCrearCliente
+                  }
                 >
                   <div>
                     <TextField
                       required
                       id="outlined-required"
-                      label="Primer Nombre"
+                      label='Primer nombre'
                       color="success"
                       defaultValue=" "
+                      name='primerNombre'
+                      value={cliente.primerNombre}
+                      onChange={onChangeFormulario}
                     />
                     <TextField
                       required
@@ -172,6 +204,9 @@ function ClientAdd() {
                       label="Segundo Nombre"
                       color="success"
                       defaultValue=" "
+                      name='segundoNombre'
+                      value={cliente.segundoNombre}
+                      onChange={onChangeFormulario}
                     />
                     <TextField
                       required
@@ -179,6 +214,9 @@ function ClientAdd() {
                       label="Primer Apellido"
                       color='success'
                       defaultValue=" "
+                      name='primerApellido'
+                      value={cliente.primerApellido}
+                      onChange={onChangeFormulario}
                     />
                      <TextField
                       required
@@ -186,23 +224,36 @@ function ClientAdd() {
                       label="Segundo Apellido"
                       color='success'
                       defaultValue=" "
+                      name='segundoApellido'
+                      value={cliente.segundoApellido}
+                      onChange={onChangeFormulario}
                     />
                      <TextField
                       id="outlined-number"
                       label="Numero Identificación"
+                      color='success'
                       type="number"
+                      name='numeroIdentificacion'
+                      value={cliente.numeroIdentificacion}
+                      onChange={onChangeFormulario}
                     />
                     <TextField
                       id="outlined-number"
                       label="Telefono"
                       type="number"
+                      color='success'
+                      name='telefono'
+                      value={cliente.telefono}
+                      onChange={onChangeFormulario}
                     />
                     <TextField
                       id="outlined-select-currency"
                       select
                       label="Ciudad"
-                      value={currencyCiudad}
-                      onChange={handleChangeCiudad}
+                      color='success'
+                      value={cliente.ciudad}
+                      name='ciudad'
+                      onChange={onChangeFormulario}
                       helperText="Por favor seleccione una ciudad"
                     >
                       {currenciesCiudad.map((option) => (
@@ -215,8 +266,10 @@ function ClientAdd() {
                       id="outlined-select-currency"
                       select
                       label="Barrio"
-                      value={currencyBarrio}
-                      onChange={handleChangeBarrio}
+                      color='success'
+                      value={cliente.barrio}
+                      name='barrio'
+                      onChange={onChangeFormulario}
                       helperText="Por favor seleccione un barrio"
                     >
                       {currenciesBarrio.map((option) => (
@@ -231,14 +284,21 @@ function ClientAdd() {
                       label="Cupo"
                       color='success'
                       defaultValue="150000"
+                      name='cupo'
+                      value={cliente.cupo}
+                      onChange={onChangeFormulario}
                     />
                     <div>
                       <FormControl component="fieldset">
                         <FormLabel component="legend">Estado Cliente</FormLabel>
-                          <RadioGroup row aria-label="Estado Cliente" name="row-radio-buttons-group" defaultValue={"Activo"}>
+                          <RadioGroup
+                            row aria-label="Estado Cliente"
+                            name="estado"
+                            value={cliente.estado}
+                            onChange={onChangeFormulario}
+                            >
                             <FormControlLabel value="Activo" control={<Radio />} label="Activo" />
                             <FormControlLabel value="Inactivo" control={<Radio />} label="Inactivo" />
-                            <FormControlLabel value="other" control={<Radio />} label="Other" />
                           </RadioGroup>
                         </FormControl>
                     </div>
@@ -246,41 +306,37 @@ function ClientAdd() {
                       <Button sx={{ margin: 1 }} variant="contained">GUARDAR</Button>
                     </div>
                   </div>
-                </Box>
-              </CardContent>
-            </Card>
-            <Grid item xs={12}>
-            <Card>
               <CardHeader title="Datos referencias" />
-              <Divider />
-                <CardContent>
-                  <Box
-                    component="form"
-                    sx={{
-                      '& .MuiTextField-root': { m: 5, width: '25ch' },
-                    }}
-                    noValidate
-                    autoComplete="off"
-                  >
+                <Divider />
                   <div>
                     <TextField
                         required
                         id="outlined-required"
                         label="Nombre Completo"
                         color="success"
+                        name="nombreCompleto"
                         defaultValue=" "
+                        value={referencia.nombreCompleto}
+                        onChange={onChangeFormularioReferencia}
                     />
                     <TextField
                         id="outlined-number-reference1"
                         label="Telefono"
                         type="number"
+                        color="success"
+                        name="telefono"
+                        defaultValue =" "
+                        value={referencia.telefono}
+                        onChange={onChangeFormularioReferencia}
                       />
                     <TextField
                       id="outlined-select-currency"
                       select
                       label="parentesco"
-                      value={currencyParentescoUno}
-                      onChange={handleChangeParentescoUno}
+                      color='success'
+                      name="parentesco"
+                      value={referencia.parentesco}
+                      onChange={onChangeFormularioReferencia}
                       helperText="Por favor seleccione un parentesco">
                       {currenciesParentesco.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
@@ -295,18 +351,27 @@ function ClientAdd() {
                       label="Nombre Completo"
                       color="success"
                       defaultValue=" "
+                      name='nombreCompletoS'
+                      value={referencia.nombreCompletoS}
+                      onChange={onChangeFormularioReferencia}
                     />
                     <TextField
                       id="outlined-number"
                       label="Telefono"
                       type="number"
+                      color='success'
+                      name='telefonoS'
+                      value={referencia.telefonoS}
+                      onChange={onChangeFormularioReferencia}
                     />
                     <TextField
                       id="outlined-select-currency"
                       select
                       label="parentesco"
-                      value={currencyParentescoDos}
-                      onChange={handleChangeParentescoDos}
+                      color='success'
+                      name='parentescoS'
+                      value={referencia.parentescoS}
+                      onChange={onChangeFormularioReferencia}
                       helperText="Por favor seleccione un parentesco">
                       {currenciesParentesco.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
@@ -315,10 +380,9 @@ function ClientAdd() {
                       ))}
                     </TextField>
                   </div>
-                  </Box>
-                </CardContent>
-              </Card>
-            </Grid>  
+                </Box>
+              </CardContent>
+            </Card>
           </Grid>
         </Grid>
       </Container>

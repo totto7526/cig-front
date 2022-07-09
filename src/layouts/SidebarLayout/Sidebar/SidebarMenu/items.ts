@@ -22,6 +22,7 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlined';
+import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import { linkClasses } from '@mui/material';
 
 
@@ -106,6 +107,12 @@ const menuItems: MenuItems[] = [
         name:'Asignar Ruta',
         icon: AddLocationAltOutlinedIcon,
         link: '/seguimientoEmpleado/asignar-ruta'
+
+      },
+      {
+        name:'Despachar Productos',
+        icon: FormatListNumberedIcon,
+        link: '/seguimientoEmpleado/despachar-productos'
 
       }
     ]

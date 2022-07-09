@@ -34,7 +34,7 @@ const PageTitle: FC<PageTitleProps> = ({
                     variant="contained"
                     startIcon={<AddTwoToneIcon fontSize="small" />}
                 >
-                    {heading} Documentation
+                    {heading} ..
                 </Button>
             </Grid>
         </Grid>

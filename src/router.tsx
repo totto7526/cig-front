@@ -89,6 +89,9 @@ const Liquidateroute = Loader(
 const AssignRoute = Loader(
   lazy(() => import('src/content/pages/Components/AssignRoute'))
 );
+const DispatchProducts = Loader(
+  lazy(() => import('src/content/applications/DispatchProducts'))
+)
 
 
 // Status
@@ -230,6 +233,10 @@ const routes: RouteObject[] = [
       {
         path:'asignar-ruta',
         element: <AssignRoute/>
+      },
+      {
+        path:'despachar-productos',
+        element: <DispatchProducts/>
       },
     ]
   },

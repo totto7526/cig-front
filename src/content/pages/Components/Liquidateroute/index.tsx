@@ -20,6 +20,31 @@ import FormLabel from '@mui/material/FormLabel';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 
 
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import { Collections } from '@mui/icons-material';
+
+function createData(
+  name: string,
+  collection: number,
+  initials: number,
+  sales: number,
+  cash: number,
+  must: number,
+) {
+  return { name, collection, initials, sales, cash, must};
+}
+
+
+const rows = [
+  createData('Total Dia',500000, 35000, 60000, 535000,0),
+];
+
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
@@ -163,6 +188,43 @@ function Liquidateroute() {
                       <Button sx={{ margin: 1 }} variant="contained">Liquidar</Button>
                     </div>
                   </div>
+
+                  <div>
+                    <TableContainer component={Paper}>
+                      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>Resumen Producido</TableCell>
+                            <TableCell align="right">Cobrado($)</TableCell>
+                            <TableCell align="right">Iniciales($)</TableCell>
+                            <TableCell align="right">Ventas($)</TableCell>
+                            <TableCell align="right">Efectivo($)</TableCell>
+                            <TableCell align='right'>Deuda($)</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {rows.map((row) => (
+                            <TableRow
+                              key={row.name}
+                              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                              <TableCell component="th" scope="row">
+                                {row.name}
+                              </TableCell>
+                    
+                              <TableCell align="right">{row.collection}</TableCell>
+                              <TableCell align="right">{row.initials}</TableCell>
+                              <TableCell align="right">{row.sales}</TableCell>
+                              <TableCell align="right">{row.cash}</TableCell>
+                              <TableCell align="right">{row.must = (row.collection + row.initials)-row.cash}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </div>
+
+
                 </Box>
               </CardContent>
             </Card>
