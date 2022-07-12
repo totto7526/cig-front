@@ -2,6 +2,7 @@ export type CryptoOrderStatus = 'completed' | 'pending' | 'failed';
 export type CryptoProductStatus = 'completed' | 'pending' | 'failed';
 export type CryptoClientStatus = 'completed' | 'pending' | 'failed';
 export type CryptoWorkerStatus = 'completed' | 'pending' | 'failed';
+export type CryptoDispatchStatus = 'completed' | 'pending' | 'failed';
 
 export interface CryptoOrder {
   id: string;
@@ -60,4 +61,15 @@ export interface CryptoWorker {
   phoneNumber: number;
   direction: string;
   neighborhood: string;
+}
+
+export interface CryptoDispatch {
+  id: string;
+  status: CryptoProductStatus;
+  nameProduct: string;
+  reference: string;
+  Description: string;
+  lengthProduct: number;
+  widthProduct: number;
+  units: string;
 }

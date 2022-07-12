@@ -1,11 +1,11 @@
 import { Card } from '@mui/material';
-import { CryptoProduct } from 'src/models/crypto_order';
+import { CryptoClient, CryptoProduct, CryptoWorker, CryptoDispatch} from 'src/models/crypto_order';
 import RecentOrdersTable from './RecentOrdersTable';
 import { subDays } from 'date-fns';
 
-function RecentProductsOrders() {
+function RecentDispatchsOrders() {
 
-  const CryptoProducts: CryptoProduct[] = [
+  const CryptoDispatchs: CryptoDispatch[] = [
     {
       id: '1',
       nameProduct: 'Cortinas Giraltex',
@@ -60,9 +60,9 @@ function RecentProductsOrders() {
 
   return (
     <Card>
-      <RecentOrdersTable CryptoProducts={CryptoProducts} />
+      <RecentOrdersTable CryptoDispatchs={CryptoDispatchs} />
     </Card>
   );
 }
 
-export default RecentProductsOrders;
+export default RecentDispatchsOrders;

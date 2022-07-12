@@ -13,10 +13,10 @@ function PageHeader() {
     <Grid container justifyContent="space-between" alignItems="center">
       <Grid item>
         <Typography variant="h3" component="h3" gutterBottom>
-          Despachar Producto
+          Despachar Productos
         </Typography>
         <Typography variant="subtitle2">
-          {user.name}, Aca podras Despachar productos a un empleado
+          {user.name}, Aca podras despacharle los productos a un empleado
         </Typography>
       </Grid>
       <Grid item>
@@ -24,9 +24,9 @@ function PageHeader() {
           sx={{ mt: { xs: 2, md: 0 } }}
           variant="contained"
           startIcon={<AddTwoToneIcon fontSize="small" />}
-          //LINKEAR LA DIRECCION HASTA CREAR PRODUCTO
+          //LINKEAR LA DIRECCION HASTA CREAR CLIENTE
         >
-          Despachar producto
+          Crear empleado
         </Button>
       </Grid>
     </Grid>

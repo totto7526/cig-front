@@ -6,11 +6,11 @@ import Footer from 'src/components/Footer';
 
 import RecentOrders from './RecentOrders';
 
-function ApplicationsDispatchProducts() {
+function ApplicationsEditProducts() {
   return (
     <>
       <Helmet>
-        <title>Despacho de productos - Applications</title>
+        <title>Editar Empleados - Applications</title>
       </Helmet>
       <PageTitleWrapper>
         <PageHeader />
@@ -33,4 +33,4 @@ function ApplicationsDispatchProducts() {
   );
 }
 
-export default ApplicationsDispatchProducts;
+export default ApplicationsEditProducts;

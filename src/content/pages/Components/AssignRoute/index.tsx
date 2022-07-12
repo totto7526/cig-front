@@ -9,14 +9,9 @@ import Footer from 'src/components/Footer';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-import { pink } from '@mui/material/colors';
-import Checkbox from '@mui/material/Checkbox';
 
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
+
+
 import AccountCircle from '@mui/icons-material/AccountCircle';
 
 
@@ -30,6 +25,10 @@ const currenciesEmpleados = [
   {
     value: 2,
     label: 'Juana Maria',
+  },
+  {
+    value: 2,
+    label: 'Roberto carlos',
   },
   {
     value:3,
@@ -73,13 +72,32 @@ const currenciesZone= [
 
 function AssignRoute() {
 
+
+  const [asignarRuta, setAsignarRuta] = useState({
+    empleado:'',
+    ciudad:'',
+    zona:''
+  })
+
+  
+  const onChangeFormulario = e => {
+    setAsignarRuta({
+      ...asignarRuta,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const submitAsignarRuta = (e) => {
+    // Se enviaria el cliente al back
+    console.log(asignarRuta)
+
+    // aqui estaria la respuesta del back
+    console.log("Se ha asignado la ruta exitosamente");
+  }
+
   const [currencyCiudad, setCurrencyCiudad] = useState(' ');
-  const [currencyEmpleados, setCurrencyEmpleados] = useState(' ');
   const [currencyZone, setCurrencyZone]= useState(' ');
 
-  const handleChangeEmpleados= (event) => {
-    setCurrencyEmpleados(event.target.value);
-  };
   const handleChangeCiudad = (event) => {
     setCurrencyCiudad(event.target.value);
   };
@@ -121,12 +139,17 @@ function AssignRoute() {
                   }}
                   noValidate
                   autoComplete="off"
+                  onClick={
+                    submitAsignarRuta
+                  }
                 >
                 <div>
                   <TextField
                       id="outlined-select-currency"
                       select
                       label="Empleado"
+                      name='empleado'
+                      color='success'
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
@@ -135,8 +158,8 @@ function AssignRoute() {
                         ),
                       }}
                       defaultValue=' '
-                      value={currencyEmpleados}
-                      onChange={handleChangeEmpleados}
+                      value={asignarRuta.empleado}
+                      onChange={onChangeFormulario}
                       helperText="Por favor seleccione un empleado"
                     >
                       {currenciesEmpleados.map((option) => (
@@ -145,23 +168,15 @@ function AssignRoute() {
                         </MenuItem>
                       ))}
                     </TextField>
-                  </div>
-                </Box>
-                <Box
-                  component="form"
-                  sx={{
-                    '& .MuiTextField-root': { m:5, width: '25ch' },
-                  }}
-                  noValidate
-                  autoComplete="off"
-                >  
+                  </div> 
                   <div>
                     <TextField
                       id="outlined-select-currency"
                       select
                       label="Ciudad"
-                      value={currencyCiudad}
-                      onChange={handleChangeCiudad}
+                      name='ciudad'
+                      value={asignarRuta.ciudad}
+                      onChange={onChangeFormulario}
                       helperText="Por favor seleccione una ciudad"
                     >
                       {currenciesCiudad.map((option) => (
@@ -175,8 +190,9 @@ function AssignRoute() {
                       id="outlined-select-currency"
                       select
                       label="Zona"
-                      value={currencyZone}
-                      onChange={handleChangeZone}
+                      name='zona'
+                      value={asignarRuta.zona}
+                      onChange={onChangeFormulario}
                       helperText="Por favor seleccione una zona"
                     >
                       {currenciesZone.map((option) => (

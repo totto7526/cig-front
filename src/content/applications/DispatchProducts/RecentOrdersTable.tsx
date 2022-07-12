@@ -1,6 +1,4 @@
 import { FC, ChangeEvent, useState } from 'react';
-import { format } from 'date-fns';
-import numeral from 'numeral';
 import PropTypes from 'prop-types';
 import {
   Tooltip,
@@ -24,27 +22,30 @@ import {
   useTheme,
   CardHeader,
   CardContent,
-  InputAdornment
+  Button, 
+  InputAdornment 
 } from '@mui/material';
 
 import Label from 'src/components/Label';
-import { CryptoProduct, CryptoProductStatus } from 'src/models/crypto_order';
+import { CryptoDispatch, CryptoDispatchStatus } from 'src/models/crypto_order';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
+
 import TextField from '@mui/material/TextField';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 
 
-
 interface RecentOrdersTableProps {
   className?: string;
-  CryptoProducts: CryptoProduct[];
+  CryptoDispatchs: CryptoDispatch[];
 }
 
 interface Filters {
-  status?: CryptoProductStatus;
+  status?: CryptoDispatchStatus;
 }
+
+
 const currenciesEmpleados = [
   {
     value: 1,
@@ -55,18 +56,50 @@ const currenciesEmpleados = [
     label: 'Juana Maria',
   },
   {
+    value: 2,
+    label: 'Roberto carlos',
+  },
+  {
     value:3,
     label:'   ',
   },
 ];
+const currenciesCantidad= [
+  {
+    value: 1,
+    label: '1',
+  },
+  {
+    value: 2,
+    label: '2',
+  },
+  {
+    value: 3,
+    label: '3',
+  },
+  {
+    value: 4,
+    label: '4',
+  },
+];
 
-const [currencyEmpleados, setCurrencyEmpleados] = useState(' ');
+const currenciesProducto= [
+  {
+    value: 1,
+    label: 'Sabana Doble',
+  },
+  {
+    value: 2,
+    label:'Cortina',
+  },
+  {
+    value:3,
+    label:'Tohallon',
+  },
+];
 
-const handleChangeEmpleados= (event) => {
-  setCurrencyEmpleados(event.target.value);
-};
 
-const getStatusLabel = (CryptoProductStatus: CryptoProductStatus): JSX.Element => {
+const getStatusLabel = (CryptoDispatchStatus: CryptoDispatchStatus): JSX.Element => {
   const map = {
     failed: {
       text: 'failed',
@@ -82,19 +115,19 @@ const getStatusLabel = (CryptoProductStatus: CryptoProductStatus): JSX.Element =
     }
   };
 
-  const { text, color }: any = map[CryptoProductStatus];
+  const { text, color }: any = map[CryptoDispatchStatus];
 
   return <Label color={color}>{text}</Label>;
 };
 
 const applyFilters = (
-  CryptoProducts: CryptoProduct[],
+  CryptoDispatchs: CryptoDispatch[],
   filters: Filters
-): CryptoProduct[] => {
-  return CryptoProducts.filter((CryptoProduct) => {
+): CryptoDispatch[] => {
+  return CryptoDispatchs.filter((CryptoDispatch) => {
     let matches = true;
 
-    if (filters.status && CryptoProduct.status !== filters.status) {
+    if (filters.status && CryptoDispatch.status !== filters.status) {
       matches = false;
     }
 
@@ -103,24 +136,71 @@ const applyFilters = (
 };
 
 const applyPagination = (
-  CryptoProducts: CryptoProduct[],
+  CryptoDispatchs: CryptoDispatch[],
   page: number,
   limit: number
-): CryptoProduct[] => {
-  return CryptoProducts.slice(page * limit, page * limit + limit);
+): CryptoDispatch[] => {
+  return CryptoDispatchs.slice(page * limit, page * limit + limit);
 };
 
-const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoProducts }) => {
+const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoDispatchs }) => {
 
-  const [selectedCryptoProducts, setSelectedCryptoProducts] = useState<string[]>(
+  const [despacharProducto, setDespacharProducto] = useState({
+    empleado:'',
+    cantidad:'',
+    producto:'',
+    resumen:''
+  })
+
+  
+  const onChangeFormulario = e => {
+    setDespacharProducto({
+      ...despacharProducto,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const submitAgregarProducto = (e) => {
+    // Se enviaria el cliente al back
+    console.log(despacharProducto)
+
+    // aqui estaria la respuesta del back
+    console.log("Se ha asignado la ruta exitosamente");
+  }
+
+
+
+
+
+
+  const [selectedCryptoDispatchs, setSelectedCryptoDispatchs] = useState<string[]>(
     []
   );
-  const selectedBulkActions = selectedCryptoProducts.length > 0;
+  const selectedBulkActions = selectedCryptoDispatchs.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
     status: null
   });
+
+  const statusOptions = [
+    {
+      id: 'all',
+      name: 'All'
+    },
+    {
+      id: 'completed',
+      name: 'completed'
+    },
+    {
+      id: 'failed',
+      name: 'failed'
+    },
+    {
+      id: 'pending',
+      name: 'Pendings'
+    }
+  ];
 
   const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
     let value = null;
@@ -135,28 +215,28 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoProducts }) => {
     }));
   };
 
-  const handleSelectAllCryptoProducts = (
+  const handleSelectAllCryptoDispatchs = (
     event: ChangeEvent<HTMLInputElement>
   ): void => {
-    setSelectedCryptoProducts(
+    setSelectedCryptoDispatchs(
       event.target.checked
-        ? CryptoProducts.map((CryptoProduct) => CryptoProduct.id)
+        ? CryptoDispatchs.map((CryptoDispatch) => CryptoDispatch.id)
         : []
     );
   };
 
-  const handleSelectOneCryptoProduct = (
+  const handleSelectOneCryptoDispatch = (
     event: ChangeEvent<HTMLInputElement>,
-    CryptoProductId: string
+    CryptoDispatchId: string
   ): void => {
-    if (!selectedCryptoProducts.includes(CryptoProductId)) {
-      setSelectedCryptoProducts((prevSelected) => [
+    if (!selectedCryptoDispatchs.includes(CryptoDispatchId)) {
+      setSelectedCryptoDispatchs((prevSelected) => [
         ...prevSelected,
-        CryptoProductId
+        CryptoDispatchId
       ]);
     } else {
-      setSelectedCryptoProducts((prevSelected) =>
-        prevSelected.filter((id) => id !== CryptoProductId)
+      setSelectedCryptoDispatchs((prevSelected) =>
+        prevSelected.filter((id) => id !== CryptoDispatchId)
       );
     }
   };
@@ -169,21 +249,110 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoProducts }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredCryptoProducts = applyFilters(CryptoProducts, filters);
-  const paginatedCryptoProducts = applyPagination(
-    filteredCryptoProducts,
+  const filteredCryptoDispatchs = applyFilters(CryptoDispatchs, filters);
+  const paginatedCryptoDispatchs = applyPagination(
+    filteredCryptoDispatchs,
     page,
     limit
   );
-  const selectedSomeCryptoProducts =
-    selectedCryptoProducts.length > 0 &&
-    selectedCryptoProducts.length < CryptoProducts.length;
-  const selectedAllCryptoProducts =
-    selectedCryptoProducts.length === CryptoProducts.length;
+  const selectedSomeCryptoDispatchs =
+    selectedCryptoDispatchs.length > 0 &&
+    selectedCryptoDispatchs.length < CryptoDispatchs.length;
+  const selectedAllCryptoDispatchs =
+    selectedCryptoDispatchs.length === CryptoDispatchs.length;
   const theme = useTheme();
 
-  return (  
-   <Card>
+  return (
+    <Card>
+      <CardContent>
+        <Box
+          component="form"
+          sx={{
+            '& .MuiTextField-root': { m:5, width: '35ch' },
+          }}
+          noValidate
+          autoComplete="off"
+          onClick={
+            submitAgregarProducto
+          }
+        >
+        <div>
+          <TextField
+              id="outlined-select-currency"
+              select
+              label="Empleado"
+              name='empleado'
+              color='success'
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <AccountCircle />
+                  </InputAdornment>
+                ),
+              }}
+              defaultValue=' '
+              value={despacharProducto.empleado}
+              onChange={onChangeFormulario}
+              helperText="Por favor seleccione un empleado"
+            >
+              {currenciesEmpleados.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </div> 
+          <div>
+            <TextField
+              id="outlined-select-currency"
+              select
+              label="Cantidad"
+              name='cantidad'
+              value={despacharProducto.cantidad}
+              onChange={onChangeFormulario}
+              helperText="Por favor seleccione una cantidad"
+            >
+              {currenciesCantidad.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+                        
+            <TextField
+              id="outlined-select-currency"
+              select
+              label="Producto"
+              name='producto'
+              value={despacharProducto.producto}
+              onChange={onChangeFormulario}
+              helperText="Por favor seleccione un producto"
+            >
+              {currenciesProducto.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              required
+              id="outliend-required"
+              label="Resumen"
+              color='success'
+              defaultValue=" "
+              name='resumen'
+              value={despacharProducto.resumen = 
+                despacharProducto.cantidad + ' ' + despacharProducto.producto}
+              onChange={onChangeFormulario}
+            />
+            <div>
+              <Button sx={{ margin: 5, width: '25ch'}} variant="contained">Agregar</Button>
+            </div>
+          </div>
+        </Box>
+      </CardContent>
+      <Divider />
+      
       {selectedBulkActions && (
         <Box flex={1} p={2}>
           <BulkActions />
@@ -191,43 +360,30 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoProducts }) => {
       )}
       {!selectedBulkActions && (
         <CardHeader
+          action={
+            <Box width={150}>
+              <FormControl fullWidth variant="outlined">
+                <InputLabel>Status</InputLabel>
+                <Select
+                  value={filters.status || 'all'}
+                  onChange={handleStatusChange}
+                  label="Status"
+                  autoWidth
+                >
+                  {statusOptions.map((statusOption) => (
+                    <MenuItem key={statusOption.id} value={statusOption.id}>
+                      {statusOption.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          }
           title="Productos"
         />
       )}
       <Divider />
-    <Box
-        component="form"
-        sx={{
-         '& .MuiTextField-root': { m:5, width: '35ch' },
-        }}
-        noValidate
-        autoComplete="off"
-        >
-      <div>
-        <TextField
-            id="outlined-select-currency"
-            select
-            label="Empleado"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <AccountCircle />
-                </InputAdornment>
-              ),
-            }}
-            defaultValue=' '
-            value={currencyEmpleados}
-            onChange={handleChangeEmpleados}
-            helperText="Por favor seleccione un empleado"
-          >
-            {currenciesEmpleados.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-                {option.label}
-            </MenuItem>
-            ))}
-        </TextField>
-      </div>
-    </Box>
+      
       <TableContainer>
         <Table>
           <TableHead>
@@ -235,37 +391,38 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoProducts }) => {
               <TableCell padding="checkbox">
                 <Checkbox
                   color="primary"
-                  checked={selectedAllCryptoProducts}
-                  indeterminate={selectedSomeCryptoProducts}
-                  onChange={handleSelectAllCryptoProducts}
+                  checked={selectedAllCryptoDispatchs}
+                  indeterminate={selectedSomeCryptoDispatchs}
+                  onChange={handleSelectAllCryptoDispatchs}
                 />
               </TableCell>
               <TableCell>Nombre Producto</TableCell>
               <TableCell>Referencia Producto</TableCell>
               <TableCell>Descripcion</TableCell>
               <TableCell align="right">Medidas</TableCell>
+              <TableCell align="right">Estado</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedCryptoProducts.map((CryptoProduct) => {
-              const isCryptoProductSelected = selectedCryptoProducts.includes(
-                CryptoProduct.id
+            {paginatedCryptoDispatchs.map((CryptoDispatch) => {
+              const isCryptoDispatchSelected = selectedCryptoDispatchs.includes(
+                CryptoDispatch.id
               );
               return (
                 <TableRow
                   hover
-                  key={CryptoProduct.id}
-                  selected={isCryptoProductSelected}
+                  key={CryptoDispatch.id}
+                  selected={isCryptoDispatchSelected}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
                       color="primary"
-                      checked={isCryptoProductSelected}
+                      checked={isCryptoDispatchSelected}
                       onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        handleSelectOneCryptoProduct(event, CryptoProduct.id)
+                        handleSelectOneCryptoDispatch(event, CryptoDispatch.id)
                       }
-                      value={isCryptoProductSelected}
+                      value={isCryptoDispatchSelected}
                     />
                   </TableCell>
                   <TableCell>
@@ -276,7 +433,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoProducts }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoProduct.nameProduct}
+                      {CryptoDispatch.nameProduct}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -287,7 +444,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoProducts }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoProduct.reference}
+                      {CryptoDispatch.reference}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -298,7 +455,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoProducts }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoProduct.Description}
+                      {CryptoDispatch.Description}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
@@ -309,11 +466,14 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoProducts }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoProduct.lengthProduct + 'X' + CryptoProduct.widthProduct}
+                      {CryptoDispatch.lengthProduct + 'X' + CryptoDispatch.widthProduct}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {CryptoProduct.units}
+                      {CryptoDispatch.units}
                     </Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    {getStatusLabel(CryptoDispatch.status)}
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>
@@ -349,10 +509,15 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoProducts }) => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <Divider />
+      <div>
+        <Button sx={{ margin: 5, width: '25ch'}} variant="contained">Despachar</Button>
+      </div>
       <Box p={2}>
         <TablePagination
           component="div"
-          count={filteredCryptoProducts.length}
+          count={filteredCryptoDispatchs.length}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}
@@ -365,11 +530,11 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoProducts }) => {
 };
 
 RecentOrdersTable.propTypes = {
-  CryptoProducts: PropTypes.array.isRequired
+  CryptoDispatchs: PropTypes.array.isRequired
 };
 
 RecentOrdersTable.defaultProps = {
-  CryptoProducts: []
+  CryptoDispatchs: []
 };
 
 export default RecentOrdersTable;
