@@ -23,6 +23,7 @@ import HowToRegIcon from '@mui/icons-material/HowToReg';
 import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlined';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { linkClasses } from '@mui/material';
 
 
@@ -54,66 +55,102 @@ const menuItems: MenuItems[] = [
     heading: 'Empleados',
     items: [
       {
-        name:'Registro Empleados',
-        icon: PersonAddIcon,
-        link: '/empleados/agregar-empleados'
-      },
-      {
-        name:'Editar Empleados',
-        icon: AssignmentIndIcon,
-        link: '/empleados/editar-empleados',
-      },
+        name:'Gestion empleados',
+        link :'empleados/gestion_empleados',
+        icon: SettingsIcon,
+        items:[
+          {
+            name:'Registro Empleados',
+            icon: PersonAddIcon,
+            link: '/empleados/gestion_empleados/agregar-empleados'
+          },
+          {
+            name:'Editar Empleados',
+            icon: AssignmentIndIcon,
+            link: '/empleados/gestion_empleados/editar-empleados',
+          },
+        ]
+      }
     ]
   },
   {
     heading: 'Productos',
     items: [
       {
-        name:'Registro Productos',
-        icon: AddCircleOutlineIcon,
-        link: '/productos/agregar-productos'
-      },
-      { 
-        name:'Editar Productos',
-        icon: ModeEditIcon,
-        link:'/productos/editar-productos'
-      },
+        name:'Gestion Productos',
+        link:'/productos/gestion_productos',
+        icon: SettingsIcon,
+        items: [
+          {
+            name:'Registro Productos',
+            icon: AddCircleOutlineIcon,
+            link: '/productos/gestion_productos/agregar-productos'
+          },
+          { 
+            name:'Editar Productos',
+            icon: ModeEditIcon,
+            link:'/productos/gestion_productos/editar-productos'
+          },
+        ]
+      }
     ]
   },
+ 
   {
     heading: 'Clientes',
     items: [
       {
-        name: 'Registro Clientes',
-        icon: AddShoppingCartIcon,
-        link: '/clientes/agregar-clientes'
-      },
-      { 
-        name:'Editar Clientes',
-        icon: HowToRegIcon,
-        link:'/clientes/editar-clientes',
-      },
+        name: 'Gestion clientes',
+        icon: SettingsIcon,
+        link: '/clientes/gestion_clientes',
+        items:[
+          {
+            name: 'Registro Clientes',
+            icon: AddShoppingCartIcon,
+            link: '/clientes/gestion_clientes/agregar-clientes',
+          },
+          { 
+            name:'Editar Clientes',
+            icon: HowToRegIcon,
+            link:'/clientes/gestion_clientes/editar-clientes',
+          },
+        ]
+      }
+      
     ]
   },
   {
     heading: 'SEGUIMIENTO EMPLEADO',
     items: [
       {
-        name: 'Liquidar Ruta',
-        icon: AddShoppingCartIcon,
-        link: '/seguimientoEmpleado/liquidar-ruta'
-      },
-      {
-        name:'Asignar Ruta',
-        icon: AddLocationAltOutlinedIcon,
-        link: '/seguimientoEmpleado/asignar-ruta'
-
-      },
-      {
-        name:'Despachar Productos',
-        icon: FormatListNumberedIcon,
-        link: '/seguimientoEmpleado/despachar-productos'
-
+        name: 'Gestion seguimiento',
+        icon: SettingsIcon,
+        link: '/seguimientoEmpleado/gestion_seguimiento',
+        items:[
+          {
+            name: 'Liquidar Ruta',
+            icon: AddShoppingCartIcon,
+            link: '/seguimientoEmpleado/gestion_seguimiento/liquidar-ruta'
+          },
+          {
+            name:'Asignar Ruta',
+            icon: AddLocationAltOutlinedIcon,
+            link: '/seguimientoEmpleado/gestion_seguimiento/asignar-ruta'
+    
+          },
+          {
+            name:'Despachar Productos',
+            icon: FormatListNumberedIcon,
+            link: '/seguimientoEmpleado/gestion_seguimiento/despachar-productos'
+    
+          },
+          {
+            name:'Recibir Productos',
+            icon: FormatListNumberedIcon,
+            link: '/seguimientoEmpleado/gestion_seguimiento/recibir-productos'
+    
+          },
+        ]
       }
     ]
   },

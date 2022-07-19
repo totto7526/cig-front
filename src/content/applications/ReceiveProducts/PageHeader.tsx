@@ -13,10 +13,10 @@ function PageHeader() {
     <Grid container justifyContent="space-between" alignItems="center">
       <Grid item>
         <Typography variant="h3" component="h3" gutterBottom>
-          Despachar Productos
+          Recibir Productos
         </Typography>
         <Typography variant="subtitle2">
-          {user.name}, Aca podras despacharle los productos a un empleado
+          {user.name}, Aca podras recibirle los productos a un empleado
         </Typography>
       </Grid>
       <Grid item>

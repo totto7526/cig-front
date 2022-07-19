@@ -92,6 +92,9 @@ const AssignRoute = Loader(
 const DispatchProducts = Loader(
   lazy(() => import('src/content/applications/DispatchProducts'))
 )
+const ReceiveProducts = Loader(
+  lazy(() => import('src/content/applications/ReceiveProducts'))
+)
 
 
 // Status
@@ -182,29 +185,70 @@ const routes: RouteObject[] = [
     element: <SidebarLayout />,
     children: [
       {
-        path: 'agregar-empleados',
-        element: <WorkerAdd/>
-      },
-      {
-        path:'editar-empleados',
-        element: <EditWorkers/>
-      },
-      
+        path: 'gestion_empleados',
+        children: [
+          {
+            path: 'agregar-empleados',
+            element: <WorkerAdd/>
+          },
+          {
+            path:'editar-empleados',
+            element: <EditWorkers/>
+          },
+        ]
+      }
     ]
   },
+
   {
     path: '/productos',
     element: <SidebarLayout />,
     children: [
       {
-        path: 'agregar-productos',
-        element: <ProductAdd/>
+        path: 'gestion_productos',
+        children:[
+          {
+            path: 'agregar-productos',
+            element: <ProductAdd/>
+          },
+          {
+            path: 'editar-productos',
+            element: <EditProducts />
+          },
+        ]
+      }
+    ] 
+  },
+
+  {
+    path: '/management',
+    element: <SidebarLayout />,
+    children: [
+      {
+        path: '',
+        element: <Navigate to="/management/transactions" replace />
       },
       {
-        path: 'editar-productos',
-        element: <EditProducts />
+        path: 'transactions',
+        element: <Transactions />
       },
-      
+      {
+        path: 'profile',
+        children: [
+          {
+            path: '',
+            element: <Navigate to="details" replace />
+          },
+          {
+            path: 'details',
+            element: <UserProfile />
+          },
+          {
+            path: 'settings',
+            element: <UserSettings />
+          }
+        ]
+      }
     ]
   },
   {
@@ -212,14 +256,18 @@ const routes: RouteObject[] = [
     element: <SidebarLayout />,
     children: [
       {
-        path: 'agregar-clientes',
-        element: <ClientAdd/>
-      },
-      {
-        path:'editar-clientes',
-        element: <EditClients />
-      },
-      
+        path: 'gestion_clientes',
+        children:[
+          {
+            path: 'agregar-clientes',
+            element: <ClientAdd/>
+          },
+          {
+            path:'editar-clientes',
+            element: <EditClients />
+          },
+        ]
+      }
     ]
   },
   {
@@ -227,17 +275,26 @@ const routes: RouteObject[] = [
     element: <SidebarLayout />,
     children: [
       {
-        path: 'liquidar-ruta',
-        element: <Liquidateroute/>
-      },
-      {
-        path:'asignar-ruta',
-        element: <AssignRoute/>
-      },
-      {
-        path:'despachar-productos',
-        element: <DispatchProducts/>
-      },
+        path: 'gestion_seguimiento',
+        children:[
+          {
+            path: 'liquidar-ruta',
+            element: <Liquidateroute/>
+          },
+          {
+            path:'asignar-ruta',
+            element: <AssignRoute/>
+          },
+          {
+            path:'despachar-productos',
+            element: <DispatchProducts/>
+          },
+          {
+            path:'recibir-productos',
+            element: <ReceiveProducts/>
+          },
+        ]
+      }
     ]
   },
   {

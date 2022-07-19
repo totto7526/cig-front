@@ -3,6 +3,7 @@ export type CryptoProductStatus = 'completed' | 'pending' | 'failed';
 export type CryptoClientStatus = 'completed' | 'pending' | 'failed';
 export type CryptoWorkerStatus = 'completed' | 'pending' | 'failed';
 export type CryptoDispatchStatus = 'completed' | 'pending' | 'failed';
+export type CryptoReceiveStatus = 'completed' | 'pending' | 'failed';
 
 export interface CryptoOrder {
   id: string;
@@ -65,6 +66,7 @@ export interface CryptoWorker {
 
 export interface CryptoDispatch {
   id: string;
+  amount:number;
   status: CryptoProductStatus;
   nameProduct: string;
   reference: string;
@@ -72,4 +74,12 @@ export interface CryptoDispatch {
   lengthProduct: number;
   widthProduct: number;
   units: string;
+}
+
+export interface CryptoReceive {
+  id: string;
+  amount:number;
+  status: CryptoProductStatus;
+  nameProduct: string;
+  reference: string;
 }
