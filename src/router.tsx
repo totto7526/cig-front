@@ -6,6 +6,7 @@ import SidebarLayout from 'src/layouts/SidebarLayout';
 import BaseLayout from 'src/layouts/BaseLayout';
 
 import SuspenseLoader from 'src/components/SuspenseLoader';
+import { element } from 'prop-types';
 
 const Loader = (Component) => (props) =>
   (
@@ -94,6 +95,9 @@ const DispatchProducts = Loader(
 )
 const ReceiveProducts = Loader(
   lazy(() => import('src/content/applications/ReceiveProducts'))
+)
+const RouteOptions = Loader(
+  lazy(() => import('src/content/pages/Components/RouteOptions'))
 )
 
 
@@ -292,6 +296,21 @@ const routes: RouteObject[] = [
           {
             path:'recibir-productos',
             element: <ReceiveProducts/>
+          },
+        ]
+      }
+    ]
+  },
+  {
+    path: '/opcionesRuta',
+    element: <SidebarLayout />,
+    children:[
+      {
+        path:'gestion_rutas',
+        children:[
+          {
+            path:'opciones-ruta',
+            element:<RouteOptions/>
           },
         ]
       }

@@ -24,6 +24,7 @@ import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlined';
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import SettingsIcon from '@mui/icons-material/Settings';
+import CreateIcon from '@mui/icons-material/Create';
 import { linkClasses } from '@mui/material';
 
 
@@ -68,6 +69,23 @@ const menuItems: MenuItems[] = [
             name:'Editar Empleados',
             icon: AssignmentIndIcon,
             link: '/empleados/gestion_empleados/editar-empleados',
+          },
+        ]
+      }
+    ]
+  },
+  {
+    heading: 'Ruta',
+    items:[
+      {
+        name:'Gestion rutas',
+        link:'opcionesRuta/gestion_rutas',
+        icon:SettingsIcon,
+        items:[
+          {
+            name:'Opciones Rutas',
+            icon: CreateIcon,
+            link:'/opcionesRuta/gestion_rutas/opciones-ruta',
           },
         ]
       }

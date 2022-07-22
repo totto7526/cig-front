@@ -161,7 +161,6 @@ function WorkerAdd() {
                           <RadioGroup row aria-label="Estado Empleado" name="row-radio-buttons-group"defaultValue={"Activo"}>
                             <FormControlLabel value="Activo" control={<Radio />} label="Activo" />
                             <FormControlLabel value="Inactivo" control={<Radio />} label="Inactivo" />
-                           <FormControlLabel value="other" control={<Radio />} label="Other" />
                           </RadioGroup>
                       </FormControl>
                     </div>

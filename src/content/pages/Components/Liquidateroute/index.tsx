@@ -180,7 +180,6 @@ function Liquidateroute() {
                           <RadioGroup row aria-label="Estado Liquidacion" name="row-radio-buttons-group"defaultValue={"Se pago"}>
                             <FormControlLabel value="Se pago" control={<Radio />} label="Se pago" />
                             <FormControlLabel value="Sin pagar" control={<Radio />} label="Sin pagar" />
-                           <FormControlLabel value="Otro" control={<Radio />} label="Otro" />
                           </RadioGroup>
                       </FormControl>
                     </div>
