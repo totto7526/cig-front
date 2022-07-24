@@ -48,17 +48,34 @@ const currenciesBarrio = [
 
 function WorkerAdd() {
 
-  const [currencyBarrio, setCurrencyBarrio] = useState(' ');
+  const [empleado, setEmpleado] = useState({
+    primerNombre: '',
+    segundoNombre: '',
+    primerApellido: '',
+    segundoApellido: '',
+    numeroIdentificacion: '',
+    telefono: '',
+    direccion: '',
+    barrio: '',
+    estado:''
+  })
+  
+  const onChangeFormulario = e => {
+    setEmpleado({
+      ...empleado,
+      [e.target.name]: e.target.value
+    })
+  }
 
-  const handleChangeBarrio= (event) => {
-    setCurrencyBarrio(event.target.value);
-  };
 
-  const [value, setValue] = useState(30);
+  const submitCrearEmpleado = (e) => {
+    // Se enviaria el cliente al back
+    console.log(empleado)
 
-  const handleChange2 = (event, newValue) => {
-    setValue(newValue);
-  };
+    // aqui estaria la respuesta del back
+    console.log("Se ha creado el empleado exitosamente");
+  }
+ 
 
 
   return (
@@ -92,6 +109,9 @@ function WorkerAdd() {
                   }}
                   noValidate
                   autoComplete="off"
+                  onClick={
+                    submitCrearEmpleado
+                  }
                 >
                   <div>
                     <TextField
@@ -100,6 +120,9 @@ function WorkerAdd() {
                       label="Primer Nombre"
                       color="success"
                       defaultValue=" "
+                      name='primerNombre'
+                      value={empleado.primerNombre}
+                      onChange={onChangeFormulario}
                     />
                     <TextField
                       required
@@ -107,6 +130,9 @@ function WorkerAdd() {
                       label="Segundo Nombre"
                       color="success"
                       defaultValue=" "
+                      name='segundoNombre'
+                      value={empleado.segundoNombre}
+                      onChange={onChangeFormulario}
                     />
                     <TextField
                       required
@@ -114,6 +140,9 @@ function WorkerAdd() {
                       label="Primer Apellido"
                       color='success'
                       defaultValue=" "
+                      name='primerApellido'
+                      value={empleado.primerApellido}
+                      onChange={onChangeFormulario}
                     />
                      <TextField
                       required
@@ -121,32 +150,44 @@ function WorkerAdd() {
                       label="Segundo Apellido"
                       color='success'
                       defaultValue=" "
+                      name='segundoApellido'
+                      value={empleado.segundoApellido}
+                      onChange={onChangeFormulario}
                     />
                      <TextField
                       id="outlined-number"
                       label="Numero Identificación"
                       color='success'
                       type="number"
+                      name='numeroIdentificacion'
+                      value={empleado.numeroIdentificacion}
+                      onChange={onChangeFormulario}
                     />
                     <TextField
                       id="outlined-number"
                       label="Telefono"
                       color='success'
                       type="number"
+                      name='telefono'
+                      value={empleado.telefono}
+                      onChange={onChangeFormulario}
                     />
                     <TextField
                       required
                       id="outliend-required"
                       label="Dirección"
                       color='success'
-                      defaultValue=" "
+                      name='direccion'
+                      value={empleado.direccion}
+                      onChange={onChangeFormulario}
                     />
                     <TextField
                       id="outlined-select-currency"
                       select
                       label="Barrio"
-                      value={currencyBarrio}
-                      onChange={handleChangeBarrio}
+                      name='barrio'
+                      value={empleado.barrio}
+                      onChange={onChangeFormulario}
                       helperText="Por favor seleccione un barrio"
                     >
                       {currenciesBarrio.map((option) => (
@@ -158,7 +199,13 @@ function WorkerAdd() {
                     <div>
                       <FormControl component="fieldset">
                         <FormLabel component="legend">Estado Empleado</FormLabel>
-                          <RadioGroup row aria-label="Estado Empleado" name="row-radio-buttons-group"defaultValue={"Activo"}>
+                          <RadioGroup 
+                            row aria-label="Estado Empleado" 
+                            name="estado"
+                            value={empleado.estado}
+                            onChange={onChangeFormulario}
+
+                          >
                             <FormControlLabel value="Activo" control={<Radio />} label="Activo" />
                             <FormControlLabel value="Inactivo" control={<Radio />} label="Inactivo" />
                           </RadioGroup>
