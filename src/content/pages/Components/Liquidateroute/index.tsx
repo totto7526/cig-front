@@ -29,21 +29,6 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Collections } from '@mui/icons-material';
 
-function createData(
-  name: string,
-  collection: number,
-  initials: number,
-  sales: number,
-  cash: number,
-  must: number,
-) {
-  return { name, collection, initials, sales, cash, must};
-}
-
-
-const rows = [
-  createData('Total Dia',500000, 35000, 60000, 535000,0),
-];
 
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
@@ -66,17 +51,54 @@ const currenciesEmpleados = [
 
 function Liquidateroute() {
 
-  const [currencyEmpleados, setCurrencyEmpleados] = useState(' ');
 
-  const handleChangeEmpleados= (event) => {
-    setCurrencyEmpleados(event.target.value);
-  };
+  const [liquidate, setLiquidate] = useState({
+    employee: '',
+    totalCollection:' ',
+    totalInitial: '',
+    totalSelling: '',
+    totalCash: '',
+    mush:' ',
+    state:''
+  })
 
-  const [value, setValue] = useState(30);
+  const onChangeFormulario = e => {
+    setLiquidate({
+      ...liquidate,
+      [e.target.name]: e.target.value
+    })
+  }
 
-  const handleChange2 = (event, newValue) => {
-    setValue(newValue);
-  };
+  const submitLiquidateRoute = (e) => {
+    // Se enviaria el cliente al back
+    console.log(liquidate)
+
+    // aqui estaria la respuesta del back
+    console.log("Se ha liquidado exitosamente");
+  }
+
+  function createData(
+    name: string,
+    collection: number,
+    initials: number,
+    sales: number,
+    cash: number,
+    must: number,
+  ) {
+    return { name, collection, initials, sales, cash, must};
+  }
+  
+  
+  const rows = [
+    createData(
+      liquidate.employee, 
+      Number(liquidate.totalCollection), 
+      Number(liquidate.totalInitial), 
+      Number(liquidate.totalSelling), 
+      Number(liquidate.totalCash), 
+      Number(liquidate.mush)
+      ),
+  ];
 
 
   return (
@@ -110,6 +132,9 @@ function Liquidateroute() {
                   }}
                   noValidate
                   autoComplete="off"
+                  onClick={
+                    submitLiquidateRoute
+                  }
                 >
                   <div>
                   <TextField
@@ -124,8 +149,9 @@ function Liquidateroute() {
                         ),
                       }}
                       defaultValue=' '
-                      value={currencyEmpleados}
-                      onChange={handleChangeEmpleados}
+                      name='employee'
+                      value={liquidate.employee}
+                      onChange={onChangeFormulario}
                       helperText="Por favor seleccione un empleado"
                     >
                       {currenciesEmpleados.map((option) => (
@@ -138,6 +164,9 @@ function Liquidateroute() {
                       label="Total Cobrado"
                       id="filled-start-adornment"
                       color="success"
+                      name='totalCollection'
+                      value={liquidate.totalCollection}
+                      onChange={onChangeFormulario}
                       sx={{ m: 1, width: '25ch' }}
                         InputProps={{
                           startAdornment: <InputAdornment position="start">$</InputAdornment>,
@@ -148,6 +177,9 @@ function Liquidateroute() {
                       label="Total Iniciales"
                       id="filled-start-adornment"
                       color="success"
+                      name='totalInitial'
+                      value={liquidate.totalInitial}
+                      onChange={onChangeFormulario}
                       sx={{ m: 1, width: '25ch' }}
                         InputProps={{
                           startAdornment: <InputAdornment position="start">$</InputAdornment>,
@@ -158,6 +190,9 @@ function Liquidateroute() {
                       label="Total Ventas"
                       id="filled-start-adornment"
                       color="success"
+                      name='totalSelling'
+                      value={liquidate.totalSelling}
+                      onChange={onChangeFormulario}
                       sx={{ m: 1, width: '25ch' }}
                         InputProps={{
                           startAdornment: <InputAdornment position="start">$</InputAdornment>,
@@ -168,6 +203,9 @@ function Liquidateroute() {
                       label="Total en Efectivo"
                       id="filled-start-adornment"
                       color="success"
+                      name='totalCash'
+                      value={liquidate.totalCash}
+                      onChange={onChangeFormulario}
                       sx={{ m: 1, width: '25ch' }}
                         InputProps={{
                           startAdornment: <InputAdornment position="start">$</InputAdornment>,
@@ -177,7 +215,13 @@ function Liquidateroute() {
                     <div>
                       <FormControl component="fieldset">
                         <FormLabel component="legend">Estado Liquidación</FormLabel>
-                          <RadioGroup row aria-label="Estado Liquidacion" name="row-radio-buttons-group"defaultValue={"Se pago"}>
+                          <RadioGroup 
+                            row aria-label="Estado Liquidacion"
+                            defaultValue={"Se pago"}
+                            name='state'
+                            value={liquidate.state}
+                            onChange={onChangeFormulario}
+                            >
                             <FormControlLabel value="Se pago" control={<Radio />} label="Se pago" />
                             <FormControlLabel value="Sin pagar" control={<Radio />} label="Sin pagar" />
                           </RadioGroup>
@@ -222,8 +266,6 @@ function Liquidateroute() {
                       </Table>
                     </TableContainer>
                   </div>
-
-
                 </Box>
               </CardContent>
             </Card>
