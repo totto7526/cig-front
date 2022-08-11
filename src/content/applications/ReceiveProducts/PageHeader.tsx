@@ -24,7 +24,7 @@ function PageHeader() {
           sx={{ mt: { xs: 2, md: 0 } }}
           variant="contained"
           startIcon={<AddTwoToneIcon fontSize="small" />}
-          //LINKEAR LA DIRECCION HASTA CREAR CLIENTE
+          href = '/seguimientoEmpleado/gestion_seguimiento/despachar-productos'
         >
           Despachar Productos
         </Button>

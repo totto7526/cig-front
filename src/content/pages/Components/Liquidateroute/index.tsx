@@ -108,9 +108,10 @@ function Liquidateroute() {
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
+          textButton='Inicio'
           heading="liquidar ruta"
           subHeading="Proceso para liquidar una ruta o producido de un empleado"
-          docs="https://material-ui.com/components/text-fields/" />
+          docs="/overview" />
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid

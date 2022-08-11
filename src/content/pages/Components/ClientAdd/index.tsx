@@ -159,9 +159,10 @@ const onChangeFormularioReferencia = e => {
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
+          textButton="Inicio"
           heading="Registro cliente"
           subHeading="Proceso para registrar un cliente nuevo"
-          docs="https://material-ui.com/components/text-fields/" />
+          docs='/overview'/>
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid

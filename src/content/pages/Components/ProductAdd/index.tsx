@@ -15,7 +15,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
+import FormControl, { formControlClasses } from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
 import Stack from '@mui/material/Stack';
@@ -24,6 +24,7 @@ import VolumeDown from '@mui/icons-material/VolumeDown';
 import VolumeUp from '@mui/icons-material/VolumeUp';
 
 import Switch from '@mui/material/Switch';
+import { Rowing } from '@mui/icons-material';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
@@ -73,12 +74,13 @@ function ProductAdd() {
     referenciaProducto:'',
     descripcion:'',
     categoria:' ',
-    medida: '',
     estandar: ' ',
     largo: ' ',
     ancho: ' ',
     estado: ''
   })
+
+  const[medidaEstandar, setMedidaEstandar] = useState(true)
 
   const onChangeFormulario = e => {
     setProducto({
@@ -87,14 +89,24 @@ function ProductAdd() {
     })
   }
 
+  const onChangeMedida = e => {
+    setMedidaEstandar(
+      !medidaEstandar
+    )
+  }
+
   const submitCrearProducto = (e) => {
     // Se enviaria el cliente al back
     console.log(producto)
+    
 
     // aqui estaria la respuesta del back
     console.log("Se ha creado el producto exitosamente");
     
   }
+
+  
+
 
   return (
     <>
@@ -103,9 +115,10 @@ function ProductAdd() {
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
-          heading="registro producto"
+          textButton="Inicio"
+          heading="Registro producto"
           subHeading="Proceso para registrar un producto nuevo"
-          docs="https://material-ui.com/components/text-fields/" />
+          docs='/overview' />
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
@@ -179,62 +192,70 @@ function ProductAdd() {
                     </TextField>
 
                     <div>
+                    
                       <FormControl component="fieldset">
                         <FormLabel component="legend">Tipo Medidas</FormLabel>
                           <RadioGroup
                              row aria-label="Tipo medidas" 
+                             id='medidas'
                              name="medida"
-                             value={producto.medida}
-                             onChange={onChangeFormulario}
+                             defaultValue ="Estandar"
+                             onChange={onChangeMedida}
                           >
+                            <FormControlLabel
+                              value="Estandar" 
+                              control={<Radio />} 
+                              label="Estandar" 
+                            />
                             <FormControlLabel 
                               value="Personalizada" 
                               control={<Radio />} 
                               label="Personalizada" 
                             />
-                            <FormControlLabel 
-                              value="Estandar" 
-                              control={<Radio />} 
-                              label="Estandar" 
-                            />
+                            
                           </RadioGroup>
+                        <div>
+                          <TextField
+                            id="est"
+                            select
+                            label="Estandar"
+                            name='estandar'
+                            disabled = {!medidaEstandar}
+                            value={producto.estandar}
+                            onChange={onChangeFormulario}
+                            helperText="Por favor seleccione una medida"
+                          >
+                            {currenciesMedidas.map((option) => (
+                              <MenuItem key={option.value} value={option.value}>
+                                {option.label}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                          <TextField
+                            required
+                            id="lar"
+                            label="Largo"
+                            color='success'
+                            type="number"
+                            name='largo'
+                            value={producto.largo}
+                            onChange={onChangeFormulario}
+                            disabled = {medidaEstandar}
+                          />
+                          <TextField
+                            required
+                            id="anch"
+                            label="Ancho"
+                            color='success'
+                            type="number"
+                            name='ancho'
+                            value={producto.ancho}
+                            onChange={onChangeFormulario}
+                            disabled = {medidaEstandar}
+                          />
+                        </div>
                       </FormControl>
                     </div>
-                    <TextField
-                      id="outlined-select-currency"
-                      select
-                      label="Estandar"
-                      name='estandar'
-                      value={producto.estandar}
-                      onChange={onChangeFormulario}
-                      helperText="Por favor seleccione una medida"
-                    >
-                      {currenciesMedidas.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                        ))}
-                    </TextField>
-                     <TextField
-                      required
-                      id="outliend-number"
-                      label="Largo"
-                      color='success'
-                      type="number"
-                      name='largo'
-                      value={producto.largo}
-                      onChange={onChangeFormulario}
-                    />
-                     <TextField
-                      required
-                      id="outliend-number"
-                      label="Ancho"
-                      color='success'
-                      type="number"
-                      name='ancho'
-                      value={producto.ancho}
-                      onChange={onChangeFormulario}
-                    />
                     <div>
                       <FormControl component="fieldset">
                         <FormLabel component="legend">Estado Producto</FormLabel>

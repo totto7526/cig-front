@@ -28,7 +28,7 @@ function RecentProductsOrders() {
     },
     {
       id: '3',
-      nameProduct: 'Tohallones',
+      nameProduct: 'Toallones',
       status: 'failed',
       reference: 'Casita',
       Description: '93% algodon',

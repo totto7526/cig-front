@@ -4,12 +4,14 @@ import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 import { Typography, Button, Grid } from '@mui/material';
 
 interface PageTitleProps {
+    textButton?: string;
     heading?: string;
     subHeading?: string;
     docs?: string;
 }
 
 const PageTitle: FC<PageTitleProps> = ({
+    textButton = '',
     heading = '',
     subHeading = '',
     docs = '',
@@ -32,9 +34,8 @@ const PageTitle: FC<PageTitleProps> = ({
                     rel="noopener noreferrer"
                     sx={{ mt: { xs: 2, md: 0 } }}
                     variant="contained"
-                    startIcon={<AddTwoToneIcon fontSize="small" />}
                 >
-                    {heading} ..
+                    {textButton}
                 </Button>
             </Grid>
         </Grid>

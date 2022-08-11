@@ -99,6 +99,9 @@ const ReceiveProducts = Loader(
 const RouteOptions = Loader(
   lazy(() => import('src/content/pages/Components/RouteOptions'))
 )
+const EditRoute = Loader(
+  lazy(()=> import('src/content/applications/EditRoute'))
+)
 
 
 // Status
@@ -312,6 +315,10 @@ const routes: RouteObject[] = [
             path:'opciones-ruta',
             element:<RouteOptions/>
           },
+          {
+            path:'editar-ruta',
+            element:<EditRoute/>
+          }
         ]
       }
     ]

@@ -4,6 +4,7 @@ import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 
 function PageHeader() {
 
+  
   const user =
   {
     name: 'Jose Luis Castro',
@@ -23,8 +24,8 @@ function PageHeader() {
         <Button
           sx={{ mt: { xs: 2, md: 0 } }}
           variant="contained"
-          startIcon={<AddTwoToneIcon fontSize="small" />}
-          //LINKEAR LA DIRECCION HASTA CREAR CLIENTE
+          startIcon={<AddTwoToneIcon fontSize="small" />} 
+          href="/empleados/gestion_empleados/agregar-empleados" 
         >
           Crear empleado
         </Button>

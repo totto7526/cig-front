@@ -85,9 +85,10 @@ function WorkerAdd() {
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
-          heading="registro empleado"
+          textButton="Inicio"
+          heading="Registro Empleado"
           subHeading="Proceso para registrar un empleado nuevo"
-          docs="https://material-ui.com/components/text-fields/" />
+          docs="/overview" />
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid

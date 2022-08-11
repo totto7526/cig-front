@@ -80,9 +80,10 @@ function RouteOptions() {
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
+          textButton="Inicio"
           heading="Opciones de Ruta"
           subHeading="Proceso Opciones de Ruta"
-          docs="https://material-ui.com/components/text-fields/" />
+          docs="/overview" />
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
@@ -142,7 +143,13 @@ function RouteOptions() {
                     </TextField>
                     <div>
                       <Button sx={{ margin: 5, width: '25ch'}} variant="contained">Agregar Ruta</Button>
-                      <Button sx={{ margin: 5, width: '25ch'}} variant="contained">Editar Ruta</Button>
+                      <Button 
+                        sx={{ margin: 5, width: '25ch'}} 
+                        variant="contained" 
+                        href = '/opcionesRuta/gestion_rutas/editar-ruta'>
+                        
+                        Editar Ruta
+                      </Button>
                     </div>
                   </div>
                 </Box>

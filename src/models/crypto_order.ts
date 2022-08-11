@@ -4,6 +4,7 @@ export type CryptoClientStatus = 'completed' | 'pending' | 'failed';
 export type CryptoWorkerStatus = 'completed' | 'pending' | 'failed';
 export type CryptoDispatchStatus = 'completed' | 'pending' | 'failed';
 export type CryptoReceiveStatus = 'completed' | 'pending' | 'failed';
+export type CryptoEditRouteStatus = 'completed' | 'pending' | 'failed';
 
 export interface CryptoOrder {
   id: string;
@@ -82,4 +83,14 @@ export interface CryptoReceive {
   status: CryptoProductStatus;
   nameProduct: string;
   reference: string;
+}
+
+export interface CryptoEditRoute {
+  id: string;
+  status: CryptoEditRouteStatus;
+  firstName: string;
+  secondName: string;
+  firstLastName: string;
+  secondLastName: string;
+  routeOrder: number;
 }

@@ -13,10 +13,10 @@ function PageHeader() {
     <Grid container justifyContent="space-between" alignItems="center">
       <Grid item>
         <Typography variant="h3" component="h3" gutterBottom>
-          Editar Producto
+          Editar Rutas
         </Typography>
         <Typography variant="subtitle2">
-          {user.name}, Aca podras editar un producto o eliminarlo
+          {user.name}, Aca podras Editar la ruta seleccionada
         </Typography>
       </Grid>
       <Grid item>
@@ -24,9 +24,9 @@ function PageHeader() {
           sx={{ mt: { xs: 2, md: 0 } }}
           variant="contained"
           startIcon={<AddTwoToneIcon fontSize="small" />}
-          href="/productos/gestion_productos/agregar-productos"
+          href='/opcionesRuta/gestion_rutas/opciones-ruta'
         >
-          Crear producto
+          Opciones Rutas
         </Button>
       </Grid>
     </Grid>

@@ -87,6 +87,11 @@ const menuItems: MenuItems[] = [
             icon: CreateIcon,
             link:'/opcionesRuta/gestion_rutas/opciones-ruta',
           },
+          {
+            name:'Editar Rutas',
+            icon: ModeEditIcon,
+            link:'/opcionesRuta/gestion_rutas/editar-ruta'
+          },
         ]
       }
     ]
