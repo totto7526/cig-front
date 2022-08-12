@@ -55,8 +55,19 @@ const SignInForm = () => {
             variant="contained"
             color="primary"
             onClick={handleSubmit}
+            href = '/dashboards/crypto'
           >
             {t(resourceKeys.SIGN_IN.BUTTON_LOG_IN)}
+          </Button>
+
+          <Button
+            sx={{ margin: 1, width: '100%' }}
+            variant="contained"
+            color="primary"
+            onClick={handleSubmit}
+            href = 'sign-up'
+          >
+            {t(resourceKeys.SIGN_IN.SIGN_UP)}
           </Button>
         </div>
       </Box>

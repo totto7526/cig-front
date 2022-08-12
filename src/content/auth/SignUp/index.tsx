@@ -27,7 +27,7 @@ const SignUpPage = () => {
           py={5}
           alignItems={'center'}
         >
-          Logo
+           <img src="static/images/avatars/logo.jpg" alt="" />
         </Box>
         <Card sx={{ p: 10, mb: 10, borderRadius: 5 }}>
           <h1>{t(resourceKeys.SIGN_IN.SIGN_UP)}</h1>

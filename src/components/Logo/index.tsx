@@ -105,7 +105,7 @@ function Logo() {
     //     </LogoSign>
     //   </LogoSignWrapper>
   return (
-    <LogoWrapper to="/sign-in">
+    <LogoWrapper to="/overview">
          {<Avatar alt={"logo"} src={"/static/images/avatars/logo.jpg"} />}
       <Hidden smDown>
         <LogoTextWrapper>

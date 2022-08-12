@@ -55,6 +55,7 @@ const SignUpForm = () => {
             variant="contained"
             color="primary"
             onClick={handleSubmit}
+            href = '/dashboards/crypto'
           >
             {t(resourceKeys.SIGN_IN.BUTTON_LOG_IN)}
           </Button>

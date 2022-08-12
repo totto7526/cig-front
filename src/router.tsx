@@ -19,6 +19,7 @@ const Loader = (Component) => (props) =>
 
 const Overview = Loader(lazy(() => import('src/content/overview')));
 const Login = Loader(lazy(() => import('src/content/auth/SignIn')));
+const LoginUp = Loader(lazy(() => import('src/content/auth/SignUp')));
 
 // Dashboards
 
@@ -137,6 +138,10 @@ const routes: RouteObject[] = [
       {
         path: 'sign-in',
         element: <Login />
+      },
+      {
+        path: 'sign-up',
+        element: <LoginUp />
       },
       {
         path: '/status',
