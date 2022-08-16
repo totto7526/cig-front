@@ -142,7 +142,13 @@ function RouteOptions() {
                       ))}
                     </TextField>
                     <div>
-                      <Button sx={{ margin: 5, width: '25ch'}} variant="contained">Agregar Ruta</Button>
+                      <Button 
+                        sx={{ margin: 5, width: '25ch'}} 
+                        variant="contained"
+                        href='/crearRuta/pais'>
+                        
+                          Agregar Ruta
+                      </Button>
                       <Button 
                         sx={{ margin: 5, width: '25ch'}} 
                         variant="contained" 

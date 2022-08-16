@@ -18,6 +18,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl, { formControlClasses } from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
+import Input from '@mui/material/Input';
+import InputLabel from '@mui/material/InputLabel';
+import InputAdornment from '@mui/material/InputAdornment';
+
 import Stack from '@mui/material/Stack';
 import Slider from '@mui/material/Slider';
 import VolumeDown from '@mui/icons-material/VolumeDown';
@@ -66,6 +70,24 @@ const currenciesMedidas = [
   },
 ];
 
+const currenciesColores = [
+  {
+    value: 1,
+    label: 'Rojo',
+  },
+  {
+    value: 2,
+    label: 'Azul',
+  },
+  {
+    value: 3,
+    label: 'Gris',
+  },
+  {
+    value: 4,
+    label: 'Blanco',
+  },
+];
 
 function ProductAdd() {
 
@@ -77,6 +99,10 @@ function ProductAdd() {
     estandar: ' ',
     largo: ' ',
     ancho: ' ',
+    color: ' ',
+    cantidad: ' ',
+    precioCredito:'0',
+    precioContado: '0',
     estado: ''
   })
 
@@ -190,9 +216,34 @@ function ProductAdd() {
                         </MenuItem>
                       ))}
                     </TextField>
+                    <TextField
+                      id="outlined-select-currency"
+                      select
+                      label="Color"
+                      name='color'
+                      value={producto.color}
+                      onChange={onChangeFormulario}
+                      helperText="Seleccione un color"
+                    >
+                      {currenciesColores.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                    <TextField
+                      required
+                      id="cantidad"
+                      label="Cantidad"
+                      color='success'
+                      type="number"
+                      name='cantidad'
+                      value={producto.cantidad}
+                      onChange={onChangeFormulario}
+                    />
+
 
                     <div>
-                    
                       <FormControl component="fieldset">
                         <FormLabel component="legend">Tipo Medidas</FormLabel>
                           <RadioGroup
@@ -254,6 +305,34 @@ function ProductAdd() {
                             disabled = {medidaEstandar}
                           />
                         </div>
+                      </FormControl>
+                    </div>
+                    <div>
+                      <FormControl component= "fieldset" sx={{margin: 5}}>
+                          <InputLabel htmlFor="standard-adornment-amount">Precio Credito</InputLabel>
+                            <Input
+                              id="standard-adornment-amount"
+                              required = {true}
+                              color='success'
+                              name='precioCredito'
+                              type='number'
+                              value={producto.precioCredito}
+                              onChange={onChangeFormulario}
+                              startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                            />
+                      </FormControl>
+                      <FormControl component= "fieldset" sx={{margin: 5}}>
+                          <InputLabel htmlFor="standard-adornment-amount">Precio Contado</InputLabel>
+                            <Input
+                              id="standard-adornment-amount"
+                              required = {true}
+                              color='success'
+                              name='precioContado'
+                              type='number'
+                              value={producto.precioContado}
+                              onChange={onChangeFormulario}
+                              startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                            />
                       </FormControl>
                     </div>
                     <div>

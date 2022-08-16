@@ -25,6 +25,7 @@ import AddLocationAltOutlinedIcon from '@mui/icons-material/AddLocationAltOutlin
 import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import SettingsIcon from '@mui/icons-material/Settings';
 import CreateIcon from '@mui/icons-material/Create';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import { linkClasses } from '@mui/material';
 
 
@@ -140,6 +141,19 @@ const menuItems: MenuItems[] = [
         ]
       }
       
+    ]
+  },
+  {
+    heading:'Transacciones',
+    items:[
+      {
+        name:'Gestion transacciones',
+        icon: MonetizationOnIcon,
+        link: '/transacciones/gestion_transacciones',
+        items:[
+
+        ]
+      }
     ]
   },
   {

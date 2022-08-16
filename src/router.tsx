@@ -7,6 +7,7 @@ import BaseLayout from 'src/layouts/BaseLayout';
 
 import SuspenseLoader from 'src/components/SuspenseLoader';
 import { element } from 'prop-types';
+import CountryOptions from 'src/content/pages/Components/CountryOptions';
 
 const Loader = (Component) => (props) =>
   (
@@ -93,16 +94,25 @@ const AssignRoute = Loader(
 );
 const DispatchProducts = Loader(
   lazy(() => import('src/content/applications/DispatchProducts'))
-)
+);
 const ReceiveProducts = Loader(
   lazy(() => import('src/content/applications/ReceiveProducts'))
-)
+);
 const RouteOptions = Loader(
   lazy(() => import('src/content/pages/Components/RouteOptions'))
-)
+);
 const EditRoute = Loader(
   lazy(()=> import('src/content/applications/EditRoute'))
-)
+);
+
+//Rutas crear rutas
+const countryOptions = Loader(
+  lazy(() => import('src/content/pages/Components/CountryOptions'))
+);
+const DepartamentOptions = Loader(
+  lazy(() => import('src/content/pages/Components/DepartmentOptions'))
+);
+
 
 
 // Status
@@ -125,7 +135,7 @@ const StatusMaintenance = Loader(
 const routes: RouteObject[] = [
   {
     path: '/',
-    element: <BaseLayout />,
+    element: <BaseLayout/>,
     children: [
       {
         path: '',
@@ -282,6 +292,22 @@ const routes: RouteObject[] = [
       }
     ]
   },
+
+  {
+    path: '/transacciones',
+    element: <SidebarLayout />,
+    children:[
+      {
+        path: 'gestion_transacciones',
+        children:[
+          {
+            
+          }
+        ]
+      }
+    ]
+  },
+
   {
     path: '/seguimientoEmpleado',
     element: <SidebarLayout />,
@@ -323,11 +349,27 @@ const routes: RouteObject[] = [
           {
             path:'editar-ruta',
             element:<EditRoute/>
-          }
+          },
         ]
       }
     ]
   },
+
+  {
+    path: '/crearRuta',
+    element:<SidebarLayout/>,
+    children:[
+      {
+        path:'pais',
+        element:<CountryOptions/>
+      },
+      {
+        path:'departamento',
+        element:<DepartamentOptions/>
+      }
+    ]
+  },
+
   {
     path: '/management',
     element: <SidebarLayout />,
