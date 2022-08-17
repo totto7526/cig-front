@@ -16,55 +16,55 @@ import Switch from '@mui/material/Switch';
 import { create } from '@mui/material/styles/createTransitions';
 
 
-const currenciesDepartament= [
+const currenciesRegion= [
   {
     value: 1,
-    label: 'Antioquia',
+    label: 'Caribe',
   },
   {
     value: 2,
-    label: 'Valle del Cauca',
+    label: 'Andina',
   },
   {
     value: 3,
-    label: 'Pasto',
+    label: 'Pacifica',
   },
   {
     value: 4,
-    label: 'Meta',
+    label: 'Amazonia',
   },
 ];
 
 
-function DepartamentOptions() {
+function RegionOptions() {
 
 
-  const [departamentOptions, setdepartamentOptions] = useState({
-    departament:'',
-    newDepartament:''
+  const [regionOptions, setregionOptions] = useState({
+    region:'',
+    newRegion:''
   })
 
-  const[createDepartament, setcreateDepartament] = useState(false)
+  const[createRegion, setcreateRegion] = useState(false)
 
-  const onChangeDepartament = e => {
-    setcreateDepartament(
-      !createDepartament
+  const onChangeRegion = e => {
+    setcreateRegion(
+      !createRegion
     )
   };
 
   const onChangeFormulario = e => {
-    setdepartamentOptions({
-      ...departamentOptions,
+    setregionOptions({
+      ...regionOptions,
       [e.target.name]: e.target.value
     })
   };
 
   const submitrouteOptions = (e) => {
     // Se enviaria el cliente al back
-    console.log(departamentOptions)
+    console.log(regionOptions)
 
     // aqui estaria la respuesta del back
-    console.log("Departamento seleccionado correctamente");
+    console.log("Region seleccionado correctamente");
   }
 
 
@@ -72,13 +72,13 @@ function DepartamentOptions() {
   return (
     <>
       <Helmet>
-        <title>Opciones de Departamento - Components</title>
+        <title>Opciones de Region - Components</title>
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
           textButton="Inicio"
           heading="Crear nueva ruta"
-          subHeading="Proceso Departamento"
+          subHeading="Proceso Region"
           docs="/overview" />
       </PageTitleWrapper>
       <Container maxWidth="lg">
@@ -91,7 +91,7 @@ function DepartamentOptions() {
         >
           <Grid item xs={12}>
             <Card>
-              <CardHeader title="Seleccione un pais o ingrese uno nuevo" />
+              <CardHeader title="Seleccione una region o ingrese uno nuevo" />
               <Divider />
               <CardContent>
                 <Box
@@ -110,8 +110,8 @@ function DepartamentOptions() {
                         control={
                           // <Switch checked={state.gilad} onChange={handleChange} name="gilad" />
                           <Switch 
-                            checked={createDepartament} 
-                            onChange={onChangeDepartament} 
+                            checked={createRegion} 
+                            onChange={onChangeRegion} 
                             name= "check"
                           />
                         }
@@ -122,15 +122,15 @@ function DepartamentOptions() {
                       <TextField
                         id="outlined-select-currency"
                         select
-                        label="Departamento"
-                        name='departament'
+                        label="Region"
+                        name='region'
                         color='success'
-                        value={departamentOptions.departament}
+                        value={regionOptions.region}
                         onChange={onChangeFormulario}
-                        disabled = {createDepartament}
-                        helperText="Por favor seleccione un departamento"
+                        disabled = {createRegion}
+                        helperText="Por favor seleccione una region"
                       >
-                        {currenciesDepartament.map((option) => (
+                        {currenciesRegion.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
                             {option.label}
                           </MenuItem>
@@ -140,19 +140,19 @@ function DepartamentOptions() {
                       <TextField
                         id="outlined-select-currency"
                         required
-                        label="Nuevo Departamento"
-                        name='newDepartament'
+                        label="Nueva Region"
+                        name='newRegion'
                         color='success'
-                        value={departamentOptions.newDepartament}
+                        value={regionOptions.newRegion}
                         onChange={onChangeFormulario}
-                        disabled = {!createDepartament}
-                        helperText="Por favor ingrese el nuevo departamento"
+                        disabled = {!createRegion}
+                        helperText="Por favor ingrese la nueva region"
                       />
                     <div>
                     <Button 
                         sx={{ margin: 5, width: '25ch'}} 
                         variant="contained"
-                        href="/crearRuta/pais"
+                        href="/crearRuta/departamento"
                         >
                        
                           Atras
@@ -161,7 +161,7 @@ function DepartamentOptions() {
                       <Button 
                         sx={{ margin: 5, width: '25ch'}} 
                         variant="contained"
-                        href="/crearRuta/region"
+                        href="/crearRuta/city"
                         >
                        
                           Siguiente
@@ -181,4 +181,4 @@ function DepartamentOptions() {
   );
 }
 
-export default DepartamentOptions;
+export default RegionOptions;

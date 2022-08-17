@@ -16,55 +16,59 @@ import Switch from '@mui/material/Switch';
 import { create } from '@mui/material/styles/createTransitions';
 
 
-const currenciesDepartament= [
+const currenciesCity= [
   {
     value: 1,
-    label: 'Antioquia',
+    label: 'Retiro',
   },
   {
     value: 2,
-    label: 'Valle del Cauca',
+    label: 'Guarne',
   },
   {
     value: 3,
-    label: 'Pasto',
+    label: 'Medellin',
   },
   {
     value: 4,
-    label: 'Meta',
+    label: 'Marinilla',
+  },
+  {
+    value: 5,
+    label: 'Santuario',
   },
 ];
 
 
-function DepartamentOptions() {
+function CityOptions() {
 
 
-  const [departamentOptions, setdepartamentOptions] = useState({
-    departament:'',
-    newDepartament:''
+  const [cityOptions, setcityOptions] = useState({
+    city:'',
+    newCity:''
   })
 
-  const[createDepartament, setcreateDepartament] = useState(false)
+  const[createCity, setcreateCity] = useState(false)
 
-  const onChangeDepartament = e => {
-    setcreateDepartament(
-      !createDepartament
+  const onChangeCity = e => {
+    setcreateCity(
+      !createCity
     )
   };
 
   const onChangeFormulario = e => {
-    setdepartamentOptions({
-      ...departamentOptions,
+    setcityOptions({
+      ...cityOptions,
       [e.target.name]: e.target.value
     })
   };
 
-  const submitrouteOptions = (e) => {
+  const submitcityOptions = (e) => {
     // Se enviaria el cliente al back
-    console.log(departamentOptions)
+    console.log(cityOptions)
 
     // aqui estaria la respuesta del back
-    console.log("Departamento seleccionado correctamente");
+    console.log("Ciudad seleccionada correctamente");
   }
 
 
@@ -72,13 +76,13 @@ function DepartamentOptions() {
   return (
     <>
       <Helmet>
-        <title>Opciones de Departamento - Components</title>
+        <title>Opciones de Ciudad - Components</title>
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
           textButton="Inicio"
           heading="Crear nueva ruta"
-          subHeading="Proceso Departamento"
+          subHeading="Proceso Ciudad"
           docs="/overview" />
       </PageTitleWrapper>
       <Container maxWidth="lg">
@@ -91,7 +95,7 @@ function DepartamentOptions() {
         >
           <Grid item xs={12}>
             <Card>
-              <CardHeader title="Seleccione un pais o ingrese uno nuevo" />
+              <CardHeader title="Seleccione una ciudad o ingrese uno nuevo" />
               <Divider />
               <CardContent>
                 <Box
@@ -102,7 +106,7 @@ function DepartamentOptions() {
                   noValidate
                   autoComplete="off"
                   onClick={
-                    submitrouteOptions
+                    submitcityOptions
                   }
                 > 
                  <div>
@@ -110,8 +114,8 @@ function DepartamentOptions() {
                         control={
                           // <Switch checked={state.gilad} onChange={handleChange} name="gilad" />
                           <Switch 
-                            checked={createDepartament} 
-                            onChange={onChangeDepartament} 
+                            checked={createCity} 
+                            onChange={onChangeCity} 
                             name= "check"
                           />
                         }
@@ -122,15 +126,15 @@ function DepartamentOptions() {
                       <TextField
                         id="outlined-select-currency"
                         select
-                        label="Departamento"
-                        name='departament'
+                        label="Ciudad"
+                        name='city'
                         color='success'
-                        value={departamentOptions.departament}
+                        value={cityOptions.city}
                         onChange={onChangeFormulario}
-                        disabled = {createDepartament}
-                        helperText="Por favor seleccione un departamento"
+                        disabled = {createCity}
+                        helperText="Por favor seleccione una ciudad"
                       >
-                        {currenciesDepartament.map((option) => (
+                        {currenciesCity.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
                             {option.label}
                           </MenuItem>
@@ -140,19 +144,19 @@ function DepartamentOptions() {
                       <TextField
                         id="outlined-select-currency"
                         required
-                        label="Nuevo Departamento"
-                        name='newDepartament'
+                        label="Nueva Ciudad"
+                        name='newCity'
                         color='success'
-                        value={departamentOptions.newDepartament}
+                        value={cityOptions.newCity}
                         onChange={onChangeFormulario}
-                        disabled = {!createDepartament}
-                        helperText="Por favor ingrese el nuevo departamento"
+                        disabled = {!createCity}
+                        helperText="Por favor ingrese la nueva ciudad"
                       />
                     <div>
                     <Button 
                         sx={{ margin: 5, width: '25ch'}} 
                         variant="contained"
-                        href="/crearRuta/pais"
+                        href="/crearRuta/region"
                         >
                        
                           Atras
@@ -161,7 +165,7 @@ function DepartamentOptions() {
                       <Button 
                         sx={{ margin: 5, width: '25ch'}} 
                         variant="contained"
-                        href="/crearRuta/region"
+                        href="/crearRuta/city"
                         >
                        
                           Siguiente
@@ -181,4 +185,4 @@ function DepartamentOptions() {
   );
 }
 
-export default DepartamentOptions;
+export default CityOptions;

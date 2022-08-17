@@ -80,10 +80,10 @@ function CountryOptions() {
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
-          textButton="Opciones de Ruta"
+          textButton="Inicio"
           heading="Crear nueva ruta"
           subHeading="Proceso Pais"
-          docs="/opcionesRuta/gestion_rutas/opciones-ruta" />
+          docs="/overview" />
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
@@ -153,6 +153,15 @@ function CountryOptions() {
                         helperText="Por favor ingrese el nuevo pais"
                       />
                     <div>
+                    <Button 
+                        sx={{ margin: 5, width: '25ch'}} 
+                        variant="contained"
+                        href="/opcionesRuta/gestion_rutas/opciones-ruta"
+                        >
+                       
+                          Atras
+                          
+                      </Button>
                       <Button 
                         sx={{ margin: 5, width: '25ch'}} 
                         variant="contained"
@@ -162,7 +171,6 @@ function CountryOptions() {
                           Siguiente
                           
                       </Button>
-                      
                     </div>
                   </div>
                 </Box>

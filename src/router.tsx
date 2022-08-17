@@ -112,6 +112,13 @@ const countryOptions = Loader(
 const DepartamentOptions = Loader(
   lazy(() => import('src/content/pages/Components/DepartmentOptions'))
 );
+const RegionOptions = Loader(
+  lazy(() => import('src/content/pages/Components/RegionOptions'))
+);
+const CityOptions = Loader(
+  lazy(() => import('src/content/pages/Components/CityOptions'))
+);
+
 
 
 
@@ -357,7 +364,7 @@ const routes: RouteObject[] = [
 
   {
     path: '/crearRuta',
-    element:<SidebarLayout/>,
+    element:<BaseLayout/>,
     children:[
       {
         path:'pais',
@@ -366,7 +373,16 @@ const routes: RouteObject[] = [
       {
         path:'departamento',
         element:<DepartamentOptions/>
-      }
+      },
+      {
+        path:'region',
+        element:<RegionOptions/>
+      },
+      {
+        path:'city',
+        element:<CityOptions/>
+      },
+
     ]
   },
 
