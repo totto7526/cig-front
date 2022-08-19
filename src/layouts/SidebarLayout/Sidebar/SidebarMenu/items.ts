@@ -146,7 +146,11 @@ const menuItems: MenuItems[] = [
         icon: MonetizationOnIcon,
         link: '/transacciones/gestion_transacciones',
         items:[
-
+          {
+            name: 'payment-Record',
+            icon: MonetizationOnIcon,
+            link: '/transacciones/gestion_transacciones/payment-Record',
+          }
         ]
       }
     ]
