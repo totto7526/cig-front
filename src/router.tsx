@@ -118,6 +118,13 @@ const RegionOptions = Loader(
 const CityOptions = Loader(
   lazy(() => import('src/content/pages/Components/CityOptions'))
 );
+const ZoneOptions = Loader(
+  lazy(() => import('src/content/pages/Components/ZoneOptions'))
+);
+const DistrictOptions = Loader(
+  lazy(() => import('src/content/pages/Components/DistrictOptions'))
+);
+
 
 
 
@@ -382,7 +389,14 @@ const routes: RouteObject[] = [
         path:'city',
         element:<CityOptions/>
       },
-
+      {
+        path:'zone',
+        element:<ZoneOptions/>
+      },
+      {
+        path:'district',
+        element:<DistrictOptions/>
+      },
     ]
   },
 

@@ -16,59 +16,55 @@ import Switch from '@mui/material/Switch';
 import { create } from '@mui/material/styles/createTransitions';
 
 
-const currenciesCity= [
+const currenciesDistrict= [
   {
     value: 1,
-    label: 'Retiro',
+    label: 'Centro',
   },
   {
     value: 2,
-    label: 'Guarne',
+    label: 'Acacias',
   },
   {
     value: 3,
-    label: 'Medellin',
+    label: 'Porvenir',
   },
   {
     value: 4,
-    label: 'Marinilla',
-  },
-  {
-    value: 5,
-    label: 'Santuario',
+    label: 'Salida Marinilla',
   },
 ];
 
 
-function CityOptions() {
+function DistrictOptions() {
 
 
-  const [cityOptions, setcityOptions] = useState({
-    city:'',
-    newCity:''
+  const [districtOptions, setdistrictOptions] = useState({
+    district:'',
+    newDistrict:''
   })
 
-  const[createCity, setcreateCity] = useState(false)
+  const[createDistrict, setcreateDistrict] = useState(false)
 
-  const onChangeCity = e => {
-    setcreateCity(
-      !createCity
+  const onChangeDistrict = e => {
+    setcreateDistrict(
+      !createDistrict
     )
   };
 
   const onChangeFormulario = e => {
-    setcityOptions({
-      ...cityOptions,
+    setdistrictOptions({
+      ...districtOptions,
       [e.target.name]: e.target.value
     })
   };
 
   const submitcityOptions = (e) => {
     // Se enviaria el cliente al back
-    console.log(cityOptions)
+    console.log(districtOptions)
 
     // aqui estaria la respuesta del back
-    console.log("Ciudad seleccionada correctamente");
+    console.log("Barrio seleccionado correctamente");
   }
 
 
@@ -76,13 +72,13 @@ function CityOptions() {
   return (
     <>
       <Helmet>
-        <title>Opciones de Ciudad - Components</title>
+        <title>Opciones de Barrio - Components</title>
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
           textButton="Inicio"
           heading="Crear nueva ruta"
-          subHeading="Proceso Ciudad"
+          subHeading="Proceso Barrio"
           docs="/overview" />
       </PageTitleWrapper>
       <Container maxWidth="lg">
@@ -95,7 +91,7 @@ function CityOptions() {
         >
           <Grid item xs={12}>
             <Card>
-              <CardHeader title="Seleccione una ciudad o ingrese uno nuevo" />
+              <CardHeader title="Seleccione un barrio o ingrese uno nuevo" />
               <Divider />
               <CardContent>
                 <Box
@@ -114,8 +110,8 @@ function CityOptions() {
                         control={
                           // <Switch checked={state.gilad} onChange={handleChange} name="gilad" />
                           <Switch 
-                            checked={createCity} 
-                            onChange={onChangeCity} 
+                            checked={createDistrict} 
+                            onChange={onChangeDistrict} 
                             name= "check"
                           />
                         }
@@ -126,15 +122,15 @@ function CityOptions() {
                       <TextField
                         id="outlined-select-currency"
                         select
-                        label="Ciudad"
-                        name='city'
+                        label="Barrio"
+                        name='district'
                         color='success'
-                        value={cityOptions.city}
+                        value={districtOptions.district}
                         onChange={onChangeFormulario}
-                        disabled = {createCity}
-                        helperText="Por favor seleccione una ciudad"
+                        disabled = {createDistrict}
+                        helperText="Por favor seleccione un barrio"
                       >
-                        {currenciesCity.map((option) => (
+                        {currenciesDistrict.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
                             {option.label}
                           </MenuItem>
@@ -144,19 +140,19 @@ function CityOptions() {
                       <TextField
                         id="outlined-select-currency"
                         required
-                        label="Nueva Ciudad"
-                        name='newCity'
+                        label="Nuevo Barrio "
+                        name='newDistrict'
                         color='success'
-                        value={cityOptions.newCity}
+                        value={districtOptions.newDistrict}
                         onChange={onChangeFormulario}
-                        disabled = {!createCity}
-                        helperText="Por favor ingrese la nueva ciudad"
+                        disabled = {!createDistrict}
+                        helperText="Por favor ingrese el nuevo barrio"
                       />
                     <div>
                     <Button 
                         sx={{ margin: 5, width: '25ch'}} 
                         variant="contained"
-                        href="/crearRuta/region"
+                        href="/crearRuta/zone"
                         >
                        
                           Atras
@@ -165,10 +161,10 @@ function CityOptions() {
                       <Button 
                         sx={{ margin: 5, width: '25ch'}} 
                         variant="contained"
-                        href="/crearRuta/zone"
+                        href="/opcionesRuta/gestion_rutas/opciones-ruta"
                         >
                        
-                          Siguiente
+                          Guardar
                           
                       </Button>
                       
@@ -185,4 +181,4 @@ function CityOptions() {
   );
 }
 
-export default CityOptions;
+export default DistrictOptions;
