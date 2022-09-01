@@ -16,7 +16,7 @@ import Switch from '@mui/material/Switch';
 import { create } from '@mui/material/styles/createTransitions';
 
 
-const currenciesZone= [
+const listZone= [
   {
     value: 1,
     label: 'UNO',
@@ -120,7 +120,7 @@ function ZoneOptions() {
                   </div>
                   <div>
                       <TextField
-                        id="outlined-select-currency"
+                        id="outlined-select"
                         select
                         label="Zona"
                         name='zone'
@@ -130,7 +130,7 @@ function ZoneOptions() {
                         disabled = {createZone}
                         helperText="Por favor seleccione una zona"
                       >
-                        {currenciesZone.map((option) => (
+                        {listZone.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
                             {option.label}
                           </MenuItem>
@@ -138,7 +138,7 @@ function ZoneOptions() {
                       </TextField>
                           
                       <TextField
-                        id="outlined-select-currency"
+                        id="outlined-select"
                         required
                         label="Nueva Zona"
                         name='newZone'

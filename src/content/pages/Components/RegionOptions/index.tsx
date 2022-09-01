@@ -13,10 +13,9 @@ import MenuItem from '@mui/material/MenuItem';
 
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import { create } from '@mui/material/styles/createTransitions';
 
 
-const currenciesRegion= [
+const listRegion= [
   {
     value: 1,
     label: 'Caribe',
@@ -120,7 +119,7 @@ function RegionOptions() {
                   </div>
                   <div>
                       <TextField
-                        id="outlined-select-currency"
+                        id="outlined-select"
                         select
                         label="Region"
                         name='region'
@@ -130,7 +129,7 @@ function RegionOptions() {
                         disabled = {createRegion}
                         helperText="Por favor seleccione una region"
                       >
-                        {currenciesRegion.map((option) => (
+                        {listRegion.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
                             {option.label}
                           </MenuItem>
@@ -138,7 +137,7 @@ function RegionOptions() {
                       </TextField>
                           
                       <TextField
-                        id="outlined-select-currency"
+                        id="outlined-select"
                         required
                         label="Nueva Region"
                         name='newRegion'

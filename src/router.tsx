@@ -107,6 +107,9 @@ const EditRoute = Loader(
 const PaymentRecord = Loader(
   lazy(()=> import('src/content/pages/Components/PaymentRecord'))
 );
+const Sales = Loader(
+  lazy(()=> import('src/content/pages/Components/RegisterSale'))
+);
 
 //Rutas crear rutas
 const countryOptions = Loader(
@@ -318,8 +321,12 @@ const routes: RouteObject[] = [
         path: 'gestion_transacciones',
         children:[
           {
-            path:'payment-Record',
+            path:'pago-cuotas',
             element: <PaymentRecord/>
+          },
+          {
+            path:'ventas',
+            element: <Sales/>
           }
         ]
       }

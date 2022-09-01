@@ -13,10 +13,9 @@ import MenuItem from '@mui/material/MenuItem';
 
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import { create } from '@mui/material/styles/createTransitions';
 
 
-const currenciesCountry= [
+const listCountry= [
   {
     value: 1,
     label: 'Colombia',
@@ -124,7 +123,7 @@ function CountryOptions() {
                   </div>
                   <div>
                       <TextField
-                        id="outlined-select-currency"
+                        id="outlined-select"
                         select
                         label="Pais"
                         name='country'
@@ -134,7 +133,7 @@ function CountryOptions() {
                         disabled = {createCountry}
                         helperText="Por favor seleccione un pais"
                       >
-                        {currenciesCountry.map((option) => (
+                        {listCountry.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
                             {option.label}
                           </MenuItem>
@@ -142,7 +141,7 @@ function CountryOptions() {
                       </TextField>
                           
                       <TextField
-                        id="outlined-select-currency"
+                        id="outlined-select"
                         required
                         label="Nuevo Pais"
                         name='newCountry'

@@ -9,8 +9,6 @@ import Footer from 'src/components/Footer';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-import { pink } from '@mui/material/colors';
-import Checkbox from '@mui/material/Checkbox';
 
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -22,17 +20,11 @@ import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 
-import Stack from '@mui/material/Stack';
-import Slider from '@mui/material/Slider';
-import VolumeDown from '@mui/icons-material/VolumeDown';
-import VolumeUp from '@mui/icons-material/VolumeUp';
 
-import Switch from '@mui/material/Switch';
-import { Rowing } from '@mui/icons-material';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-const currenciesProductos = [
+const listProductos = [
   {
     value: 1,
     label: 'tendidos',
@@ -51,7 +43,7 @@ const currenciesProductos = [
   },
 ];
 
-const currenciesMedidas = [
+const listMedidas = [
   {
     value: 1,
     label: '1.00 x 1.90' + ' M',
@@ -70,7 +62,7 @@ const currenciesMedidas = [
   },
 ];
 
-const currenciesColores = [
+const listColores = [
   {
     value: 1,
     label: 'Rojo',
@@ -202,7 +194,7 @@ function ProductAdd() {
                       onChange={onChangeFormulario}
                     />
                     <TextField
-                      id="outlined-select-currency"
+                      id="outlined-select"
                       select
                       label="Categoria"
                       name='categoria'
@@ -210,14 +202,14 @@ function ProductAdd() {
                       onChange={onChangeFormulario}
                       helperText="Por favor seleccione una categoria"
                     >
-                      {currenciesProductos.map((option) => (
+                      {listProductos.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                           {option.label}
                         </MenuItem>
                       ))}
                     </TextField>
                     <TextField
-                      id="outlined-select-currency"
+                      id="outlined-select"
                       select
                       label="Color"
                       name='color'
@@ -225,7 +217,7 @@ function ProductAdd() {
                       onChange={onChangeFormulario}
                       helperText="Seleccione un color"
                     >
-                      {currenciesColores.map((option) => (
+                      {listColores.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                           {option.label}
                         </MenuItem>
@@ -276,7 +268,7 @@ function ProductAdd() {
                             onChange={onChangeFormulario}
                             helperText="Por favor seleccione una medida"
                           >
-                            {currenciesMedidas.map((option) => (
+                            {listMedidas.map((option) => (
                               <MenuItem key={option.value} value={option.value}>
                                 {option.label}
                               </MenuItem>

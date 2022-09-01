@@ -33,7 +33,7 @@ import { Collections } from '@mui/icons-material';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-const currenciesEmpleados = [
+const listEmpleados = [
   {
     value: 1,
     label: 'Pepito Rodrigues',
@@ -139,7 +139,7 @@ function Liquidateroute() {
                 >
                   <div>
                   <TextField
-                      id="outlined-select-currency"
+                      id="outlined-select"
                       select
                       label="Empleado"
                       InputProps={{
@@ -155,7 +155,7 @@ function Liquidateroute() {
                       onChange={onChangeFormulario}
                       helperText="Por favor seleccione un empleado"
                     >
-                      {currenciesEmpleados.map((option) => (
+                      {listEmpleados.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                           {option.label}
                         </MenuItem>

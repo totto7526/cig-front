@@ -11,7 +11,7 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 
 
-const currenciesCiudad= [
+const listCiudad= [
   {
     value: 1,
     label: 'Rionegro',
@@ -30,7 +30,7 @@ const currenciesCiudad= [
   },
 ];
 
-const currenciesZone= [
+const listZone= [
   {
     value: 1,
     label: '1',
@@ -111,7 +111,7 @@ function RouteOptions() {
                 > 
                   <div>
                     <TextField
-                      id="outlined-select-currency"
+                      id="outlined-select"
                       select
                       label="Ciudad"
                       name='ciudad'
@@ -119,7 +119,7 @@ function RouteOptions() {
                       onChange={onChangeFormulario}
                       helperText="Por favor seleccione una ciudad"
                     >
-                      {currenciesCiudad.map((option) => (
+                      {listCiudad.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                           {option.label}
                         </MenuItem>
@@ -127,7 +127,7 @@ function RouteOptions() {
                     </TextField>
                         
                     <TextField
-                      id="outlined-select-currency"
+                      id="outlined-select"
                       select
                       label="Zona"
                       name='zona'
@@ -135,7 +135,7 @@ function RouteOptions() {
                       onChange={onChangeFormulario}
                       helperText="Por favor seleccione una zona"
                     >
-                      {currenciesZone.map((option) => (
+                      {listZone.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                           {option.label}
                         </MenuItem>

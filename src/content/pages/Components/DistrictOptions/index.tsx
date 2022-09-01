@@ -13,10 +13,9 @@ import MenuItem from '@mui/material/MenuItem';
 
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import { create } from '@mui/material/styles/createTransitions';
 
 
-const currenciesDistrict= [
+const listDistrict= [
   {
     value: 1,
     label: 'Centro',
@@ -120,7 +119,7 @@ function DistrictOptions() {
                   </div>
                   <div>
                       <TextField
-                        id="outlined-select-currency"
+                        id="outlined-select"
                         select
                         label="Barrio"
                         name='district'
@@ -130,7 +129,7 @@ function DistrictOptions() {
                         disabled = {createDistrict}
                         helperText="Por favor seleccione un barrio"
                       >
-                        {currenciesDistrict.map((option) => (
+                        {listDistrict.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
                             {option.label}
                           </MenuItem>
@@ -138,7 +137,7 @@ function DistrictOptions() {
                       </TextField>
                           
                       <TextField
-                        id="outlined-select-currency"
+                        id="outlined-select"
                         required
                         label="Nuevo Barrio "
                         name='newDistrict'

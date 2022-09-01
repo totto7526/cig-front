@@ -9,8 +9,6 @@ import Footer from 'src/components/Footer';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-import { pink } from '@mui/material/colors';
-import Checkbox from '@mui/material/Checkbox';
 
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -18,16 +16,11 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
-import Stack from '@mui/material/Stack';
-import Slider from '@mui/material/Slider';
-import VolumeDown from '@mui/icons-material/VolumeDown';
-import VolumeUp from '@mui/icons-material/VolumeUp';
 
-import Switch from '@mui/material/Switch';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-const currenciesCiudad= [
+const listCiudad= [
   {
     value: 1,
     label: 'Rionegro',
@@ -46,7 +39,7 @@ const currenciesCiudad= [
   },
 ];
 
-const currenciesBarrio = [
+const listBarrio = [
   {
     value: 1,
     label: 'manrique',
@@ -65,7 +58,7 @@ const currenciesBarrio = [
   },
 ];
 
-const currenciesParentesco = [
+const listParentesco = [
   {
     value: 1,
     label: 'Mama',
@@ -248,7 +241,7 @@ const onChangeFormularioReferencia = e => {
                       onChange={onChangeFormulario}
                     />
                     <TextField
-                      id="outlined-select-currency"
+                      id="outlined-select"
                       select
                       label="Ciudad"
                       color='success'
@@ -257,14 +250,14 @@ const onChangeFormularioReferencia = e => {
                       onChange={onChangeFormulario}
                       helperText="Por favor seleccione una ciudad"
                     >
-                      {currenciesCiudad.map((option) => (
+                      {listCiudad.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                           {option.label}
                         </MenuItem>
                       ))}
                     </TextField>
                     <TextField
-                      id="outlined-select-currency"
+                      id="outlined-select"
                       select
                       label="Barrio"
                       color='success'
@@ -273,7 +266,7 @@ const onChangeFormularioReferencia = e => {
                       onChange={onChangeFormulario}
                       helperText="Por favor seleccione un barrio"
                     >
-                      {currenciesBarrio.map((option) => (
+                      {listBarrio.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                           {option.label}
                         </MenuItem>
@@ -331,7 +324,7 @@ const onChangeFormularioReferencia = e => {
                         onChange={onChangeFormularioReferencia}
                       />
                     <TextField
-                      id="outlined-select-currency"
+                      id="outlined-select"
                       select
                       label="parentesco"
                       color='success'
@@ -339,7 +332,7 @@ const onChangeFormularioReferencia = e => {
                       value={referencia.parentesco}
                       onChange={onChangeFormularioReferencia}
                       helperText="Por favor seleccione un parentesco">
-                      {currenciesParentesco.map((option) => (
+                      {listParentesco.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                           {option.label}
                         </MenuItem>
@@ -366,7 +359,7 @@ const onChangeFormularioReferencia = e => {
                       onChange={onChangeFormularioReferencia}
                     />
                     <TextField
-                      id="outlined-select-currency"
+                      id="outlined-select"
                       select
                       label="parentesco"
                       color='success'
@@ -374,7 +367,7 @@ const onChangeFormularioReferencia = e => {
                       value={referencia.parentescoS}
                       onChange={onChangeFormularioReferencia}
                       helperText="Por favor seleccione un parentesco">
-                      {currenciesParentesco.map((option) => (
+                      {listParentesco.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                           {option.label}
                         </MenuItem>

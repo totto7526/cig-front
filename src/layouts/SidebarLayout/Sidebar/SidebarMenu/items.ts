@@ -147,9 +147,14 @@ const menuItems: MenuItems[] = [
         link: '/transacciones/gestion_transacciones',
         items:[
           {
-            name: 'payment-Record',
+            name: 'pago-cuotas',
             icon: MonetizationOnIcon,
-            link: '/transacciones/gestion_transacciones/payment-Record',
+            link: '/transacciones/gestion_transacciones/pago-cuotas',
+          },
+          {
+            name: 'ventas',
+            icon: MonetizationOnIcon,
+            link: '/transacciones/gestion_transacciones/ventas',
           }
         ]
       }

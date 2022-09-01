@@ -18,16 +18,11 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
-import Stack from '@mui/material/Stack';
-import Slider from '@mui/material/Slider';
-import VolumeDown from '@mui/icons-material/VolumeDown';
-import VolumeUp from '@mui/icons-material/VolumeUp';
 
-import Switch from '@mui/material/Switch';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-const currenciesBarrio = [
+const listBarrio = [
   {
     value: 1,
     label: 'manrique',
@@ -183,7 +178,7 @@ function WorkerAdd() {
                       onChange={onChangeFormulario}
                     />
                     <TextField
-                      id="outlined-select-currency"
+                      id="outlined-select"
                       select
                       label="Barrio"
                       name='barrio'
@@ -191,7 +186,7 @@ function WorkerAdd() {
                       onChange={onChangeFormulario}
                       helperText="Por favor seleccione un barrio"
                     >
-                      {currenciesBarrio.map((option) => (
+                      {listBarrio.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                           {option.label}
                         </MenuItem>

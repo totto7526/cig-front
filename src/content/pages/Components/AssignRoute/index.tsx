@@ -17,7 +17,7 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-const currenciesEmpleados = [
+const listEmpleados = [
   {
     value: 1,
     label: 'Pepito Rodrigues',
@@ -35,7 +35,7 @@ const currenciesEmpleados = [
     label:'   ',
   },
 ];
-const currenciesCiudad= [
+const listCiudad= [
   {
     value: 1,
     label: 'Rionegro',
@@ -54,7 +54,7 @@ const currenciesCiudad= [
   },
 ];
 
-const currenciesZone= [
+const listZone= [
   {
     value: 1,
     label: '1',
@@ -95,15 +95,7 @@ function AssignRoute() {
     console.log("Se ha asignado la ruta exitosamente");
   }
 
-  const [currencyCiudad, setCurrencyCiudad] = useState(' ');
-  const [currencyZone, setCurrencyZone]= useState(' ');
 
-  const handleChangeCiudad = (event) => {
-    setCurrencyCiudad(event.target.value);
-  };
-  const handleChangeZone = (event) => {
-    setCurrencyZone(event.target.value);
-  }
 
   
 
@@ -163,7 +155,7 @@ function AssignRoute() {
                       onChange={onChangeFormulario}
                       helperText="Por favor seleccione un empleado"
                     >
-                      {currenciesEmpleados.map((option) => (
+                      {listEmpleados.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                           {option.label}
                         </MenuItem>
@@ -180,7 +172,7 @@ function AssignRoute() {
                       onChange={onChangeFormulario}
                       helperText="Por favor seleccione una ciudad"
                     >
-                      {currenciesCiudad.map((option) => (
+                      {listCiudad.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                           {option.label}
                         </MenuItem>
@@ -196,7 +188,7 @@ function AssignRoute() {
                       onChange={onChangeFormulario}
                       helperText="Por favor seleccione una zona"
                     >
-                      {currenciesZone.map((option) => (
+                      {listZone.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                           {option.label}
                         </MenuItem>

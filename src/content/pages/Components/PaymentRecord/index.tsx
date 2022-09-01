@@ -10,11 +10,9 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
+
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl, { formControlClasses } from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
@@ -25,7 +23,7 @@ import Switch from '@mui/material/Switch';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-const currenciesSales = [
+const listSales = [
   {
     value: 1,
     label: 'Venta 1',
@@ -155,7 +153,7 @@ function PaymentRecord() {
                     />
                   
                     <TextField
-                      id="outlined-select-currency"
+                      id="outlined-select"
                       select
                       label="Compras Cliente"
                       name='sales'
@@ -163,14 +161,14 @@ function PaymentRecord() {
                       onChange={onChangeFormulario}
                       helperText="Por favor seleccione una venta"
                     >
-                      {currenciesSales.map((option) => (
+                      {listSales.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                           {option.label}
                         </MenuItem>
                       ))}
                     </TextField>
                 <FormControl component= "fieldset" sx={{margin: 5}}>
-                  <InputLabel htmlFor="standard-adornment-amount">Precio Credito</InputLabel>
+                  <InputLabel htmlFor="standard-adornment-amount">Valor Abono</InputLabel>
                     <Input
                       required
                       id="cantidad"

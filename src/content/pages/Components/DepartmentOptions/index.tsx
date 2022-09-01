@@ -13,10 +13,9 @@ import MenuItem from '@mui/material/MenuItem';
 
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import { create } from '@mui/material/styles/createTransitions';
 
 
-const currenciesDepartament= [
+const listDepartament= [
   {
     value: 1,
     label: 'Antioquia',
@@ -120,7 +119,7 @@ function DepartamentOptions() {
                   </div>
                   <div>
                       <TextField
-                        id="outlined-select-currency"
+                        id="outlined-select"
                         select
                         label="Departamento"
                         name='departament'
@@ -130,7 +129,7 @@ function DepartamentOptions() {
                         disabled = {createDepartament}
                         helperText="Por favor seleccione un departamento"
                       >
-                        {currenciesDepartament.map((option) => (
+                        {listDepartament.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
                             {option.label}
                           </MenuItem>
@@ -138,7 +137,7 @@ function DepartamentOptions() {
                       </TextField>
                           
                       <TextField
-                        id="outlined-select-currency"
+                        id="outlined-select"
                         required
                         label="Nuevo Departamento"
                         name='newDepartament'
