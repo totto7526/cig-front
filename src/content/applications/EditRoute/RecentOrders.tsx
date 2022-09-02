@@ -1,11 +1,11 @@
 import { Card } from '@mui/material';
-import { CryptoClient, CryptoProduct, CryptoWorker, CryptoReceive, CryptoEditRoute} from 'src/models/crypto_order';
+import {EditRoute} from 'src/models/crypto_order';
 import RecentOrdersTable from './RecentOrdersTable';
 import { subDays } from 'date-fns';
 
 function RecentDispatchsOrders() {
 
-  const CryptoEditRoute : CryptoEditRoute[] = [
+  const EditRoute : EditRoute[] = [
     {
       id: '1',
       status: 'failed',
@@ -57,7 +57,7 @@ function RecentDispatchsOrders() {
   
   return (
     <Card>
-      <RecentOrdersTable CryptoEditRoute={CryptoEditRoute} />
+      <RecentOrdersTable EditRoute={EditRoute} />
     </Card>
   );
 }

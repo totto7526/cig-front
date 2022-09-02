@@ -1,11 +1,11 @@
 import { Card } from '@mui/material';
-import { CryptoClient, CryptoProduct, CryptoWorker } from 'src/models/crypto_order';
+import {Worker } from 'src/models/crypto_order';
 import RecentOrdersTable from './RecentOrdersTable';
 import { subDays } from 'date-fns';
 
 function RecentWorkersOrders() {
 
-  const CryptoWorkers: CryptoWorker[] = [
+  const Workers: Worker[] = [
     {
       id: '1',
       status: 'completed',
@@ -70,7 +70,7 @@ function RecentWorkersOrders() {
 
   return (
     <Card>
-      <RecentOrdersTable CryptoWorkers={CryptoWorkers} />
+      <RecentOrdersTable Workers={Workers} />
     </Card>
   );
 }

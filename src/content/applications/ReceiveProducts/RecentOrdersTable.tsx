@@ -27,7 +27,7 @@ import {
 } from '@mui/material';
 
 import Label from 'src/components/Label';
-import { CryptoReceive, CryptoReceiveStatus } from 'src/models/crypto_order';
+import { Receive, ReceiveStatus } from 'src/models/crypto_order';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
@@ -38,11 +38,11 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 
 interface RecentOrdersTableProps {
   className?: string;
-  CryptoReceives: CryptoReceive[];
+  Receives: Receive[];
 }
 
 interface Filters {
-  status?: CryptoReceiveStatus;
+  status?: ReceiveStatus;
 }
 
 
@@ -69,7 +69,7 @@ const currenciesEmpleados = [
 
 
 
-const getStatusLabel = (CryptoReceiveStatus: CryptoReceiveStatus): JSX.Element => {
+const getStatusLabel = (ReceiveStatus: ReceiveStatus): JSX.Element => {
   const map = {
     failed: {
       text: 'failed',
@@ -85,19 +85,19 @@ const getStatusLabel = (CryptoReceiveStatus: CryptoReceiveStatus): JSX.Element =
     }
   };
 
-  const { text, color }: any = map[CryptoReceiveStatus];
+  const { text, color }: any = map[ReceiveStatus];
 
   return <Label color={color}>{text}</Label>;
 };
 
 const applyFilters = (
-  CryptoReceives: CryptoReceive[],
+  Receives: Receive[],
   filters: Filters
-): CryptoReceive[] => {
-  return CryptoReceives.filter((CryptoReceive) => {
+): Receive[] => {
+  return Receives.filter((Receive) => {
     let matches = true;
 
-    if (filters.status && CryptoReceive.status !== filters.status) {
+    if (filters.status && Receive.status !== filters.status) {
       matches = false;
     }
 
@@ -106,14 +106,14 @@ const applyFilters = (
 };
 
 const applyPagination = (
-  CryptoReceives: CryptoReceive[],
+  Receives: Receive[],
   page: number,
   limit: number
-): CryptoReceive[] => {
-  return CryptoReceives.slice(page * limit, page * limit + limit);
+): Receive[] => {
+  return Receives.slice(page * limit, page * limit + limit);
 };
 
-const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoReceives }) => {
+const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Receives }) => {
 
   const [despacharProducto, setDespacharProducto] = useState({
     empleado:'',
@@ -142,10 +142,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoReceives }) => {
 
 
 
-  const [selectedCryptoReceives, setSelectedCryptoReceives] = useState<string[]>(
+  const [selectedReceives, setSelectedReceives] = useState<string[]>(
     []
   );
-  const selectedBulkActions = selectedCryptoReceives.length > 0;
+  const selectedBulkActions = selectedReceives.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
@@ -184,28 +184,28 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoReceives }) => {
     }));
   };
 
-  const handleSelectAllCryptoReceives = (
+  const handleSelectAllReceives = (
     event: ChangeEvent<HTMLInputElement>
   ): void => {
-    setSelectedCryptoReceives(
+    setSelectedReceives(
       event.target.checked
-        ? CryptoReceives.map((CryptoReceive) => CryptoReceive.id)
+        ? Receives.map((Receive) => Receive.id)
         : []
     );
   };
 
-  const handleSelectOneCryptoReceive = (
+  const handleSelectOneReceive = (
     event: ChangeEvent<HTMLInputElement>,
-    CryptoReceiveId: string
+    ReceiveId: string
   ): void => {
-    if (!selectedCryptoReceives.includes(CryptoReceiveId)) {
-      setSelectedCryptoReceives((prevSelected) => [
+    if (!selectedReceives.includes(ReceiveId)) {
+      setSelectedReceives((prevSelected) => [
         ...prevSelected,
-        CryptoReceiveId
+        ReceiveId
       ]);
     } else {
-      setSelectedCryptoReceives((prevSelected) =>
-        prevSelected.filter((id) => id !== CryptoReceiveId)
+      setSelectedReceives((prevSelected) =>
+        prevSelected.filter((id) => id !== ReceiveId)
       );
     }
   };
@@ -218,17 +218,17 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoReceives }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredCryptoReceives = applyFilters(CryptoReceives, filters);
-  const paginatedCryptoReceives = applyPagination(
-    filteredCryptoReceives,
+  const filteredReceives = applyFilters(Receives, filters);
+  const paginatedReceives = applyPagination(
+    filteredReceives,
     page,
     limit
   );
-  const selectedSomeCryptoReceives =
-    selectedCryptoReceives.length > 0 &&
-    selectedCryptoReceives.length < CryptoReceives.length;
-  const selectedAllCryptoReceives =
-    selectedCryptoReceives.length === CryptoReceives.length;
+  const selectedSomeReceives =
+    selectedReceives.length > 0 &&
+    selectedReceives.length < Receives.length;
+  const selectedAllReceives =
+    selectedReceives.length === Receives.length;
   const theme = useTheme();
 
   return (
@@ -313,9 +313,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoReceives }) => {
               <TableCell padding="checkbox">
                 <Checkbox
                   color="primary"
-                  checked={selectedAllCryptoReceives}
-                  indeterminate={selectedSomeCryptoReceives}
-                  onChange={handleSelectAllCryptoReceives}
+                  checked={selectedAllReceives}
+                  indeterminate={selectedSomeReceives}
+                  onChange={handleSelectAllReceives}
                 />
               </TableCell>
               <TableCell>Cantidad</TableCell>
@@ -326,24 +326,24 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoReceives }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedCryptoReceives.map((CryptoReceive) => {
-              const isCryptoReceiveSelected = selectedCryptoReceives.includes(
-                CryptoReceive.id
+            {paginatedReceives.map((Receive) => {
+              const isReceiveSelected = selectedReceives.includes(
+                Receive.id
               );
               return (
                 <TableRow
                   hover
-                  key={CryptoReceive.id}
-                  selected={isCryptoReceiveSelected}
+                  key={Receive.id}
+                  selected={isReceiveSelected}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
                       color="primary"
-                      checked={isCryptoReceiveSelected}
+                      checked={isReceiveSelected}
                       onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        handleSelectOneCryptoReceive(event, CryptoReceive.id)
+                        handleSelectOneReceive(event, Receive.id)
                       }
-                      value={isCryptoReceiveSelected}
+                      value={isReceiveSelected}
                     />
                   </TableCell>
                   <TableCell>
@@ -354,7 +354,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoReceives }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoReceive.amount}
+                      {Receive.amount}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -365,7 +365,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoReceives }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoReceive.nameProduct}
+                      {Receive.nameProduct}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -376,12 +376,12 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoReceives }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoReceive.reference}
+                      {Receive.reference}
                     </Typography>
                   </TableCell>
 
                   <TableCell align="right">
-                    {getStatusLabel(CryptoReceive.status)}
+                    {getStatusLabel(Receive.status)}
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>
@@ -425,7 +425,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoReceives }) => {
       <Box p={2}>
         <TablePagination
           component="div"
-          count={filteredCryptoReceives.length}
+          count={filteredReceives.length}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}
@@ -438,11 +438,11 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoReceives }) => {
 };
 
 RecentOrdersTable.propTypes = {
-  CryptoReceives: PropTypes.array.isRequired
+  Receives: PropTypes.array.isRequired
 };
 
 RecentOrdersTable.defaultProps = {
-  CryptoReceives: []
+  Receives: []
 };
 
 export default RecentOrdersTable;

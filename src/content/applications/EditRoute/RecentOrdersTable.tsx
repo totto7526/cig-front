@@ -27,7 +27,7 @@ import {
 } from '@mui/material';
 
 import Label from 'src/components/Label';
-import { CryptoEditRoute, CryptoEditRouteStatus } from 'src/models/crypto_order';
+import { EditRoute, EditRouteStatus } from 'src/models/crypto_order';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
@@ -38,15 +38,15 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 
 interface RecentOrdersTableProps {
   className?: string;
-  CryptoEditRoute: CryptoEditRoute[];
+  EditRoute: EditRoute[];
 }
 
 interface Filters {
-  status?: CryptoEditRouteStatus;
+  status?: EditRouteStatus;
 }
 
 
-const currenciesEmpleados = [
+const listEmpleados = [
   {
     value: 1,
     label: 'Pepito Rodrigues',
@@ -69,7 +69,7 @@ const currenciesEmpleados = [
 
 
 
-const getStatusLabel = (CryptoEditRouteStatus: CryptoEditRouteStatus): JSX.Element => {
+const getStatusLabel = (EditRouteStatus: EditRouteStatus): JSX.Element => {
   const map = {
     failed: {
       text: 'failed',
@@ -85,19 +85,19 @@ const getStatusLabel = (CryptoEditRouteStatus: CryptoEditRouteStatus): JSX.Eleme
     }
   };
 
-  const { text, color }: any = map[CryptoEditRouteStatus];
+  const { text, color }: any = map[EditRouteStatus];
 
   return <Label color={color}>{text}</Label>;
 };
 
 const applyFilters = (
-  CryptoEditRoute: CryptoEditRoute[],
+  EditRoute: EditRoute[],
   filters: Filters
-): CryptoEditRoute[] => {
-  return CryptoEditRoute.filter((CryptoEditRoute) => {
+): EditRoute[] => {
+  return EditRoute.filter((EditRoute) => {
     let matches = true;
 
-    if (filters.status && CryptoEditRoute.status !== filters.status) {
+    if (filters.status && EditRoute.status !== filters.status) {
       matches = false;
     }
 
@@ -106,14 +106,14 @@ const applyFilters = (
 };
 
 const applyPagination = (
-  CryptoEditRoute: CryptoEditRoute[],
+  EditRoute: EditRoute[],
   page: number,
   limit: number
-): CryptoEditRoute[] => {
-  return CryptoEditRoute.slice(page * limit, page * limit + limit);
+): EditRoute[] => {
+  return EditRoute.slice(page * limit, page * limit + limit);
 };
 
-const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoEditRoute }) => {
+const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ EditRoute }) => {
 
   const [editarRuta, setEditarRuta] = useState({
     ciudad:'Marinilla',
@@ -141,10 +141,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoEditRoute }) => {
 
 
 
-  const [selectedCryptoEditRoute, setSelectedCryptoEditRoute] = useState<string[]>(
+  const [selectedEditRoute, setSelectedEditRoute] = useState<string[]>(
     []
   );
-  const selectedBulkActions = selectedCryptoEditRoute.length > 0;
+  const selectedBulkActions = selectedEditRoute.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
@@ -183,28 +183,28 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoEditRoute }) => {
     }));
   };
 
-  const handleSelectAllCryptoEditRoute = (
+  const handleSelectAllEditRoute = (
     event: ChangeEvent<HTMLInputElement>
   ): void => {
-    setSelectedCryptoEditRoute(
+    setSelectedEditRoute(
       event.target.checked
-        ? CryptoEditRoute.map((CryptoEditRoute) => CryptoEditRoute.id)
+        ? EditRoute.map((EditRoute) => EditRoute.id)
         : []
     );
   };
 
-  const handleSelectOneCryptoEditRoute = (
+  const handleSelectOneEditRoute = (
     event: ChangeEvent<HTMLInputElement>,
-    CryptoEditRouteId: string
+    EditRouteId: string
   ): void => {
-    if (!selectedCryptoEditRoute.includes(CryptoEditRouteId)) {
-      setSelectedCryptoEditRoute((prevSelected) => [
+    if (!selectedEditRoute.includes(EditRouteId)) {
+      setSelectedEditRoute((prevSelected) => [
         ...prevSelected,
-        CryptoEditRouteId
+        EditRouteId
       ]);
     } else {
-      setSelectedCryptoEditRoute((prevSelected) =>
-        prevSelected.filter((id) => id !== CryptoEditRouteId)
+      setSelectedEditRoute((prevSelected) =>
+        prevSelected.filter((id) => id !== EditRouteId)
       );
     }
   };
@@ -217,17 +217,17 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoEditRoute }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredCryptoEditRoutes = applyFilters(CryptoEditRoute, filters);
-  const paginatedCryptoEditRoutes = applyPagination(
-    filteredCryptoEditRoutes,
+  const filteredEditRoutes = applyFilters(EditRoute, filters);
+  const paginatedEditRoutes = applyPagination(
+    filteredEditRoutes,
     page,
     limit
   );
-  const selectedSomeCryptoEditRoutes =
-    selectedCryptoEditRoute.length > 0 &&
-    selectedCryptoEditRoute.length < CryptoEditRoute.length;
-  const selectedAllCryptoEditRoutes =
-    selectedCryptoEditRoute.length === CryptoEditRoute.length;
+  const selectedSomeEditRoutes =
+    selectedEditRoute.length > 0 &&
+    selectedEditRoute.length < EditRoute.length;
+  const selectedAllEditRoutes =
+    selectedEditRoute.length === EditRoute.length;
   const theme = useTheme();
 
   return (
@@ -306,9 +306,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoEditRoute }) => {
               <TableCell padding="checkbox">
                 <Checkbox
                   color="primary"
-                  checked={selectedAllCryptoEditRoutes}
-                  indeterminate={selectedSomeCryptoEditRoutes}
-                  onChange={handleSelectAllCryptoEditRoute}
+                  checked={selectedAllEditRoutes}
+                  indeterminate={selectedSomeEditRoutes}
+                  onChange={handleSelectAllEditRoute}
                 />
               </TableCell>
               <TableCell>Primer Nombre</TableCell>
@@ -321,24 +321,24 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoEditRoute }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedCryptoEditRoutes.map((CryptoEditRoute) => {
-              const isCryptoEditRouteSelected = selectedCryptoEditRoute.includes(
-                CryptoEditRoute.id
+            {paginatedEditRoutes.map((EditRoute) => {
+              const isEditRouteSelected = selectedEditRoute.includes(
+                EditRoute.id
               );
               return (
                 <TableRow
                   hover
-                  key={CryptoEditRoute.id}
-                  selected={isCryptoEditRouteSelected}
+                  key={EditRoute.id}
+                  selected={isEditRouteSelected}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
                       color="primary"
-                      checked={isCryptoEditRouteSelected}
+                      checked={isEditRouteSelected}
                       onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        handleSelectOneCryptoEditRoute(event, CryptoEditRoute.id)
+                        handleSelectOneEditRoute(event, EditRoute.id)
                       }
-                      value={isCryptoEditRouteSelected}
+                      value={isEditRouteSelected}
                     />
                   </TableCell>
                   
@@ -350,7 +350,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoEditRoute }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoEditRoute.firstName}
+                      {EditRoute.firstName}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -361,7 +361,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoEditRoute }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoEditRoute.secondName}
+                      {EditRoute.secondName}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -372,7 +372,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoEditRoute }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoEditRoute.firstLastName}
+                      {EditRoute.firstLastName}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -383,7 +383,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoEditRoute }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoEditRoute.secondLastName}
+                      {EditRoute.secondLastName}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -394,12 +394,12 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoEditRoute }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoEditRoute.routeOrder}
+                      {EditRoute.routeOrder}
                     </Typography>
                   </TableCell>
 
                   <TableCell align="right">
-                    {getStatusLabel(CryptoEditRoute.status)}
+                    {getStatusLabel(EditRoute.status)}
                   </TableCell>
                   
                   <TableCell align="right">
@@ -444,7 +444,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoEditRoute }) => {
       <Box p={2}>
         <TablePagination
           component="div"
-          count={filteredCryptoEditRoutes.length}
+          count={filteredEditRoutes.length}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}
@@ -457,11 +457,11 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoEditRoute }) => {
 };
 
 RecentOrdersTable.propTypes = {
-  CryptoEditRoute: PropTypes.array.isRequired
+  EditRoute: PropTypes.array.isRequired
 };
 
 RecentOrdersTable.defaultProps = {
-  CryptoEditRoute: []
+  EditRoute: []
 };
 
 export default RecentOrdersTable;

@@ -1,11 +1,11 @@
 import { Card } from '@mui/material';
-import { CryptoClient, CryptoProduct, CryptoWorker, CryptoReceive} from 'src/models/crypto_order';
+import {Receive} from 'src/models/crypto_order';
 import RecentOrdersTable from './RecentOrdersTable';
 import { subDays } from 'date-fns';
 
 function RecentDispatchsOrders() {
 
-  const CryptoReceives: CryptoReceive[] = [
+  const Receives: Receive[] = [
     {
       id: '1',
       amount: 2,
@@ -45,7 +45,7 @@ function RecentDispatchsOrders() {
 
   return (
     <Card>
-      <RecentOrdersTable CryptoReceives={CryptoReceives} />
+      <RecentOrdersTable Receives={Receives} />
     </Card>
   );
 }

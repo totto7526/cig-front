@@ -26,21 +26,21 @@ import {
 } from '@mui/material';
 
 import Label from 'src/components/Label';
-import { CryptoClient, CryptoClientStatus } from 'src/models/crypto_order';
+import { Client, ClientStatus } from 'src/models/crypto_order';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
 
 interface RecentOrdersTableProps {
   className?: string;
-  CryptoClients: CryptoClient[];
+  Clients: Client[];
 }
 
 interface Filters {
-  status?: CryptoClientStatus;
+  status?: ClientStatus;
 }
 
-const getStatusLabel = (CryptoClientStatus: CryptoClientStatus): JSX.Element => {
+const getStatusLabel = (ClientStatus: ClientStatus): JSX.Element => {
   const map = {
     failed: {
       text: 'failed',
@@ -56,19 +56,19 @@ const getStatusLabel = (CryptoClientStatus: CryptoClientStatus): JSX.Element => 
     }
   };
 
-  const { text, color }: any = map[CryptoClientStatus];
+  const { text, color }: any = map[ClientStatus];
 
   return <Label color={color}>{text}</Label>;
 };
 
 const applyFilters = (
-  CryptoClients: CryptoClient[],
+  Clients: Client[],
   filters: Filters
-): CryptoClient[] => {
-  return CryptoClients.filter((CryptoClient) => {
+): Client[] => {
+  return Clients.filter((Client) => {
     let matches = true;
 
-    if (filters.status && CryptoClient.status !== filters.status) {
+    if (filters.status && Client.status !== filters.status) {
       matches = false;
     }
 
@@ -77,19 +77,19 @@ const applyFilters = (
 };
 
 const applyPagination = (
-  CryptoClients: CryptoClient[],
+  Clients: Client[],
   page: number,
   limit: number
-): CryptoClient[] => {
-  return CryptoClients.slice(page * limit, page * limit + limit);
+): Client[] => {
+  return Clients.slice(page * limit, page * limit + limit);
 };
 
-const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoClients }) => {
+const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
 
-  const [selectedCryptoClients, setSelectedCryptoClients] = useState<string[]>(
+  const [selectedClients, setSelectedClients] = useState<string[]>(
     []
   );
-  const selectedBulkActions = selectedCryptoClients.length > 0;
+  const selectedBulkActions = selectedClients.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
@@ -128,28 +128,28 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoClients }) => {
     }));
   };
 
-  const handleSelectAllCryptoClients = (
+  const handleSelectAllClients = (
     event: ChangeEvent<HTMLInputElement>
   ): void => {
-    setSelectedCryptoClients(
+    setSelectedClients(
       event.target.checked
-        ? CryptoClients.map((CryptoClient) => CryptoClient.id)
+        ? Clients.map((Client) => Client.id)
         : []
     );
   };
 
-  const handleSelectOneCryptoClient = (
+  const handleSelectOneClient = (
     event: ChangeEvent<HTMLInputElement>,
-    CryptoClientId: string
+    ClientId: string
   ): void => {
-    if (!selectedCryptoClients.includes(CryptoClientId)) {
-      setSelectedCryptoClients((prevSelected) => [
+    if (!selectedClients.includes(ClientId)) {
+      setSelectedClients((prevSelected) => [
         ...prevSelected,
-        CryptoClientId
+        ClientId
       ]);
     } else {
-      setSelectedCryptoClients((prevSelected) =>
-        prevSelected.filter((id) => id !== CryptoClientId)
+      setSelectedClients((prevSelected) =>
+        prevSelected.filter((id) => id !== ClientId)
       );
     }
   };
@@ -162,17 +162,17 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoClients }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredCryptoClients = applyFilters(CryptoClients, filters);
-  const paginatedCryptoClients = applyPagination(
-    filteredCryptoClients,
+  const filteredClients = applyFilters(Clients, filters);
+  const paginatedClients = applyPagination(
+    filteredClients,
     page,
     limit
   );
-  const selectedSomeCryptoClients =
-    selectedCryptoClients.length > 0 &&
-    selectedCryptoClients.length < CryptoClients.length;
-  const selectedAllCryptoClients =
-    selectedCryptoClients.length === CryptoClients.length;
+  const selectedSomeClients =
+    selectedClients.length > 0 &&
+    selectedClients.length < Clients.length;
+  const selectedAllClients =
+    selectedClients.length === Clients.length;
   const theme = useTheme();
 
   return (
@@ -214,9 +214,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoClients }) => {
               <TableCell padding="checkbox">
                 <Checkbox
                   color="primary"
-                  checked={selectedAllCryptoClients}
-                  indeterminate={selectedSomeCryptoClients}
-                  onChange={handleSelectAllCryptoClients}
+                  checked={selectedAllClients}
+                  indeterminate={selectedSomeClients}
+                  onChange={handleSelectAllClients}
                 />
               </TableCell>
               <TableCell>Nombre Completo</TableCell>
@@ -234,24 +234,24 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoClients }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedCryptoClients.map((CryptoClient) => {
-              const isCryptoClientSelected = selectedCryptoClients.includes(
-                CryptoClient.id
+            {paginatedClients.map((Client) => {
+              const isClientSelected = selectedClients.includes(
+                Client.id
               );
               return (
                 <TableRow
                   hover
-                  key={CryptoClient.id}
-                  selected={isCryptoClientSelected}
+                  key={Client.id}
+                  selected={isClientSelected}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
                       color="primary"
-                      checked={isCryptoClientSelected}
+                      checked={isClientSelected}
                       onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        handleSelectOneCryptoClient(event, CryptoClient.id)
+                        handleSelectOneClient(event, Client.id)
                       }
-                      value={isCryptoClientSelected}
+                      value={isClientSelected}
                     />
                   </TableCell>
                   <TableCell>
@@ -262,7 +262,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoClients }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoClient.firstName +' ' +CryptoClient.secondName}
+                      {Client.firstName +' ' +Client.secondName}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -273,7 +273,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoClients }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoClient.firstLastName + ' ' +CryptoClient.secondLastName}
+                      {Client.firstLastName + ' ' +Client.secondLastName}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -284,7 +284,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoClients }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoClient.idNumber}
+                      {Client.idNumber}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
@@ -295,7 +295,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoClients }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoClient.phoneNumber}
+                      {Client.phoneNumber}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
@@ -306,17 +306,17 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoClients }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoClient.cityName}
+                      {Client.cityName}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {CryptoClient.neighborhood}
+                      {Client.neighborhood}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
 
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {numeral(CryptoClient.quota).format(
-                        `${CryptoClient.currency}0,0.00`
+                      {numeral(Client.quota).format(
+                        `${Client.currency}0,0.00`
                       )}
                     </Typography>
 
@@ -330,10 +330,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoClients }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoClient.referenceCompleteName}
+                      {Client.referenceCompleteName}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {CryptoClient.relationship}
+                      {Client.relationship}
                     </Typography>
                   </TableCell>     
 
@@ -345,7 +345,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoClients }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoClient.referencePhoneNumber}
+                      {Client.referencePhoneNumber}
                     </Typography>
                   </TableCell>
 
@@ -357,10 +357,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoClients }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoClient.referenceCompleteNameSecond}
+                      {Client.referenceCompleteNameSecond}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {CryptoClient.relationshipSecond}
+                      {Client.relationshipSecond}
                     </Typography>
                   </TableCell>     
 
@@ -372,12 +372,12 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoClients }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoClient.referencePhoneNumberSecond}
+                      {Client.referencePhoneNumberSecond}
                     </Typography>
                   </TableCell>
 
                   <TableCell align="right">
-                    {getStatusLabel(CryptoClient.status)}
+                    {getStatusLabel(Client.status)}
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>
@@ -416,7 +416,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoClients }) => {
       <Box p={2}>
         <TablePagination
           component="div"
-          count={filteredCryptoClients.length}
+          count={filteredClients.length}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}
@@ -429,11 +429,11 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoClients }) => {
 };
 
 RecentOrdersTable.propTypes = {
-  CryptoClients: PropTypes.array.isRequired
+  Clients: PropTypes.array.isRequired
 };
 
 RecentOrdersTable.defaultProps = {
-  CryptoClients: []
+  Clients: []
 };
 
 export default RecentOrdersTable;

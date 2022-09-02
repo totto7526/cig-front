@@ -27,7 +27,7 @@ import {
 } from '@mui/material';
 
 import Label from 'src/components/Label';
-import { CryptoDispatch, CryptoDispatchStatus } from 'src/models/crypto_order';
+import { Dispatch, DispatchStatus } from 'src/models/crypto_order';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
@@ -38,15 +38,15 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 
 interface RecentOrdersTableProps {
   className?: string;
-  CryptoDispatchs: CryptoDispatch[];
+  Dispatchs: Dispatch[];
 }
 
 interface Filters {
-  status?: CryptoDispatchStatus;
+  status?: DispatchStatus;
 }
 
 
-const currenciesEmpleados = [
+const listEmpleados = [
   {
     value: 1,
     label: 'Pepito Rodrigues',
@@ -64,7 +64,7 @@ const currenciesEmpleados = [
     label:'   ',
   },
 ];
-const currenciesCantidad= [
+const listCantidad= [
   {
     value: 1,
     label: '1',
@@ -83,7 +83,7 @@ const currenciesCantidad= [
   },
 ];
 
-const currenciesProducto= [
+const listProducto= [
   {
     value: 1,
     label: 'Sabana Doble',
@@ -99,7 +99,7 @@ const currenciesProducto= [
 ];
 
 
-const getStatusLabel = (CryptoDispatchStatus: CryptoDispatchStatus): JSX.Element => {
+const getStatusLabel = (DispatchStatus: DispatchStatus): JSX.Element => {
   const map = {
     failed: {
       text: 'failed',
@@ -115,19 +115,19 @@ const getStatusLabel = (CryptoDispatchStatus: CryptoDispatchStatus): JSX.Element
     }
   };
 
-  const { text, color }: any = map[CryptoDispatchStatus];
+  const { text, color }: any = map[DispatchStatus];
 
   return <Label color={color}>{text}</Label>;
 };
 
 const applyFilters = (
-  CryptoDispatchs: CryptoDispatch[],
+  Dispatchs: Dispatch[],
   filters: Filters
-): CryptoDispatch[] => {
-  return CryptoDispatchs.filter((CryptoDispatch) => {
+): Dispatch[] => {
+  return Dispatchs.filter((Dispatch) => {
     let matches = true;
 
-    if (filters.status && CryptoDispatch.status !== filters.status) {
+    if (filters.status && Dispatch.status !== filters.status) {
       matches = false;
     }
 
@@ -136,14 +136,14 @@ const applyFilters = (
 };
 
 const applyPagination = (
-  CryptoDispatchs: CryptoDispatch[],
+  Dispatchs: Dispatch[],
   page: number,
   limit: number
-): CryptoDispatch[] => {
-  return CryptoDispatchs.slice(page * limit, page * limit + limit);
+): Dispatch[] => {
+  return Dispatchs.slice(page * limit, page * limit + limit);
 };
 
-const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoDispatchs }) => {
+const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Dispatchs }) => {
 
   const [despacharProducto, setDespacharProducto] = useState({
     empleado:'',
@@ -173,10 +173,10 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoDispatchs }) => {
 
 
 
-  const [selectedCryptoDispatchs, setSelectedCryptoDispatchs] = useState<string[]>(
+  const [selectedDispatchs, setSelectedDispatchs] = useState<string[]>(
     []
   );
-  const selectedBulkActions = selectedCryptoDispatchs.length > 0;
+  const selectedBulkActions = selectedDispatchs.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
@@ -215,28 +215,28 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoDispatchs }) => {
     }));
   };
 
-  const handleSelectAllCryptoDispatchs = (
+  const handleSelectAllDispatchs = (
     event: ChangeEvent<HTMLInputElement>
   ): void => {
-    setSelectedCryptoDispatchs(
+    setSelectedDispatchs(
       event.target.checked
-        ? CryptoDispatchs.map((CryptoDispatch) => CryptoDispatch.id)
+        ? Dispatchs.map((Dispatch) => Dispatch.id)
         : []
     );
   };
 
-  const handleSelectOneCryptoDispatch = (
+  const handleSelectOneDispatch = (
     event: ChangeEvent<HTMLInputElement>,
-    CryptoDispatchId: string
+    DispatchId: string
   ): void => {
-    if (!selectedCryptoDispatchs.includes(CryptoDispatchId)) {
-      setSelectedCryptoDispatchs((prevSelected) => [
+    if (!selectedDispatchs.includes(DispatchId)) {
+      setSelectedDispatchs((prevSelected) => [
         ...prevSelected,
-        CryptoDispatchId
+        DispatchId
       ]);
     } else {
-      setSelectedCryptoDispatchs((prevSelected) =>
-        prevSelected.filter((id) => id !== CryptoDispatchId)
+      setSelectedDispatchs((prevSelected) =>
+        prevSelected.filter((id) => id !== DispatchId)
       );
     }
   };
@@ -249,17 +249,17 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoDispatchs }) => {
     setLimit(parseInt(event.target.value));
   };
 
-  const filteredCryptoDispatchs = applyFilters(CryptoDispatchs, filters);
-  const paginatedCryptoDispatchs = applyPagination(
-    filteredCryptoDispatchs,
+  const filteredDispatchs = applyFilters(Dispatchs, filters);
+  const paginatedDispatchs = applyPagination(
+    filteredDispatchs,
     page,
     limit
   );
-  const selectedSomeCryptoDispatchs =
-    selectedCryptoDispatchs.length > 0 &&
-    selectedCryptoDispatchs.length < CryptoDispatchs.length;
-  const selectedAllCryptoDispatchs =
-    selectedCryptoDispatchs.length === CryptoDispatchs.length;
+  const selectedSomeDispatchs =
+    selectedDispatchs.length > 0 &&
+    selectedDispatchs.length < Dispatchs.length;
+  const selectedAllDispatchs =
+    selectedDispatchs.length === Dispatchs.length;
   const theme = useTheme();
 
   return (
@@ -295,7 +295,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoDispatchs }) => {
               onChange={onChangeFormulario}
               helperText="Por favor seleccione un empleado"
             >
-              {currenciesEmpleados.map((option) => (
+              {listEmpleados.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>
@@ -304,7 +304,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoDispatchs }) => {
           </div> 
           <div>
             <TextField
-              id="outlined-select-currency"
+              id="outlined-select"
               select
               label="Cantidad"
               name='cantidad'
@@ -312,7 +312,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoDispatchs }) => {
               onChange={onChangeFormulario}
               helperText="Por favor seleccione una cantidad"
             >
-              {currenciesCantidad.map((option) => (
+              {listCantidad.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>
@@ -328,7 +328,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoDispatchs }) => {
               onChange={onChangeFormulario}
               helperText="Por favor seleccione un producto"
             >
-              {currenciesProducto.map((option) => (
+              {listProducto.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>
@@ -391,9 +391,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoDispatchs }) => {
               <TableCell padding="checkbox">
                 <Checkbox
                   color="primary"
-                  checked={selectedAllCryptoDispatchs}
-                  indeterminate={selectedSomeCryptoDispatchs}
-                  onChange={handleSelectAllCryptoDispatchs}
+                  checked={selectedAllDispatchs}
+                  indeterminate={selectedSomeDispatchs}
+                  onChange={handleSelectAllDispatchs}
                 />
               </TableCell>
               <TableCell>Cantidad</TableCell>
@@ -406,24 +406,24 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoDispatchs }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {paginatedCryptoDispatchs.map((CryptoDispatch) => {
-              const isCryptoDispatchSelected = selectedCryptoDispatchs.includes(
-                CryptoDispatch.id
+            {paginatedDispatchs.map((Dispatch) => {
+              const isDispatchSelected = selectedDispatchs.includes(
+                Dispatch.id
               );
               return (
                 <TableRow
                   hover
-                  key={CryptoDispatch.id}
-                  selected={isCryptoDispatchSelected}
+                  key={Dispatch.id}
+                  selected={isDispatchSelected}
                 >
                   <TableCell padding="checkbox">
                     <Checkbox
                       color="primary"
-                      checked={isCryptoDispatchSelected}
+                      checked={isDispatchSelected}
                       onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        handleSelectOneCryptoDispatch(event, CryptoDispatch.id)
+                        handleSelectOneDispatch(event, Dispatch.id)
                       }
-                      value={isCryptoDispatchSelected}
+                      value={isDispatchSelected}
                     />
                   </TableCell>
                   <TableCell>
@@ -434,7 +434,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoDispatchs }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoDispatch.amount}
+                      {Dispatch.amount}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -445,7 +445,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoDispatchs }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoDispatch.nameProduct}
+                      {Dispatch.nameProduct}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -456,7 +456,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoDispatchs }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoDispatch.reference}
+                      {Dispatch.reference}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -467,7 +467,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoDispatchs }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoDispatch.Description}
+                      {Dispatch.Description}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
@@ -478,14 +478,14 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoDispatchs }) => {
                       gutterBottom
                       noWrap
                     >
-                      {CryptoDispatch.lengthProduct + 'X' + CryptoDispatch.widthProduct}
+                      {Dispatch.lengthProduct + 'X' + Dispatch.widthProduct}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {CryptoDispatch.units}
+                      {Dispatch.units}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
-                    {getStatusLabel(CryptoDispatch.status)}
+                    {getStatusLabel(Dispatch.status)}
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>
@@ -529,7 +529,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoDispatchs }) => {
       <Box p={2}>
         <TablePagination
           component="div"
-          count={filteredCryptoDispatchs.length}
+          count={filteredDispatchs.length}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}
@@ -542,11 +542,11 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ CryptoDispatchs }) => {
 };
 
 RecentOrdersTable.propTypes = {
-  CryptoDispatchs: PropTypes.array.isRequired
+  Dispatchs: PropTypes.array.isRequired
 };
 
 RecentOrdersTable.defaultProps = {
-  CryptoDispatchs: []
+  Dispatchs: []
 };
 
 export default RecentOrdersTable;

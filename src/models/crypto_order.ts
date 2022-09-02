@@ -1,10 +1,10 @@
 export type CryptoOrderStatus = 'completed' | 'pending' | 'failed';
-export type CryptoProductStatus = 'completed' | 'pending' | 'failed';
-export type CryptoClientStatus = 'completed' | 'pending' | 'failed';
-export type CryptoWorkerStatus = 'completed' | 'pending' | 'failed';
-export type CryptoDispatchStatus = 'completed' | 'pending' | 'failed';
-export type CryptoReceiveStatus = 'completed' | 'pending' | 'failed';
-export type CryptoEditRouteStatus = 'completed' | 'pending' | 'failed';
+export type ProductStatus = 'completed' | 'pending' | 'failed';
+export type ClientStatus = 'completed' | 'pending' | 'failed';
+export type WorkerStatus = 'completed' | 'pending' | 'failed';
+export type DispatchStatus = 'completed' | 'pending' | 'failed';
+export type ReceiveStatus = 'completed' | 'pending' | 'failed';
+export type EditRouteStatus = 'completed' | 'pending' | 'failed';
 
 export interface CryptoOrder {
   id: string;
@@ -20,9 +20,9 @@ export interface CryptoOrder {
   currency: string;
 }
 
-export interface CryptoProduct {
+export interface Product {
   id: string;
-  status: CryptoProductStatus;
+  status: ProductStatus;
   nameProduct: string;
   reference: string;
   Description: string;
@@ -31,9 +31,9 @@ export interface CryptoProduct {
   units: string;
 }
 
-export interface CryptoClient {
+export interface Client {
   id: string;
-  status: CryptoClientStatus;
+  status: ClientStatus;
   firstName: string;
   secondName: string;
   firstLastName: string;
@@ -52,9 +52,9 @@ export interface CryptoClient {
   relationshipSecond:string;
 }
 
-export interface CryptoWorker {
+export interface Worker {
   id: string;
-  status: CryptoWorkerStatus;
+  status: WorkerStatus;
   firstName: string;
   secondName: string;
   firstLastName: string;
@@ -65,10 +65,10 @@ export interface CryptoWorker {
   neighborhood: string;
 }
 
-export interface CryptoDispatch {
+export interface Dispatch {
   id: string;
   amount:number;
-  status: CryptoProductStatus;
+  status: ProductStatus;
   nameProduct: string;
   reference: string;
   Description: string;
@@ -77,17 +77,17 @@ export interface CryptoDispatch {
   units: string;
 }
 
-export interface CryptoReceive {
+export interface Receive {
   id: string;
   amount:number;
-  status: CryptoProductStatus;
+  status: ProductStatus;
   nameProduct: string;
   reference: string;
 }
 
-export interface CryptoEditRoute {
+export interface EditRoute {
   id: string;
-  status: CryptoEditRouteStatus;
+  status: EditRouteStatus;
   firstName: string;
   secondName: string;
   firstLastName: string;

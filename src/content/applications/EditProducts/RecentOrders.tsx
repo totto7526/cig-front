@@ -1,11 +1,11 @@
 import { Card } from '@mui/material';
-import { CryptoProduct } from 'src/models/crypto_order';
+import { Product } from 'src/models/crypto_order';
 import RecentOrdersTable from './RecentOrdersTable';
 import { subDays } from 'date-fns';
 
 function RecentProductsOrders() {
 
-  const CryptoProducts: CryptoProduct[] = [
+  const Products: Product[] = [
     {
       id: '1',
       nameProduct: 'Cortinas Giraltex',
@@ -60,7 +60,7 @@ function RecentProductsOrders() {
 
   return (
     <Card>
-      <RecentOrdersTable CryptoProducts={CryptoProducts} />
+      <RecentOrdersTable Products={Products} />
     </Card>
   );
 }
