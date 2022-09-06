@@ -46,29 +46,6 @@ interface Filters {
 }
 
 
-const listEmpleados = [
-  {
-    value: 1,
-    label: 'Pepito Rodrigues',
-  },
-  {
-    value: 2,
-    label: 'Juana Maria',
-  },
-  {
-    value: 2,
-    label: 'Roberto carlos',
-  },
-  {
-    value:3,
-    label:'   ',
-  },
-];
-
-
-
-
-
 const getStatusLabel = (EditRouteStatus: EditRouteStatus): JSX.Element => {
   const map = {
     failed: {

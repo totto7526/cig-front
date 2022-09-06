@@ -1,66 +1,26 @@
 import { Card } from '@mui/material';
 import { Product } from 'src/models/crypto_order';
 import RecentOrdersTable from './RecentOrdersTable';
+import clienteAxios from  'src/config/axios';
+import { useEffect, useState } from 'react';
 import { subDays } from 'date-fns';
 
 function RecentProductsOrders() {
 
-  const Products: Product[] = [
-    {
-      id: '1',
-      nameProduct: 'Cortinas Giraltex',
-      status: 'completed',
-      reference: 'GHM 5403',
-      Description: 'cortinas en argollas',
-      lengthProduct: 1.50,
-      widthProduct: 2.30,
-      units: 'CM',
-    },
-    {
-      id: '2',
-      nameProduct: 'Sanadas Dobles',
-      status: 'completed',
-      reference: 'Lunatex',
-      Description: 'Microfibra y algodon',
-      lengthProduct: 1.40,
-      widthProduct: 1.90,
-      units: 'CM',
-    },
-    {
-      id: '3',
-      nameProduct: 'Toallones',
-      status: 'failed',
-      reference: 'Casita',
-      Description: '93% algodon',
-      lengthProduct: 70,
-      widthProduct: 40,
-      units: 'CM',
-    },
-    {
-      id: '4',
-      nameProduct: 'Forros Lavadora',
-      status: 'completed',
-      reference: 'Lunatex',
-      Description: 'multiples colores y units',
-      lengthProduct: 31,
-      widthProduct: 33,
-      units: 'Libras',
-    },
-    {
-      id: '5',
-      nameProduct: 'Unifaz Doble',
-      status: 'pending',
-      reference: 'Microfibra',
-      Description: 'Tendido de tres piezas',
-      lengthProduct: 1.40,
-      widthProduct: 1.90,
-      units: 'CM',
-    }
-  ];
+  const [products, setProducts] = useState()
+
+  const callProducts = async() => {
+    const response = await clienteAxios.get('/api/v1/productos')
+    console.log(response.data)
+    setProducts(response.data)
+  }
+  useEffect(() => {
+      callProducts();
+  }, [])
 
   return (
     <Card>
-      <RecentOrdersTable Products={Products} />
+      <RecentOrdersTable Products={products} />
     </Card>
   );
 }

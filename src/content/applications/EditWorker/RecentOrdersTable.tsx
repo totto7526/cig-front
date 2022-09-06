@@ -42,18 +42,17 @@ interface Filters {
 
 const getStatusLabel = (WorkerStatus: WorkerStatus): JSX.Element => {
   const map = {
-    failed: {
-      text: 'failed',
-      color: 'error'
+    activo: {
+      id: 1,
+      text: 'ACTIVO',
+      color: 'succes'
     },
-    completed: {
-      text: 'completed',
-      color: 'success'
+    inactivo: {
+      id: 2,
+      text: 'INACTIVO',
+      color: 'danger'
     },
-    pending: {
-      text: 'pending',
-      color: 'warning'
-    }
+    
   };
 
   const { text, color }: any = map[WorkerStatus];
@@ -68,7 +67,7 @@ const applyFilters = (
   return Workers.filter((Worker) => {
     let matches = true;
 
-    if (filters.status && Worker.status !== filters.status) {
+    if (filters.status && Worker.estado.nombre !== filters.status) {
       matches = false;
     }
 
@@ -86,7 +85,7 @@ const applyPagination = (
 
 const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
 
-  const [selectedWorkers, setSelectedWorkers] = useState<string[]>(
+  const [selectedWorkers, setSelectedWorkers] = useState<number[]>(
     []
   );
   const selectedBulkActions = selectedWorkers.length > 0;
@@ -103,16 +102,12 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
     },
     {
       id: 'completed',
-      name: 'completed'
+      name: 'ACTIVO'
     },
     {
       id: 'failed',
-      name: 'failed'
+      name: 'INACTIVO'
     },
-    {
-      id: 'pending',
-      name: 'Pendings'
-    }
   ];
 
   const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -140,7 +135,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
 
   const handleSelectOneWorker = (
     event: ChangeEvent<HTMLInputElement>,
-    WorkerId: string
+    WorkerId: number
   ): void => {
     if (!selectedWorkers.includes(WorkerId)) {
       setSelectedWorkers((prevSelected) => [
@@ -224,7 +219,6 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
               <TableCell>Cedula</TableCell>
               <TableCell>Telefono</TableCell>
               <TableCell align="right">Direccion</TableCell>
-              <TableCell align="right">Barrio</TableCell>
               <TableCell align="right">Estado</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
@@ -258,7 +252,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
                       gutterBottom
                       noWrap
                     >
-                      {Worker.firstName +' ' +Worker.secondName}
+                      {Worker.persona.primerNombre +' ' +Worker.persona.segundoNombre}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -269,7 +263,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
                       gutterBottom
                       noWrap
                     >
-                      {Worker.firstLastName + ' ' +Worker.secondLastName}
+                      {Worker.persona.primerApellido + ' ' +Worker.persona.segundoApellido}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -280,7 +274,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
                       gutterBottom
                       noWrap
                     >
-                      {Worker.idNumber}
+                      {Worker.persona.identificacion}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
@@ -291,7 +285,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
                       gutterBottom
                       noWrap
                     >
-                      {Worker.phoneNumber}
+                      {Worker.persona.telefono}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
@@ -302,25 +296,16 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
                       gutterBottom
                       noWrap
                     >
-                      {Worker.direction}
+                      {Worker.persona.direccion}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {Worker.neighborhood}
+                      {Worker.persona.barrio.nombre}
                     </Typography>
                   </TableCell>
+
                   <TableCell align="right">
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {Worker.direction}
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    {getStatusLabel(Worker.status)}
+                    {/* {getStatusLabel(Worker)} */}
+                    {Worker.estado.nombre}
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>

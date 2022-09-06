@@ -42,18 +42,16 @@ interface Filters {
 
 const getStatusLabel = (ProductStatus: ProductStatus): JSX.Element => {
   const map = {
-    failed: {
-      text: 'failed',
-      color: 'error'
+    activo: {
+      id: 1,
+      text: 'ACTIVO',
+      color: 'succes'
     },
-    completed: {
-      text: 'completed',
-      color: 'success'
+    inactivo: {
+      id: 2,
+      text: 'INACTIVO',
+      color: 'danger'
     },
-    pending: {
-      text: 'pending',
-      color: 'warning'
-    }
   };
 
   const { text, color }: any = map[ProductStatus];
@@ -68,7 +66,7 @@ const applyFilters = (
   return Products.filter((Product) => {
     let matches = true;
 
-    if (filters.status && Product.status !== filters.status) {
+    if (filters.status && Product.estado.nombre !== filters.status) {
       matches = false;
     }
 
@@ -86,7 +84,7 @@ const applyPagination = (
 
 const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Products }) => {
 
-  const [selectedProducts, setSelectedProducts] = useState<string[]>(
+  const [selectedProducts, setSelectedProducts] = useState<number[]>(
     []
   );
   const selectedBulkActions = selectedProducts.length > 0;
@@ -103,16 +101,12 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Products }) => {
     },
     {
       id: 'completed',
-      name: 'cpmpleted'
+      name: 'ACTIVO'
     },
     {
       id: 'failed',
-      name: 'failed'
+      name: 'INACTIVO'
     },
-    {
-      id: 'pending',
-      name: 'Pendings'
-    }
   ];
 
   const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -140,7 +134,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Products }) => {
 
   const handleSelectOneProduct = (
     event: ChangeEvent<HTMLInputElement>,
-    ProductId: string
+    ProductId: number
   ): void => {
     if (!selectedProducts.includes(ProductId)) {
       setSelectedProducts((prevSelected) => [
@@ -222,6 +216,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Products }) => {
               <TableCell>Nombre Producto</TableCell>
               <TableCell>Referencia Producto</TableCell>
               <TableCell>Descripcion</TableCell>
+              <TableCell>Categoria</TableCell>
+              <TableCell>Color</TableCell>
+              <TableCell>Cantidad</TableCell>
               <TableCell align="right">Medidas</TableCell>
               <TableCell align="right">Estado</TableCell>
               <TableCell align="right">Actions</TableCell>
@@ -256,7 +253,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Products }) => {
                       gutterBottom
                       noWrap
                     >
-                      {Product.nameProduct}
+                      {Product.nombre}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -267,7 +264,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Products }) => {
                       gutterBottom
                       noWrap
                     >
-                      {Product.reference}
+                      {Product.referencia}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -278,7 +275,40 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Products }) => {
                       gutterBottom
                       noWrap
                     >
-                      {Product.Description}
+                      {Product.descripcion}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {Product.categoria.nombre}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {Product.color.nombre}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {Product.cantidadExistente}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
@@ -289,14 +319,15 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Products }) => {
                       gutterBottom
                       noWrap
                     >
-                      {Product.lengthProduct + 'X' + Product.widthProduct}
+                      {Product.dimension.largo + 'X' + Product.dimension.ancho}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {Product.units}
+                      {'Centimetros'}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
-                    {getStatusLabel(Product.status)}
+                    {/* {getStatusLabel(Product.status)} */}
+                    {Product.estado.nombre}
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>

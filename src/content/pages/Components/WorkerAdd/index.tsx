@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import PageTitle from 'src/components/PageTitle';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import { Container, Grid, Card, CardHeader, CardContent, Divider, Button } from '@mui/material';
@@ -9,50 +9,43 @@ import Footer from 'src/components/Footer';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
-import { pink } from '@mui/material/colors';
-import Checkbox from '@mui/material/Checkbox';
 
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
+import clienteAxios from  'src/config/axios';
+
+// importacion de la librería
+import Swal from 'sweetalert2';
 
 
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-const listBarrio = [
-  {
-    value: 1,
-    label: 'manrique',
-  },
-  {
-    value: 2,
-    label: 'porvenir',
-  },
-  {
-    value: 3,
-    label: 'diamante',
-  },
-  {
-    value: 4,
-    label: 'plan60',
-  },
-];
 
 function WorkerAdd() {
+
+const [neighborhood, setNeighborhood] = useState([ ])
+
+const callNeighborhood = async() => {
+  const response = await clienteAxios.get('/api/v1/barrios')
+  setNeighborhood(response.data)
+}
+useEffect(() => {
+    callNeighborhood();
+}, [])
 
   const [empleado, setEmpleado] = useState({
     primerNombre: '',
     segundoNombre: '',
     primerApellido: '',
     segundoApellido: '',
-    numeroIdentificacion: '',
+    identificacion: '',
     telefono: '',
     direccion: '',
-    barrio: '',
-    estado:''
+    idBarrio:0
   })
   
   const onChangeFormulario = e => {
@@ -63,12 +56,33 @@ function WorkerAdd() {
   }
 
 
-  const submitCrearEmpleado = (e) => {
+  const submitCrearEmpleado = async(e) => {
     // Se enviaria el cliente al back
-    console.log(empleado)
+    try{
+      console.log(empleado);
+      const response = await clienteAxios.post('/api/v1/trabajadores/trabajador', empleado);
+      
+      // Mensaje de exito
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Empleado registrado exitosamente.',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      console.log("Se ha creado el empleado exitosamente");
+    }catch(error){
 
-    // aqui estaria la respuesta del back
-    console.log("Se ha creado el empleado exitosamente");
+      const mensaje = error.response.data.mensaje;
+
+      // mensaje de error
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al crear empleado',
+        text: mensaje
+      })
+      console.log(error);
+    }
   }
  
 
@@ -105,9 +119,6 @@ function WorkerAdd() {
                   }}
                   noValidate
                   autoComplete="off"
-                  onClick={
-                    submitCrearEmpleado
-                  }
                 >
                   <div>
                     <TextField
@@ -155,8 +166,8 @@ function WorkerAdd() {
                       label="Numero Identificación"
                       color='success'
                       type="number"
-                      name='numeroIdentificacion'
-                      value={empleado.numeroIdentificacion}
+                      name='identificacion'
+                      value={empleado.identificacion}
                       onChange={onChangeFormulario}
                     />
                     <TextField
@@ -181,34 +192,26 @@ function WorkerAdd() {
                       id="outlined-select"
                       select
                       label="Barrio"
-                      name='barrio'
-                      value={empleado.barrio}
+                      name='idBarrio'
+                      value={empleado.idBarrio}
                       onChange={onChangeFormulario}
                       helperText="Por favor seleccione un barrio"
                     >
-                      {listBarrio.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
+                      {neighborhood.map((option) => (
+                        <MenuItem key={option.id} value={option.id}>
+                          {option.nombre}
                         </MenuItem>
                       ))}
                     </TextField>
                     <div>
-                      <FormControl component="fieldset">
-                        <FormLabel component="legend">Estado Empleado</FormLabel>
-                          <RadioGroup 
-                            row aria-label="Estado Empleado" 
-                            name="estado"
-                            value={empleado.estado}
-                            onChange={onChangeFormulario}
-
-                          >
-                            <FormControlLabel value="Activo" control={<Radio />} label="Activo" />
-                            <FormControlLabel value="Inactivo" control={<Radio />} label="Inactivo" />
-                          </RadioGroup>
-                      </FormControl>
-                    </div>
-                    <div>
-                      <Button sx={{ margin: 1 }} variant="contained">GUARDAR</Button>
+                      <Button 
+                        sx={{ margin: 1 }} 
+                        variant="contained"  
+                        onClick={
+                          submitCrearEmpleado
+                          }>
+                        GUARDAR
+                      </Button>
                     </div>
                   </div>
                 </Box>

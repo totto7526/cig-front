@@ -1,8 +1,8 @@
 export type CryptoOrderStatus = 'completed' | 'pending' | 'failed';
-export type ProductStatus = 'completed' | 'pending' | 'failed';
+export type ProductStatus = 'ACTIVO' | 'INACTIVO';
 export type ClientStatus = 'completed' | 'pending' | 'failed';
-export type WorkerStatus = 'completed' | 'pending' | 'failed';
-export type DispatchStatus = 'completed' | 'pending' | 'failed';
+export type WorkerStatus = 'ACTIVO' | 'INACTIVO';
+export type DispatchStatus = 'ACTIVO' | 'INACTIVO';
 export type ReceiveStatus = 'completed' | 'pending' | 'failed';
 export type EditRouteStatus = 'completed' | 'pending' | 'failed';
 
@@ -21,14 +21,28 @@ export interface CryptoOrder {
 }
 
 export interface Product {
-  id: string;
-  status: ProductStatus;
-  nameProduct: string;
-  reference: string;
-  Description: string;
-  lengthProduct: number;
-  widthProduct: number;
-  units: string;
+    id: number,
+    nombre: string,
+    referencia:string,
+    descripcion: string,
+    estado: {
+        id: number,
+        nombre: string
+    },
+    dimension: {
+        id: number,
+        largo: number,
+        ancho: number
+    },
+    categoria: {
+        id: number,
+        nombre:string
+    },
+    color: {
+        id: number,
+        nombre:string
+    },
+    cantidadExistente: number
 }
 
 export interface Client {
@@ -53,22 +67,51 @@ export interface Client {
 }
 
 export interface Worker {
-  id: string;
-  status: WorkerStatus;
-  firstName: string;
-  secondName: string;
-  firstLastName: string;
-  secondLastName: string;
-  idNumber: number;
-  phoneNumber: number;
-  direction: string;
-  neighborhood: string;
+    id: number,
+    persona: {
+        id: number,
+        identificacion:string,
+        primerNombre:string,
+        segundoNombre:string,
+        primerApellido:string,
+        segundoApellido:string,
+        direccion: string,
+        telefono: string,
+        barrio: {
+            id: number,
+            nombre: string,
+            zona: {
+                id: number,
+                nombre: string,
+                ciudad: {
+                    id: number,
+                    nombre: string,
+                    region: {
+                        id: number,
+                        nombre: string,
+                        departamento: {
+                            id: number,
+                            nombre: string,
+                            pais: {
+                                id: number,
+                                nombre: string
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    estado: {
+        id: number,
+        nombre: string
+    }
 }
 
 export interface Dispatch {
   id: string;
   amount:number;
-  status: ProductStatus;
+  status: DispatchStatus;
   nameProduct: string;
   reference: string;
   Description: string;
@@ -80,7 +123,7 @@ export interface Dispatch {
 export interface Receive {
   id: string;
   amount:number;
-  status: ProductStatus;
+  status: ReceiveStatus;
   nameProduct: string;
   reference: string;
 }

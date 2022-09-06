@@ -46,7 +46,7 @@ interface Filters {
 }
 
 
-const currenciesEmpleados = [
+const listEmpleados = [
   {
     value: 1,
     label: 'Pepito Rodrigues',
@@ -264,7 +264,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Receives }) => {
               onChange={onChangeFormulario}
               helperText="Por favor seleccione un empleado"
             >
-              {currenciesEmpleados.map((option) => (
+              {listEmpleados.map((option) => (
                 <MenuItem key={option.value} value={option.value}>
                   {option.label}
                 </MenuItem>
