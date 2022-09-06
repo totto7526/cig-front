@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import PageTitle from 'src/components/PageTitle';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import { Container, Grid, Card, CardHeader, CardContent, Divider, Button } from '@mui/material';
@@ -20,85 +20,99 @@ import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 
+import clienteAxios from  'src/config/axios';
+import Swal from 'sweetalert2';
+
 
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-const listProductos = [
-  {
-    value: 1,
-    label: 'tendidos',
-  },
-  {
-    value: 2,
-    label: 'cortinas',
-  },
-  {
-    value: 3,
-    label: 'sabanas',
-  },
-  {
-    value: 4,
-    label: 'tohallones',
-  },
-];
 
-const listMedidas = [
-  {
-    value: 1,
-    label: '1.00 x 1.90' + ' M',
-  },
-  {
-    value: 2,
-    label: '1.40 x 1.90' + ' M',
-  },
-  {
-    value: 3,
-    label: '1.60 x 1.90' + ' M',
-  },
-  {
-    value: 4,
-    label: '2.20 x 2.90' + ' M',
-  },
-];
 
-const listColores = [
-  {
-    value: 1,
-    label: 'Rojo',
-  },
-  {
-    value: 2,
-    label: 'Azul',
-  },
-  {
-    value: 3,
-    label: 'Gris',
-  },
-  {
-    value: 4,
-    label: 'Blanco',
-  },
-];
 
 function ProductAdd() {
 
+const [listCategorias, setListCategorias] = useState([])
+const [listMedidas, setListMedidas] = useState([])
+const [listColores, setListColores] = useState([])
+
+  const callCategorias = async() => {
+    const response = await clienteAxios.get('/api/v1/categorias')
+    setListCategorias(response.data)
+  }
+  useEffect(() => {
+      callCategorias();
+  }, [])
+
+
+  
+  const callMedidas = async() => {
+    const response = await clienteAxios.get('/api/v1/dimensiones')
+    setListMedidas(response.data)
+  }
+  useEffect(() => {
+      callMedidas();
+  }, [])
+
+  const callColores = async() => {
+    const response = await clienteAxios.get('/api/v1/colores')
+    setListColores(response.data)
+  }
+  useEffect(() =>{
+    callColores();
+  }, [])
+
+
+
   const[producto, setProducto] = useState ({
-    nombreProducto: '',
-    referenciaProducto:'',
+
+    nombre: '',
+    referencia:'',
     descripcion:'',
-    categoria:' ',
-    estandar: ' ',
-    largo: ' ',
-    ancho: ' ',
-    color: ' ',
-    cantidad: ' ',
-    precioCredito:'0',
-    precioContado: '0',
-    estado: ''
+    idDimension:0,
+    largo:0,
+    ancho:0,
+    idCategoria: 0,
+    nombreCategoria:' ',
+    idColor: 0,
+    nombreColor:' ',
+    valorCredito:0,
+    valorContado:0,
+    cantidad:0,
   })
 
+  const submitCrearProducto = async(e) => {
+    // Se enviaria el cliente al back
+    try{
+      console.log(producto);
+      const response = await clienteAxios.post('/api/v1/productos/producto', producto);
+      
+      // Mensaje de exito
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Producto registrado exitosamente.',
+        showConfirmButton: false,
+        timer: 1500
+      })
+      console.log("Se ha creado el producto  exitosamente");
+    }catch(error){
+
+      const mensaje = error.response.data.mensaje;
+
+      // mensaje de error
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al crear producto',
+        text: mensaje
+      })
+      console.log(error);
+    }
+  }
+
   const[medidaEstandar, setMedidaEstandar] = useState(true)
+  const[listaCategoria, setListaCategoria] = useState(true)
+  const[tipoColor, setTipoColor] = useState(true)
 
   const onChangeFormulario = e => {
     setProducto({
@@ -112,15 +126,15 @@ function ProductAdd() {
       !medidaEstandar
     )
   }
-
-  const submitCrearProducto = (e) => {
-    // Se enviaria el cliente al back
-    console.log(producto)
-    
-
-    // aqui estaria la respuesta del back
-    console.log("Se ha creado el producto exitosamente");
-    
+  const onChangeCategoria = e =>{
+    setListaCategoria(
+      !listaCategoria
+    )
+  }
+  const onChangeColor = e =>{
+    setTipoColor(
+      !tipoColor
+    )
   }
 
   
@@ -158,9 +172,6 @@ function ProductAdd() {
                   }}
                   noValidate
                   autoComplete="off"
-                  onClick={
-                    submitCrearProducto
-                  }
                 >
                   <div>
                     <TextField
@@ -169,8 +180,8 @@ function ProductAdd() {
                       label="Nombre Producto"
                       color="success"
                       defaultValue=" "
-                      name='nombreProducto'
-                      value={producto.nombreProducto}
+                      name='nombre'
+                      value={producto.nombre}
                       onChange={onChangeFormulario}
                     />
                     <TextField
@@ -179,8 +190,8 @@ function ProductAdd() {
                       label="Referencia Producto"
                       color="success"
                       defaultValue=" "
-                      name='referenciaProducto'
-                      value={producto.referenciaProducto}
+                      name='referencia'
+                      value={producto.referencia}
                       onChange={onChangeFormulario}
                     />
                     <TextField
@@ -193,37 +204,7 @@ function ProductAdd() {
                       value={producto.descripcion}
                       onChange={onChangeFormulario}
                     />
-                    <TextField
-                      id="outlined-select"
-                      select
-                      label="Categoria"
-                      name='categoria'
-                      value={producto.categoria}
-                      onChange={onChangeFormulario}
-                      helperText="Por favor seleccione una categoria"
-                    >
-                      {listProductos.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                    <TextField
-                      id="outlined-select"
-                      select
-                      label="Color"
-                      name='color'
-                      value={producto.color}
-                      onChange={onChangeFormulario}
-                      helperText="Seleccione un color"
-                    >
-                      {listColores.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                    <TextField
+                     <TextField
                       required
                       id="cantidad"
                       label="Cantidad"
@@ -233,6 +214,120 @@ function ProductAdd() {
                       value={producto.cantidad}
                       onChange={onChangeFormulario}
                     />
+
+                   
+
+                    <div>
+                      <FormControl component="fieldset">
+                        <FormLabel component="legend">Colores</FormLabel>
+                          <RadioGroup
+                             row aria-label="Colores" 
+                             id='colores'
+                             name="colores"
+                             defaultValue ="Estandar"
+                             onChange={onChangeColor}
+                          >
+                            <FormControlLabel
+                              value="Estandar" 
+                              control={<Radio />} 
+                              label="Estandar" 
+                            />
+                            <FormControlLabel 
+                              value="Personalizado" 
+                              control={<Radio />} 
+                              label="Personalizado" 
+                            />
+                            
+                          </RadioGroup>
+                        <div>
+                        <TextField
+                            id="outlined-select"
+                            select
+                            label="Color"
+                            name='idColor'
+                            disabled = {!tipoColor}
+                            value={producto.idColor}
+                            onChange={onChangeFormulario}
+                            helperText="Seleccione un color"
+                          >
+                            {listColores.map((option) => (
+                              <MenuItem key={option.id} value={option.id}>
+                                {option.nombre}
+                              </MenuItem>
+                            ))}
+                        </TextField>
+                          <TextField
+                            required
+                            id="ColorN"
+                            label="ColorNuevo"
+                            color='success'
+                            name='nombreColor'
+                            value={producto.nombreColor}
+                            onChange={onChangeFormulario}
+                            disabled = {tipoColor}
+                          />
+                        </div>
+                      </FormControl>
+                    </div>
+
+
+                    <div>
+                      <FormControl component="fieldset">
+                        <FormLabel component="legend">Tipo Categoria</FormLabel>
+                          <RadioGroup
+                             row aria-label="Tipo categorias" 
+                             id='Tipo_categorias'
+                             name="tipoCategorias"
+                             defaultValue ="Estandar"
+                             onChange={onChangeCategoria}
+                          >
+                            <FormControlLabel
+                              value="Estandar" 
+                              control={<Radio />} 
+                              label="Estandar" 
+                            />
+                            <FormControlLabel 
+                              value="Personalizada" 
+                              control={<Radio />} 
+                              label="Personalizada" 
+                            />
+                            
+                          </RadioGroup>
+                        <div>
+                        <TextField
+                          id="outlined-select"
+                          select
+                          label="Categoria"
+                          name='idCategoria'
+                          disabled = {!listaCategoria}
+                          value={producto.idCategoria}
+                          onChange={onChangeFormulario}
+                          helperText="Por favor seleccione una categoria"
+                         >
+                            {listCategorias.map((option) => (
+                              <MenuItem key={option.id} value={option.id}>
+                              {option.nombre}
+                            </MenuItem>
+                            ))}
+                        </TextField>
+                          <TextField
+                            required
+                            id="CategoriaN"
+                            label="CategoriaNueva"
+                            color='success'
+                            name='nombreCategoria'
+                            value={producto.nombreCategoria}
+                            onChange={onChangeFormulario}
+                            disabled = {listaCategoria}
+                          />
+                        </div>
+                      </FormControl>
+                    </div>
+                    
+
+
+
+
 
 
                     <div>
@@ -262,15 +357,15 @@ function ProductAdd() {
                             id="est"
                             select
                             label="Estandar"
-                            name='estandar'
+                            name='idDimension'
                             disabled = {!medidaEstandar}
-                            value={producto.estandar}
+                            value={producto.idDimension}
                             onChange={onChangeFormulario}
                             helperText="Por favor seleccione una medida"
                           >
                             {listMedidas.map((option) => (
-                              <MenuItem key={option.value} value={option.value}>
-                                {option.label}
+                              <MenuItem key={option.id} value={option.id}>
+                                {option.largo + "X" + option.ancho + " CM"}
                               </MenuItem>
                             ))}
                           </TextField>
@@ -306,9 +401,9 @@ function ProductAdd() {
                               id="standard-adornment-amount"
                               required = {true}
                               color='success'
-                              name='precioCredito'
+                              name='valorCredito'
                               type='number'
-                              value={producto.precioCredito}
+                              value={producto.valorCredito}
                               onChange={onChangeFormulario}
                               startAdornment={<InputAdornment position="start">$</InputAdornment>}
                             />
@@ -319,30 +414,22 @@ function ProductAdd() {
                               id="standard-adornment-amount"
                               required = {true}
                               color='success'
-                              name='precioContado'
+                              name='valorContado'
                               type='number'
-                              value={producto.precioContado}
+                              value={producto.valorContado}
                               onChange={onChangeFormulario}
                               startAdornment={<InputAdornment position="start">$</InputAdornment>}
                             />
                       </FormControl>
                     </div>
                     <div>
-                      <FormControl component="fieldset">
-                        <FormLabel component="legend">Estado Producto</FormLabel>
-                          <RadioGroup 
-                            row aria-label="Estado Empleado" 
-                            name="estado"
-                            value={producto.estado}
-                            onChange={onChangeFormulario}
-                          >
-                            <FormControlLabel value='Activo' control={<Radio />} label="Activo" />
-                            <FormControlLabel value='Inactivo' control={<Radio />} label="Inactivo" />
-                          </RadioGroup>
-                      </FormControl>
-                    </div>
-                    <div>
-                      <Button sx={{ margin: 1 }} variant="contained">GUARDAR</Button>
+                      <Button 
+                        sx={{ margin: 1 }} 
+                        variant="contained"
+                        onClick={submitCrearProducto}
+                      >
+                        GUARDAR
+                      </Button>
                     </div>
                   </div>
                 </Box>
