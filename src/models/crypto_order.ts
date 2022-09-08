@@ -1,6 +1,6 @@
 export type CryptoOrderStatus = 'completed' | 'pending' | 'failed';
 export type ProductStatus = 'ACTIVO' | 'INACTIVO';
-export type ClientStatus = 'completed' | 'pending' | 'failed';
+export type ClientStatus = 'ACTIVO' | 'INACTIVO';
 export type WorkerStatus = 'ACTIVO' | 'INACTIVO';
 export type DispatchStatus = 'ACTIVO' | 'INACTIVO';
 export type ReceiveStatus = 'completed' | 'pending' | 'failed';
@@ -46,24 +46,72 @@ export interface Product {
 }
 
 export interface Client {
-  id: string;
-  status: ClientStatus;
-  firstName: string;
-  secondName: string;
-  firstLastName: string;
-  secondLastName: string;
-  idNumber: number;
-  phoneNumber: number;
-  cityName: string;
-  neighborhood: string;
-  quota: number;
-  currency: string;
-  referenceCompleteName: string;
-  referencePhoneNumber: number;
-  relationship:string;
-  referenceCompleteNameSecond: string;
-  referencePhoneNumberSecond: number;
-  relationshipSecond:string;
+    cliente:{
+        id: number,
+        persona: {
+            id: number,
+            identificacion:string,
+            primerNombre:string,
+            segundoNombre:string,
+            primerApellido:string,
+            segundoApellido:string,
+            direccion:string,
+            telefono:string,
+            barrio: {
+                id:number,
+                nombre:string,
+                zona: {
+                    id:number,
+                    nombre:string,
+                    ciudad: {
+                        id:number,
+                        nombre: string,
+                        region: {
+                            id: number,
+                            nombre: string,
+                            departamento: {
+                                id:number,
+                                nombre: string,
+                                pais: {
+                                    id:number,
+                                    nombre: string
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        cuentaCliente: {
+            id:number,
+            cupo:number,
+            saldoDeuda: number,
+            estadoCuentaCliente: {
+                id: number,
+                estado: string
+            },
+            detalleCuentaFavor: {
+                id:number,
+                valor:number
+            }
+        },
+        estado: {
+            id:number,
+            nombre: string
+        }
+    },
+    referencias: [
+        {
+            nombre:string,
+            telefono:string,
+            parentesco: string
+        },
+        {
+            nombre: string,
+            telefono: string,
+            parentesco: string
+        }
+    ]
 }
 
 export interface Worker {
@@ -111,7 +159,7 @@ export interface Worker {
 export interface Dispatch {
   id: string;
   amount:number;
-  status: DispatchStatus;
+  status: string;
   nameProduct: string;
   reference: string;
   Description: string;

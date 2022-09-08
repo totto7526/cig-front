@@ -42,18 +42,16 @@ interface Filters {
 
 const getStatusLabel = (ClientStatus: ClientStatus): JSX.Element => {
   const map = {
-    failed: {
-      text: 'failed',
-      color: 'error'
+    activo: {
+      id: 1,
+      text: 'ACTIVO',
+      color: 'succes'
     },
-    completed: {
-      text: 'completed',
-      color: 'success'
+    inactivo: {
+      id: 2,
+      text: 'INACTIVO',
+      color: 'danger'
     },
-    pending: {
-      text: 'pending',
-      color: 'warning'
-    }
   };
 
   const { text, color }: any = map[ClientStatus];
@@ -68,7 +66,7 @@ const applyFilters = (
   return Clients.filter((Client) => {
     let matches = true;
 
-    if (filters.status && Client.status !== filters.status) {
+    if (filters.status && Client.cliente.estado.nombre !== filters.status) {
       matches = false;
     }
 
@@ -86,7 +84,7 @@ const applyPagination = (
 
 const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
 
-  const [selectedClients, setSelectedClients] = useState<string[]>(
+  const [selectedClients, setSelectedClients] = useState<number[]>(
     []
   );
   const selectedBulkActions = selectedClients.length > 0;
@@ -103,16 +101,12 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
     },
     {
       id: 'completed',
-      name: 'completed'
+      name: 'ACTIVO'
     },
     {
       id: 'failed',
-      name: 'failed'
+      name: 'INACTIVO'
     },
-    {
-      id: 'pending',
-      name: 'Pendings'
-    }
   ];
 
   const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -133,14 +127,14 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
   ): void => {
     setSelectedClients(
       event.target.checked
-        ? Clients.map((Client) => Client.id)
+        ? Clients.map((Client) => Client.cliente.id)
         : []
     );
   };
 
   const handleSelectOneClient = (
     event: ChangeEvent<HTMLInputElement>,
-    ClientId: string
+    ClientId: number
   ): void => {
     if (!selectedClients.includes(ClientId)) {
       setSelectedClients((prevSelected) => [
@@ -203,7 +197,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
               </FormControl>
             </Box>
           }
-          title="Productos"
+          title="Clientes"
         />
       )}
       <Divider />
@@ -219,16 +213,14 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
                   onChange={handleSelectAllClients}
                 />
               </TableCell>
+              <TableCell>Cedula</TableCell>
               <TableCell>Nombre Completo</TableCell>
               <TableCell>Apellidos</TableCell>
-              <TableCell>Cedula</TableCell>
+              <TableCell>Direccion</TableCell>
               <TableCell>Telefono</TableCell>
-              <TableCell align="right">Direccion</TableCell>
               <TableCell>Cupo</TableCell>
-              <TableCell align="right">Referencia</TableCell>
-              <TableCell align="right">Telefono</TableCell>
-              <TableCell align="right">Referencia</TableCell>
-              <TableCell align="right">Telefono</TableCell>
+              <TableCell>Referencia</TableCell>
+              <TableCell>Referencia</TableCell>
               <TableCell align='center'>Estado</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>
@@ -236,12 +228,12 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
           <TableBody>
             {paginatedClients.map((Client) => {
               const isClientSelected = selectedClients.includes(
-                Client.id
+                Client.cliente.id
               );
               return (
                 <TableRow
                   hover
-                  key={Client.id}
+                  key={Client.cliente.id}
                   selected={isClientSelected}
                 >
                   <TableCell padding="checkbox">
@@ -249,7 +241,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
                       color="primary"
                       checked={isClientSelected}
                       onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        handleSelectOneClient(event, Client.id)
+                        handleSelectOneClient(event, Client.cliente.id)
                       }
                       value={isClientSelected}
                     />
@@ -262,7 +254,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
                       gutterBottom
                       noWrap
                     >
-                      {Client.firstName +' ' +Client.secondName}
+                      {Client.cliente.persona.identificacion}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -273,7 +265,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
                       gutterBottom
                       noWrap
                     >
-                      {Client.firstLastName + ' ' +Client.secondLastName}
+                      {Client.cliente.persona.primerNombre +' ' +Client.cliente.persona.segundoNombre}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -284,9 +276,51 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
                       gutterBottom
                       noWrap
                     >
-                      {Client.idNumber}
+                      {Client.cliente.persona.primerApellido + ' ' +Client.cliente.persona.segundoApellido}
                     </Typography>
                   </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {Client.cliente.persona.direccion}
+                    </Typography>
+                    <Typography 
+                        variant="body2"
+                        color="text.secondary"
+                        noWrap
+                    >
+                      {Client.cliente.persona.barrio.nombre}
+                    </Typography>
+
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {Client.cliente.persona.telefono}
+                    </Typography>
+                  </TableCell>
+
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {Client.cliente.cuentaCliente.cupo}
+                    </Typography>
+                  </TableCell>   
                   <TableCell align="right">
                     <Typography
                       variant="body1"
@@ -295,32 +329,15 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
                       gutterBottom
                       noWrap
                     >
-                      {Client.phoneNumber}
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {Client.cityName}
+                      {Client.referencias[0].nombre}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {Client.neighborhood}
+                      {Client.referencias[0].telefono}
                     </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {numeral(Client.quota).format(
-                        `${Client.currency}0,0.00`
-                      )}
+                      {Client.referencias[0].parentesco}
                     </Typography>
-
-                  </TableCell>
+                  </TableCell>   
 
                   <TableCell align="right">
                     <Typography
@@ -330,54 +347,19 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
                       gutterBottom
                       noWrap
                     >
-                      {Client.referenceCompleteName}
+                      {Client.referencias[1].nombre}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {Client.relationship}
+                      {Client.referencias[1].telefono}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" noWrap>
+                      {Client.referencias[1].parentesco}
                     </Typography>
                   </TableCell>     
 
                   <TableCell align="right">
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {Client.referencePhoneNumber}
-                    </Typography>
-                  </TableCell>
-
-                  <TableCell align="right">
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {Client.referenceCompleteNameSecond}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" noWrap>
-                      {Client.relationshipSecond}
-                    </Typography>
-                  </TableCell>     
-
-                  <TableCell align="right">
-                    <Typography
-                      variant="body1"
-                      fontWeight="bold"
-                      color="text.primary"
-                      gutterBottom
-                      noWrap
-                    >
-                      {Client.referencePhoneNumberSecond}
-                    </Typography>
-                  </TableCell>
-
-                  <TableCell align="right">
-                    {getStatusLabel(Client.status)}
+                    {/* {getStatusLabel(Client.estado.nombre)} */}
+                    {Client.cliente.estado.nombre}
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>

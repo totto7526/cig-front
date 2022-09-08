@@ -212,14 +212,18 @@ const routes: RouteObject[] = [
         path: '',
         element: <Navigate to="/dashboards/crypto" replace />
       },
+      // {
+      //   path: 'crypto',
+      //   element: <Crypto />
+      // },
       {
-        path: 'crypto',
-        element: <Crypto />
+        path: 'cards',
+        element: <Cards />
       },
-      {
-        path: 'messenger',
-        element: <Messenger />
-      }
+      // {
+      //   path: 'messenger',
+      //   element: <Messenger />
+      // }
     ]
   },
   {
@@ -262,37 +266,37 @@ const routes: RouteObject[] = [
     ] 
   },
 
-  {
-    path: '/management',
-    element: <SidebarLayout />,
-    children: [
-      {
-        path: '',
-        element: <Navigate to="/management/transactions" replace />
-      },
-      {
-        path: 'transactions',
-        element: <Transactions />
-      },
-      {
-        path: 'profile',
-        children: [
-          {
-            path: '',
-            element: <Navigate to="details" replace />
-          },
-          {
-            path: 'details',
-            element: <UserProfile />
-          },
-          {
-            path: 'settings',
-            element: <UserSettings />
-          }
-        ]
-      }
-    ]
-  },
+  // {
+  //   path: '/management',
+  //   element: <SidebarLayout />,
+  //   children: [
+  //     {
+  //       path: '',
+  //       element: <Navigate to="/management/transactions" replace />
+  //     },
+  //     {
+  //       path: 'transactions',
+  //       element: <Transactions />
+  //     },
+  //     {
+  //       path: 'profile',
+  //       children: [
+  //         {
+  //           path: '',
+  //           element: <Navigate to="details" replace />
+  //         },
+  //         {
+  //           path: 'details',
+  //           element: <UserProfile />
+  //         },
+  //         {
+  //           path: 'settings',
+  //           element: <UserSettings />
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // },
   {
     path: '/clientes',
     element: <SidebarLayout />,
@@ -442,52 +446,49 @@ const routes: RouteObject[] = [
       }
     ]
   },
-  {
-    path: '/admin',
-    element: <SidebarLayout />,
-    children: [
-      {
-        path: '',
-        element: <Navigate to="/admin/buttons" replace />
-      },
-      {
-        path: 'buttons',
-        element: <Buttons />
-      },
-      {
-        path: 'modals',
-        element: <Modals />
-      },
-      {
-        path: 'accordions',
-        element: <Accordions />
-      },
-      {
-        path: 'tabs',
-        element: <Tabs />
-      },
-      {
-        path: 'badges',
-        element: <Badges />
-      },
-      {
-        path: 'tooltips',
-        element: <Tooltips />
-      },
-      {
-        path: 'avatars',
-        element: <Avatars />
-      },
-      {
-        path: 'cards',
-        element: <Cards />
-      },
-      {
-        path: 'forms',
-        element: <Forms />
-      },
-    ]
-  }
+  // {
+  //   path: '/admin',
+  //   element: <SidebarLayout />,
+  //   children: [
+  //     {
+  //       path: '',
+  //       element: <Navigate to="/admin/buttons" replace />
+  //     },
+  //     {
+  //       path: 'buttons',
+  //       element: <Buttons />
+  //     },
+  //     {
+  //       path: 'modals',
+  //       element: <Modals />
+  //     },
+  //     {
+  //       path: 'accordions',
+  //       element: <Accordions />
+  //     },
+  //     {
+  //       path: 'tabs',
+  //       element: <Tabs />
+  //     },
+  //     {
+  //       path: 'badges',
+  //       element: <Badges />
+  //     },
+  //     {
+  //       path: 'tooltips',
+  //       element: <Tooltips />
+  //     },
+  //     {
+  //       path: 'avatars',
+  //       element: <Avatars />
+  //     },
+  //     
+  //     {
+  //       path: 'forms',
+  //       element: <Forms />
+  //     },
+  //   ]
+  // }
 ];
 
 export default routes;

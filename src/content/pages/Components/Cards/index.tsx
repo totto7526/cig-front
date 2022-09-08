@@ -21,6 +21,8 @@ import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
+import { CardActionArea } from '@mui/material';
+
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
@@ -57,13 +59,14 @@ function Cards() {
   return (
     <>
       <Helmet>
-        <title>Cards - Components</title>
+        <title>Almacen Cadena El Cig</title>
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
-          heading="Cards"
-          subHeading="Cards contain content and actions about a single subject."
-          docs="https://material-ui.com/components/cards/" />
+          textButton='Inicio'
+          heading="Cadena Cig"
+          subHeading="Almacen Bodega"
+          docs='/overview'/>
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
@@ -75,24 +78,15 @@ function Cards() {
         >
           <Grid item xs={12}>
             <Card>
-              <CardHeader title="Basic" />
+              <CardHeader title="BIENVENIDOS"/>
               <Divider />
               <CardContent>
-                <Card sx={{ minWidth: 275 }}>
+                <Card sx={{ minWidth: 150 }}>
                   <CardContent>
-                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                      Word of the Day
-                    </Typography>
-                    <Typography variant="h5" component="div">
-                      be{bull}nev{bull}o{bull}lent
-                    </Typography>
-                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                      adjective
-                    </Typography>
-                    <Typography variant="body2">
-                      well meaning and kindly.
-                      <br />
-                      {'"a benevolent smile"'}
+                    <Typography sx={{ fontSize: 20 }} color="text.secondary" gutterBottom>
+                      Almacen Cadena el Cig cuenta con rutas en el oriente antioqueño
+                      prestando sus servicios de manera consecutiva por mas de 20 años llevando producto y servicio de calidad 
+                      a los hogares del oriente antioqueño.
                     </Typography>
                   </CardContent>
                   <CardActions>
@@ -102,6 +96,129 @@ function Cards() {
               </CardContent>
             </Card>
           </Grid>
+
+          <Grid item xs={12}>
+            <Card>
+              <CardHeader title="Nuestros Productos"/>
+              <Divider />
+            <CardContent>
+              <Grid 
+                  item xs={6}  
+                  justifyContent="left"
+                  alignItems="stretch">
+                <Card sx={{ maxWidth: 345}}>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      height="200"
+                      image="/static/images/placeholders/covers/bordada.jpg"
+                      alt="green iguana"
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        Cortina Giraltex Bordada
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Juego de cortinas contiene velo suizo, el par de cortinas con 
+                        cenefas incluidas y sus respectivas amarraderas.
+                        ¡Excelente para combinar en tu sala !
+                      </Typography>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Grid>
+            </CardContent>
+
+            <CardContent>
+            <Grid 
+              item xs={6}
+              justifyContent="right"
+              alignItems="stretch">
+              <Card sx={{ maxWidth: 345 }}>
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image="/static/images/placeholders/covers/china.jpg"
+                    alt="green iguana"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      Cortina Giraltex Bordada
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Juego de cortinas chinas estampadas, contiene dos 
+                       cortinas hermosas y sus respectivas amarraderas.
+                      ¡Excelente para combinar en tu sala !
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+               </Card>
+              </Grid>
+            </CardContent>
+
+            <CardContent>
+            <Grid 
+              item xs={6}
+              justifyContent="right"
+              alignItems="stretch">
+              <Card sx={{ maxWidth: 345 }}>
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image="/static/images/placeholders/covers/brocado.jpg"
+                    alt="green iguana"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      Unifaz Doble Brocado
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Tendido para cama doble unifaz, garantias de color e imprefectos
+                      un tendido practico y facil de manipular a la hora del lavado, contiene
+                      el tendido y las dos fundas de almohadas.
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+               </Card>
+              </Grid>
+            </CardContent>
+
+            <CardContent>
+            <Grid 
+              item xs={6}
+              justifyContent="right"
+              alignItems="stretch">
+              <Card sx={{ maxWidth: 345 }}>
+                <CardActionArea>
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image="/static/images/placeholders/covers/ovejera.jpg"
+                    alt="green iguana"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      Unifaz Doble Brocado
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Tendido para cama doble unifaz, garantias de color e imprefectos
+                      un tendido practico y facil de manipular a la hora del lavado, contiene
+                      el tendido y las dos fundas de almohadas.
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+               </Card>
+              </Grid>
+            </CardContent>
+            
+
+          </Card>
+        </Grid>
+          
+
+
           <Grid item xs={12}>
             <Card>
               <CardHeader title="Complex Example" />
@@ -161,55 +278,16 @@ function Cards() {
                         aside for 10 minutes.
                       </Typography>
                       <Typography paragraph>
-                        Heat oil in a (14- to 16-inch) paella pan or a large, deep skillet over
-                        medium-high heat. Add chicken, shrimp and chorizo, and cook, stirring
-                        occasionally until lightly browned, 6 to 8 minutes. Transfer shrimp to a
-                        large plate and set aside, leaving chicken and chorizo in the pan. Add
-                        pimentón, bay leaves, garlic, tomatoes, onion, salt and pepper, and cook,
-                        stirring often until thickened and fragrant, about 10 minutes. Add
-                        saffron broth and remaining 4 1/2 cups chicken broth; bring to a boil.
+                       Texto numero 1
                       </Typography>
                       <Typography paragraph>
-                        Add rice and stir very gently to distribute. Top with artichokes and
-                        peppers, and cook without stirring, until most of the liquid is absorbed,
-                        15 to 18 minutes. Reduce heat to medium-low, add reserved shrimp and
-                        mussels, tucking them down into the rice, and cook again without
-                        stirring, until mussels have opened and rice is just tender, 5 to 7
-                        minutes more. (Discard any mussels that don’t open.)
+                        Texto numero2 
                       </Typography>
                       <Typography>
                         Set aside off of the heat to let rest for 10 minutes, and then serve.
                       </Typography>
                     </CardContent>
                   </Collapse>
-                </Card>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12}>
-            <Card>
-              <CardHeader title="Media" />
-              <Divider />
-              <CardContent>
-                <Card sx={{ maxWidth: 345 }}>
-                  <CardMedia
-                    sx={{ height: 140 }}
-                    image="/static/images/placeholders/covers/6.jpg"
-                    title="Contemplative Reptile"
-                  />
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
-                      Lizard
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      Lizards are a widespread group of squamate reptiles, with over 6,000
-                      species, ranging across all continents except Antarctica
-                    </Typography>
-                  </CardContent>
-                  <CardActions>
-                    <Button size="small">Share</Button>
-                    <Button size="small">Learn More</Button>
-                  </CardActions>
                 </Card>
               </CardContent>
             </Card>

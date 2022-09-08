@@ -102,17 +102,13 @@ const listProducto= [
 const getStatusLabel = (DispatchStatus: DispatchStatus): JSX.Element => {
   const map = {
     failed: {
-      text: 'failed',
+      text: 'INACTIVO',
       color: 'error'
     },
     completed: {
-      text: 'completed',
+      text: 'ACTIVO',
       color: 'success'
     },
-    pending: {
-      text: 'pending',
-      color: 'warning'
-    }
   };
 
   const { text, color }: any = map[DispatchStatus];
@@ -190,16 +186,12 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Dispatchs }) => {
     },
     {
       id: 'completed',
-      name: 'completed'
+      name: 'ACTIVO'
     },
     {
       id: 'failed',
-      name: 'failed'
+      name: 'INACTIVO'
     },
-    {
-      id: 'pending',
-      name: 'Pendings'
-    }
   ];
 
   const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -485,7 +477,8 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Dispatchs }) => {
                     </Typography>
                   </TableCell>
                   <TableCell align="right">
-                    {getStatusLabel(Dispatch.status)}
+                    {/* {getStatusLabel(Dispatch.status)} */}
+                    {Dispatch.status}
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>

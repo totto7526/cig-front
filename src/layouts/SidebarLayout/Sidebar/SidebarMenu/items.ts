@@ -198,93 +198,94 @@ const menuItems: MenuItems[] = [
   {
     heading: 'Dashboards',
     items: [
-      {
-        name: 'Crypto',
-        link: '/dashboards/crypto',
-        icon: BrightnessLowTwoToneIcon
-      },
-      {
-        name: 'Messenger',
-        icon: MmsTwoToneIcon,
-        link: '/dashboards/messenger'
-      },
-    ]
-  },
-  {
-    heading: 'Management',
-    items: [
-      {
-        name: 'Transactions',
-        icon: TableChartTwoToneIcon,
-        link: '/management/transactions'
-      },
-      {
-        name: 'User Profile',
-        icon: AccountCircleTwoToneIcon,
-        link: '/management/profile',
-        items: [
-          {
-            name: 'Profile Details',
-            link: '/management/profile/details'
-          },
-          {
-            name: 'User Settings',
-            link: '/management/profile/settings'
-          }
-        ]
-      }
-    ]
-  },
-  {
-    heading: 'Admin',
-    items: [
-      {
-        name: 'Buttons',
-        icon: BallotTwoToneIcon,
-        link: '/admin/buttons'
-      },
-      {
-        name: 'Modals',
-        icon: BeachAccessTwoToneIcon,
-        link: '/admin/modals'
-      },
-      {
-        name: 'Accordions',
-        icon: EmojiEventsTwoToneIcon,
-        link: '/admin/accordions'
-      },
-      {
-        name: 'Tabs',
-        icon: FilterVintageTwoToneIcon,
-        link: '/admin/tabs'
-      },
-      {
-        name: 'Badges',
-        icon: HowToVoteTwoToneIcon,
-        link: '/admin/badges'
-      },
-      {
-        name: 'Tooltips',
-        icon: LocalPharmacyTwoToneIcon,
-        link: '/admin/tooltips'
-      },
-      {
-        name: 'Avatars',
-        icon: RedeemTwoToneIcon,
-        link: '/admin/avatars'
-      },
+      // {
+      //   name: 'Crypto',
+      //   link: '/dashboards/crypto',
+      //   icon: BrightnessLowTwoToneIcon
+      // },
+      // {
+      //   name: 'Messenger',
+      //   icon: MmsTwoToneIcon,
+      //   link: '/dashboards/messenger'
+      // },
       {
         name: 'Cards',
         icon: SettingsTwoToneIcon,
-        link: '/admin/cards'
+        link: '/dashboards/cards'
       },
-      {
-        name: 'Forms',
-        icon: TrafficTwoToneIcon,
-        link: '/admin/forms'
-      }
     ]
   },
+  // {
+  //   heading: 'Management',
+  //   items: [
+  //     {
+  //       name: 'Transactions',
+  //       icon: TableChartTwoToneIcon,
+  //       link: '/management/transactions'
+  //     },
+  //     {
+  //       name: 'User Profile',
+  //       icon: AccountCircleTwoToneIcon,
+  //       link: '/management/profile',
+  //       items: [
+  //         {
+  //           name: 'Profile Details',
+  //           link: '/management/profile/details'
+  //         },
+  //         {
+  //           name: 'User Settings',
+  //           link: '/management/profile/settings'
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // },
+  // {
+  //   heading: 'Admin',
+  //   items: [
+  //     {
+  //       name: 'Buttons',
+  //       icon: BallotTwoToneIcon,
+  //       link: '/admin/buttons'
+  //     },
+  //     {
+  //       name: 'Modals',
+  //       icon: BeachAccessTwoToneIcon,
+  //       link: '/admin/modals'
+  //     },
+  //     {
+  //       name: 'Accordions',
+  //       icon: EmojiEventsTwoToneIcon,
+  //       link: '/admin/accordions'
+  //     },
+  //     {
+  //       name: 'Tabs',
+  //       icon: FilterVintageTwoToneIcon,
+  //       link: '/admin/tabs'
+  //     },
+  //     {
+  //       name: 'Badges',
+  //       icon: HowToVoteTwoToneIcon,
+  //       link: '/admin/badges'
+  //     },
+  //     {
+  //       name: 'Tooltips',
+  //       icon: LocalPharmacyTwoToneIcon,
+  //       link: '/admin/tooltips'
+  //     },
+  //     {
+  //       name: 'Avatars',
+  //       icon: RedeemTwoToneIcon,
+  //       link: '/admin/avatars'
+  //     },
+  //  
+  //     {
+  //       name: 'Forms',
+  //       icon: TrafficTwoToneIcon,
+  //       link: '/admin/forms'
+  //     }
+  //   ]
+  // },
   {
     heading: 'Extra Pages',
     items: [

@@ -55,7 +55,7 @@ const SignInForm = () => {
             variant="contained"
             color="primary"
             onClick={handleSubmit}
-            href = '/dashboards/crypto'
+            href = '/dashboards/cards'
           >
             {t(resourceKeys.SIGN_IN.BUTTON_LOG_IN)}
           </Button>

@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import PageTitle from 'src/components/PageTitle';
-import { useState } from 'react';
+import { useState, useEffect} from 'react';
 
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import { Container, Grid, Card, CardHeader, CardContent, Divider, Button } from '@mui/material';
@@ -10,100 +10,56 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
+import clienteAxios from  'src/config/axios';
+import Swal from 'sweetalert2';
 
 
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-const listCiudad= [
-  {
-    value: 1,
-    label: 'Rionegro',
-  },
-  {
-    value: 2,
-    label: 'Marinilla',
-  },
-  {
-    value: 3,
-    label: 'Medellin',
-  },
-  {
-    value: 4,
-    label: 'Santuario',
-  },
-];
 
-const listBarrio = [
-  {
-    value: 1,
-    label: 'manrique',
-  },
-  {
-    value: 2,
-    label: 'porvenir',
-  },
-  {
-    value: 3,
-    label: 'diamante',
-  },
-  {
-    value: 4,
-    label: 'plan60',
-  },
-];
-
-const listParentesco = [
-  {
-    value: 1,
-    label: 'Mama',
-  },
-  {
-    value: 2,
-    label: 'Papa',
-  },
-  {
-    value: 3,
-    label: 'herman@',
-  },
-  {
-    value: 4,
-    label: 'Ti@',
-  },
-  {
-    value: 5,
-    label:'Prim@'
-  },
-  {
-    value:6,
-    label: 'Sobrin@'
-  },
-  {
-    value:7,
-    label: 'Amig@'
-  },
-];
 
 function ClientAdd() {
   // const [value, setValue] = useState(30);
+  
+const [neighborhood, setNeighborhood] = useState([ ])
+
+const callNeighborhood = async() => {
+  const response = await clienteAxios.get('/api/v1/barrios')
+  setNeighborhood(response.data)
+}
+
+
+const [relationship, setRelationship] = useState([ ])
+
+const callRelationship = async() => {
+  const response = await clienteAxios.get('/api/v1/parentescos')
+  setRelationship(response.data)
+}
+
+  useEffect(() => {
+    callRelationship();
+    callNeighborhood();
+}, [])
 
 
   const [cliente, setCliente] = useState({
-    primerNombre: '',
-    segundoNombre: '',
-    primerApellido: '',
-    segundoApellido: '',
-    numeroIdentificacion: '',
-    telefono: '',
-    ciudad: '',
-    barrio: '',
-    cupo: '',
-    estado:''
+
+    identificacion: ' ',
+    primerNombre:' ',
+    segundoNombre: ' ',
+    primerApellido:' ',
+    segundoApellido:' ',
+    direccion:' ',
+    telefono:' ',
+    cupo:' ',
+    idBarrio:0,
+    nombreReferencia1: ' ',
+    telefonoReferencia1: ' ',
+    idParentescoReferencia1: 0,
+    nombreReferencia2: ' ',
+    telefonoReferencia2: ' ',
+    idParentescoReferencia2:0
   })
 
   const onChangeFormulario = e => {
@@ -111,40 +67,39 @@ function ClientAdd() {
       ...cliente,
       [e.target.name]: e.target.value
     })
+    console.log(cliente);
   }
 
 
-  const submitCrearCliente = (e) => {
+  const submitCrearCliente = async(e) => {
     // Se enviaria el cliente al back
-    console.log(cliente)
-    console.log(referencia)
+     try{
+       console.log(cliente);
+       const response = await clienteAxios.post('/api/v1/clientes/cliente', cliente);
+       // Mensaje de exito
+       Swal.fire({
+         position: 'top-end',
+         icon: 'success',
+         title: 'Cliente registrado exitosamente.',
+         showConfirmButton: false,
+         timer: 1500
+       })
+       console.log("Se ha creado el cliente exitosamente");
+     }catch(error){
 
-    // aqui estaria la respuesta del back
-    console.log("Se ha creado el cliente exitosamente");
-    console.log("Referencia creada con exito");
+       const mensaje = error.response.data.mensaje;
+
+       // mensaje de error
+       Swal.fire({
+         icon: 'error',
+         title: 'Error al crear empleado',
+         text: mensaje
+      })
+       console.log(error);
+     }
   }
 
-const [referencia, setReferencia] = useState({
-  nombreCompleto: '',
-  telefono:'',
-  parentesco:'',
-  nombreCompletoS:' ',
-  telefonoS:' ',
-  parentescoS:' '
-})
 
-const onChangeFormularioReferencia = e => {
-  setReferencia({
-    ...referencia,
-    [e.target.name]: e.target.value
-  })
-}
-
-
-
-
-  
-  
   return (
     <>
       <Helmet>
@@ -177,11 +132,17 @@ const onChangeFormularioReferencia = e => {
                   }}
                   noValidate
                   autoComplete="off"
-                  onClick={
-                    submitCrearCliente
-                  }
                 >
                   <div>
+                  <TextField
+                      id="outlined-number"
+                      label="Numero Identificación"
+                      color='success'
+                      type="number"
+                      name='identificacion'
+                      value={cliente.identificacion}
+                      onChange={onChangeFormulario}
+                    />
                     <TextField
                       required
                       id="outlined-required"
@@ -222,56 +183,27 @@ const onChangeFormularioReferencia = e => {
                       value={cliente.segundoApellido}
                       onChange={onChangeFormulario}
                     />
-                     <TextField
+                    
+                    <TextField
                       id="outlined-number"
-                      label="Numero Identificación"
+                      label="Dirección"
+                      type="text"
                       color='success'
-                      type="number"
-                      name='numeroIdentificacion'
-                      value={cliente.numeroIdentificacion}
+                      name='direccion'
+                      value={cliente.direccion}
                       onChange={onChangeFormulario}
                     />
+
                     <TextField
                       id="outlined-number"
                       label="Telefono"
-                      type="number"
+                      type="text"
                       color='success'
                       name='telefono'
                       value={cliente.telefono}
                       onChange={onChangeFormulario}
                     />
-                    <TextField
-                      id="outlined-select"
-                      select
-                      label="Ciudad"
-                      color='success'
-                      value={cliente.ciudad}
-                      name='ciudad'
-                      onChange={onChangeFormulario}
-                      helperText="Por favor seleccione una ciudad"
-                    >
-                      {listCiudad.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </TextField>
-                    <TextField
-                      id="outlined-select"
-                      select
-                      label="Barrio"
-                      color='success'
-                      value={cliente.barrio}
-                      name='barrio'
-                      onChange={onChangeFormulario}
-                      helperText="Por favor seleccione un barrio"
-                    >
-                      {listBarrio.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
-                        </MenuItem>
-                      ))}
-                    </TextField>
+
                     <TextField
                       required
                       id="outliend-number"
@@ -282,23 +214,24 @@ const onChangeFormularioReferencia = e => {
                       value={cliente.cupo}
                       onChange={onChangeFormulario}
                     />
-                    <div>
-                      <FormControl component="fieldset">
-                        <FormLabel component="legend">Estado Cliente</FormLabel>
-                          <RadioGroup
-                            row aria-label="Estado Cliente"
-                            name="estado"
-                            value={cliente.estado}
-                            onChange={onChangeFormulario}
-                            >
-                            <FormControlLabel value="Activo" control={<Radio />} label="Activo" />
-                            <FormControlLabel value="Inactivo" control={<Radio />} label="Inactivo" />
-                          </RadioGroup>
-                        </FormControl>
-                    </div>
-                    <div>
-                      <Button sx={{ margin: 1 }} variant="contained">GUARDAR</Button>
-                    </div>
+                    
+                    <TextField
+                      id="outlined-select"
+                      select
+                      label="Barrio"
+                      color='success'
+                      value={cliente.idBarrio}
+                      name='idBarrio'
+                      onChange={onChangeFormulario}
+                      helperText="Por favor seleccione un barrio"
+                    >
+                      {neighborhood.map((option) => (
+                        <MenuItem key={option.id} value={option.id}>
+                          {option.nombre}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                    
                   </div>
               <CardHeader title="Datos referencias" />
                 <Divider />
@@ -308,33 +241,33 @@ const onChangeFormularioReferencia = e => {
                         id="outlined-required"
                         label="Nombre Completo"
                         color="success"
-                        name="nombreCompleto"
-                        defaultValue=" "
-                        value={referencia.nombreCompleto}
-                        onChange={onChangeFormularioReferencia}
+                        name="nombreReferencia1"
+                        value={cliente.nombreReferencia1}
+                        onChange={onChangeFormulario}
                     />
                     <TextField
-                        id="outlined-number-reference1"
+                        id="outlined-required"
                         label="Telefono"
-                        type="number"
+                        type="text"
                         color="success"
-                        name="telefono"
+                        name="telefonoReferencia1"
                         defaultValue =" "
-                        value={referencia.telefono}
-                        onChange={onChangeFormularioReferencia}
+                        value={cliente.telefonoReferencia1}
+                        onChange={onChangeFormulario}
                       />
                     <TextField
                       id="outlined-select"
                       select
                       label="parentesco"
                       color='success'
-                      name="parentesco"
-                      value={referencia.parentesco}
-                      onChange={onChangeFormularioReferencia}
+                      type= "text"
+                      name="idParentescoReferencia1"
+                      value={cliente.idParentescoReferencia1}
+                      onChange={onChangeFormulario}
                       helperText="Por favor seleccione un parentesco">
-                      {listParentesco.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
+                      {relationship.map((option) => (
+                        <MenuItem key={option.id} value={option.id}>
+                          {option.nombre}
                         </MenuItem>
                       ))}
                     </TextField>
@@ -343,36 +276,48 @@ const onChangeFormularioReferencia = e => {
                       required
                       id="outlined-required"
                       label="Nombre Completo"
+                      type= "text"
                       color="success"
                       defaultValue=" "
-                      name='nombreCompletoS'
-                      value={referencia.nombreCompletoS}
-                      onChange={onChangeFormularioReferencia}
+                      name='nombreReferencia2'
+                      value={cliente.nombreReferencia2}
+                      onChange={onChangeFormulario}
                     />
                     <TextField
                       id="outlined-number"
                       label="Telefono"
-                      type="number"
+                      type="text"
                       color='success'
-                      name='telefonoS'
-                      value={referencia.telefonoS}
-                      onChange={onChangeFormularioReferencia}
+                      name='telefonoReferencia2'
+                      value={cliente.telefonoReferencia2}
+                      onChange={onChangeFormulario}
                     />
                     <TextField
                       id="outlined-select"
                       select
                       label="parentesco"
                       color='success'
-                      name='parentescoS'
-                      value={referencia.parentescoS}
-                      onChange={onChangeFormularioReferencia}
+                      name='idParentescoReferencia2'
+                      value={cliente.idParentescoReferencia2}
+                      onChange={onChangeFormulario}
                       helperText="Por favor seleccione un parentesco">
-                      {listParentesco.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
+                      {relationship.map((option) => (
+                        <MenuItem key={option.id} value={option.id}>
+                          {option.nombre}
                         </MenuItem>
                       ))}
                     </TextField>
+                    <div>
+                      <Button
+                         sx={{ margin: 1 }}
+                         variant="contained"
+                         onClick={
+                          submitCrearCliente
+                        }
+                      >
+                        GUARDAR
+                      </Button>
+                    </div>
                   </div>
                 </Box>
               </CardContent>
