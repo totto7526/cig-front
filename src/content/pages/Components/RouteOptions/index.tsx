@@ -145,7 +145,7 @@ function RouteOptions() {
                       <Button 
                         sx={{ margin: 5, width: '25ch'}} 
                         variant="contained"
-                        href='/crearRuta/pais'>
+                        href='/crearRuta/ruta'>
                         
                           Agregar Ruta
                       </Button>

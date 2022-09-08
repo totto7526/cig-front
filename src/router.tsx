@@ -7,7 +7,7 @@ import BaseLayout from 'src/layouts/BaseLayout';
 
 import SuspenseLoader from 'src/components/SuspenseLoader';
 import { element } from 'prop-types';
-import CountryOptions from 'src/content/pages/Components/CountryOptions';
+import CountryOptions from 'src/content/pages/Components/CreateRuteOptions';
 
 const Loader = (Component) => (props) =>
   (
@@ -112,23 +112,8 @@ const Sales = Loader(
 );
 
 //Rutas crear rutas
-const countryOptions = Loader(
-  lazy(() => import('src/content/pages/Components/CountryOptions'))
-);
-const DepartamentOptions = Loader(
-  lazy(() => import('src/content/pages/Components/DepartmentOptions'))
-);
-const RegionOptions = Loader(
-  lazy(() => import('src/content/pages/Components/RegionOptions'))
-);
-const CityOptions = Loader(
-  lazy(() => import('src/content/pages/Components/CityOptions'))
-);
-const ZoneOptions = Loader(
-  lazy(() => import('src/content/pages/Components/ZoneOptions'))
-);
-const DistrictOptions = Loader(
-  lazy(() => import('src/content/pages/Components/DistrictOptions'))
+const CreateRuteOptions = Loader(
+  lazy(() => import('src/content/pages/Components/CreateRuteOptions'))
 );
 
 
@@ -389,29 +374,9 @@ const routes: RouteObject[] = [
     element:<BaseLayout/>,
     children:[
       {
-        path:'pais',
-        element:<CountryOptions/>
-      },
-      {
-        path:'departamento',
-        element:<DepartamentOptions/>
-      },
-      {
-        path:'region',
-        element:<RegionOptions/>
-      },
-      {
-        path:'city',
-        element:<CityOptions/>
-      },
-      {
-        path:'zone',
-        element:<ZoneOptions/>
-      },
-      {
-        path:'district',
-        element:<DistrictOptions/>
-      },
+        path:'ruta',
+        element:<CreateRuteOptions/>
+      }
     ]
   },
 
