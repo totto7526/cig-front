@@ -1,5 +1,5 @@
 import { Card } from '@mui/material';
-import {Receive} from 'src/models/crypto_order';
+import {Receive} from 'src/models/reciveStatus';
 import RecentOrdersTable from './RecentOrdersTable';
 import { subDays } from 'date-fns';
 

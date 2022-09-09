@@ -27,7 +27,7 @@ import {
 } from '@mui/material';
 
 import Label from 'src/components/Label';
-import { EditRoute, EditRouteStatus } from 'src/models/crypto_order';
+import { EditRoute, EditRouteStatus } from 'src/models/editRoute';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';

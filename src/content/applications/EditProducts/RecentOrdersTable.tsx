@@ -26,7 +26,7 @@ import {
 } from '@mui/material';
 
 import Label from 'src/components/Label';
-import { Product, ProductStatus } from 'src/models/crypto_order';
+import { Product, ProductStatus } from 'src/models/product';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';

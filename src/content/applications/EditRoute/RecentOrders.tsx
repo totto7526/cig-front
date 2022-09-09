@@ -1,5 +1,5 @@
 import { Card } from '@mui/material';
-import {EditRoute} from 'src/models/crypto_order';
+import {EditRoute} from 'src/models/editRoute';
 import RecentOrdersTable from './RecentOrdersTable';
 import { subDays } from 'date-fns';
 

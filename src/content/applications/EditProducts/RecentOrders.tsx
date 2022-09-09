@@ -1,5 +1,5 @@
 import { Card } from '@mui/material';
-import { Product } from 'src/models/crypto_order';
+import { Product } from 'src/models/product';
 import RecentOrdersTable from './RecentOrdersTable';
 import clienteAxios from  'src/config/axios';
 import { useEffect, useState } from 'react';
