@@ -23,6 +23,7 @@ import Swal from 'sweetalert2';
 
 import Switch from '@mui/material/Switch';
 
+import { useAuth0 } from '@auth0/auth0-react';
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
@@ -50,6 +51,9 @@ const listSales = [
 
 
 function PaymentRecord() {
+
+  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+
   const [listTrabajador, setListTrabajador] = useState([])
 
   const callTrabajadores = async () => {
@@ -71,8 +75,6 @@ function PaymentRecord() {
   }, [])
 
   const [identificacion, setIdentificacion] = useState('')
-
-
 
   const[paymentRecord, setPaymentRecord] = useState ({
     idTrabajador:0,

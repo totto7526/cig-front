@@ -11,19 +11,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 function RecentWorkersOrders() {
 
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
-  const [userMetadata, setUserMetadata] = useState(null);
 
   const [workers, setWorkers] = useState()
-
-  const callWorker = async(accessToken) => {
-    const response = await clienteAxios.get('/api/v1/trabajadores', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    });
-
-    setWorkers(response.data)
-  }
 
   useEffect(() => {
     (async () => {
@@ -53,11 +42,6 @@ function RecentWorkersOrders() {
     <Card>
       <RecentOrdersTable Workers={workers} />
     </Card>
-    {userMetadata ? (
-      <pre>{JSON.stringify(userMetadata, null, 2)}</pre>
-    ) : (
-      "No user metadata defined"
-    )}
     </>
     )
   );

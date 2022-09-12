@@ -16,23 +16,38 @@ import Switch from '@mui/material/Switch';
 import clienteAxios from  'src/config/axios';
 import Swal from 'sweetalert2';
 
+import { useAuth0 } from '@auth0/auth0-react';
+
 
 function CreateRuteOptions() {
 
-  const [country, setCountry] = useState([ ])
+  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
-  const callCountry = async() => {
-    const response = await clienteAxios.get('/api/v1/rutas/paises')
-    setCountry(response.data)
-  }
+  const [country, setCountry] = useState([ ])
 
   const [departament, setDepartament] = useState([ ])
   const [region, setRegion] = useState([ ])
   const [city, setCity] = useState([])
 
   useEffect(() => {
-    callCountry();
-}, [])
+    (async () => {
+      try {
+        const token = await getAccessTokenSilently({
+          audience: "htttps://cig/api",
+          scope: "read:cig-admin",
+        });
+        console.log(token);
+        const response = await clienteAxios.get("/api/v1/rutas/paises", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setCountry(response.data);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, []);
 
   const [CreateRuteOptions, setCreateRuteOptions] = useState({
     idPais:0,
@@ -47,32 +62,55 @@ function CreateRuteOptions() {
   })
 
   useEffect(() => {
-    if (CreateRuteOptions.idPais != 0){
-      const callPais = async()=>{
-        const response = await clienteAxios.get(`/api/v1/rutas/departamentos/${CreateRuteOptions.idPais}`)
-        setDepartament(response.data)
-      }
-      callPais();
-     
-    }
+    (async () => {
+      try {
+        const token = await getAccessTokenSilently({
+          audience: "htttps://cig/api",
+          scope: "read:cig-admin",
+        });
 
-    if (CreateRuteOptions.idDepartamento != 0){
-      const CallDepartament = async() =>{
-        const response = await clienteAxios.get(`/api/v1/rutas/regiones/${CreateRuteOptions.idDepartamento}`)
-        setRegion(response.data)
-      }
-        CallDepartament();
-    }
+        if (CreateRuteOptions.idPais != 0) {
+          const response = await clienteAxios.get(
+            `/api/v1/rutas/departamentos/${CreateRuteOptions.idPais}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setDepartament(await response.data);
+        }
 
-    if (CreateRuteOptions.idRegion != 0){
-      const CallRegion = async() =>{
-        const response = await clienteAxios.get(`/api/v1/rutas/ciudades/${CreateRuteOptions.idRegion}`)
-        setCity(response.data)
+        if (CreateRuteOptions.idDepartamento != 0) {
+          const response = await clienteAxios.get(
+            `/api/v1/rutas/regiones/${CreateRuteOptions.idDepartamento}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setRegion(await response.data);
+        }
+
+        if (CreateRuteOptions.idRegion != 0) {
+          const response = await clienteAxios.get(
+            `/api/v1/rutas/ciudades/${CreateRuteOptions.idRegion}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setCity(await response.data);
+        }
+      } catch (error) {
+        console.error(error);
       }
-      CallRegion();
-    }
-    console.log(CreateRuteOptions)
-  }, [CreateRuteOptions])
+
+      console.log(CreateRuteOptions);
+    })();
+  }, [getAccessTokenSilently, CreateRuteOptions]);
 
   const[createCountry, setcreateCountry] = useState(false)
   const[createDepartament, setcreateDepartament] = useState(false)
@@ -122,7 +160,20 @@ function CreateRuteOptions() {
 
   const submitCreateRouteOptions = async(e) => {
     try{
-      const response = await clienteAxios.post('/api/v1/rutas/ruta', CreateRuteOptions);
+      const token = await getAccessTokenSilently({
+        audience: "htttps://cig/api",
+        scope: "read:cig-admin",
+      });
+
+      const response = await clienteAxios.post(
+        `/api/v1/rutas/ruta`,
+        CreateRuteOptions,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       // Mensaje de exito
       Swal.fire({
         position: 'top-end',

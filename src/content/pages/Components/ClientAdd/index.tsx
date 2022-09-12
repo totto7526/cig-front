@@ -1,104 +1,132 @@
-import { Helmet } from 'react-helmet-async';
-import PageTitle from 'src/components/PageTitle';
-import { useState, useEffect} from 'react';
+import { Helmet } from "react-helmet-async";
+import PageTitle from "src/components/PageTitle";
+import { useState, useEffect } from "react";
 
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
-import { Container, Grid, Card, CardHeader, CardContent, Divider, Button } from '@mui/material';
-import Footer from 'src/components/Footer';
+import PageTitleWrapper from "src/components/PageTitleWrapper";
+import {
+  Container,
+  Grid,
+  Card,
+  CardHeader,
+  CardContent,
+  Divider,
+  Button,
+} from "@mui/material";
+import Footer from "src/components/Footer";
 
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
 
-import clienteAxios from  'src/config/axios';
-import Swal from 'sweetalert2';
+import clienteAxios from "src/config/axios";
+import Swal from "sweetalert2";
 
+import { useAuth0 } from "@auth0/auth0-react";
 
-
-const label = { inputProps: { 'aria-label': 'Switch demo' } };
-
-
+const label = { inputProps: { "aria-label": "Switch demo" } };
 
 function ClientAdd() {
-  // const [value, setValue] = useState(30);
-  
-const [neighborhood, setNeighborhood] = useState([ ])
 
-const callNeighborhood = async() => {
-  const response = await clienteAxios.get('/api/v1/barrios')
-  setNeighborhood(response.data)
-}
+  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
+  const [neighborhood, setNeighborhood] = useState([]);
 
-const [relationship, setRelationship] = useState([ ])
+  const callNeighborhood = async (token) => {
+    const response = await clienteAxios.get('/api/v1/barrios', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    setNeighborhood( await response.data);
+  };
 
-const callRelationship = async() => {
-  const response = await clienteAxios.get('/api/v1/parentescos')
-  setRelationship(response.data)
-}
+  const [relationship, setRelationship] = useState([]);
+
+  const callRelationship = async (token) => {
+    const response = await clienteAxios.get('/api/v1/parentescos', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    setRelationship(await response.data);
+  };
 
   useEffect(() => {
-    callRelationship();
-    callNeighborhood();
-}, [])
-
+    (async () => {
+      try {
+        const token = await getAccessTokenSilently({
+          audience: 'htttps://cig/api',
+          scope: 'read:cig-vendedor read:cig-cobrador',
+        });
+        console.log(token);
+        callRelationship(token);
+        callNeighborhood(token);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, [])
 
   const [cliente, setCliente] = useState({
-
-    identificacion: ' ',
-    primerNombre:' ',
-    segundoNombre: ' ',
-    primerApellido:' ',
-    segundoApellido:' ',
-    direccion:' ',
-    telefono:' ',
-    cupo:' ',
-    idBarrio:0,
-    nombreReferencia1: ' ',
-    telefonoReferencia1: ' ',
+    identificacion: " ",
+    primerNombre: " ",
+    segundoNombre: " ",
+    primerApellido: " ",
+    segundoApellido: " ",
+    direccion: " ",
+    telefono: " ",
+    cupo: " ",
+    idBarrio: 0,
+    nombreReferencia1: " ",
+    telefonoReferencia1: " ",
     idParentescoReferencia1: 0,
-    nombreReferencia2: ' ',
-    telefonoReferencia2: ' ',
-    idParentescoReferencia2:0
-  })
+    nombreReferencia2: " ",
+    telefonoReferencia2: " ",
+    idParentescoReferencia2: 0,
+  });
 
-  const onChangeFormulario = e => {
+  const onChangeFormulario = (e) => {
     setCliente({
       ...cliente,
-      [e.target.name]: e.target.value
-    })
+      [e.target.name]: e.target.value,
+    });
     console.log(cliente);
-  }
+  };
 
-
-  const submitCrearCliente = async(e) => {
+  const submitCrearCliente = async (e) => {
     // Se enviaria el cliente al back
-     try{
-       console.log(cliente);
-       const response = await clienteAxios.post('/api/v1/clientes/cliente', cliente);
-       // Mensaje de exito
-       Swal.fire({
-         position: 'top-end',
-         icon: 'success',
-         title: 'Cliente registrado exitosamente.',
-         showConfirmButton: false,
-         timer: 1500
-       })
-       console.log("Se ha creado el cliente exitosamente");
-     }catch(error){
+    try {
+      console.log(cliente);
+      const token = await getAccessTokenSilently({
+        audience: 'htttps://cig/api',
+        scope: 'read:cig-vendedor read:cig-cobrador',
+      });
+      const response = await clienteAxios.post("/api/v1/clientes/cliente", cliente, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      // Mensaje de exito
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Cliente registrado exitosamente.",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      console.log("Se ha creado el cliente exitosamente");
+    } catch (error) {
+      const mensaje = error.response.data.mensaje;
 
-       const mensaje = error.response.data.mensaje;
-
-       // mensaje de error
-       Swal.fire({
-         icon: 'error',
-         title: 'Error al crear el cliente',
-         text: mensaje
-      })
-       console.log(error);
-     }
-  }
-
+      // mensaje de error
+      Swal.fire({
+        icon: "error",
+        title: "Error al crear el cliente",
+        text: mensaje,
+      });
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -110,7 +138,8 @@ const callRelationship = async() => {
           textButton="Inicio"
           heading="Registro cliente"
           subHeading="Proceso para registrar un cliente nuevo"
-          docs='/overview'/>
+          docs="/overview"
+        />
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
@@ -123,33 +152,33 @@ const callRelationship = async() => {
           <Grid item xs={12}>
             <Card>
               <CardHeader title="Datos Personales" />
-              <Divider/>
+              <Divider />
               <CardContent>
                 <Box
                   component="form"
                   sx={{
-                    '& .MuiTextField-root': { m: 6, width: '25ch' },
+                    "& .MuiTextField-root": { m: 6, width: "25ch" },
                   }}
                   noValidate
                   autoComplete="off"
                 >
                   <div>
-                  <TextField
+                    <TextField
                       id="outlined-number"
                       label="Numero Identificación"
-                      color='success'
+                      color="success"
                       type="number"
-                      name='identificacion'
+                      name="identificacion"
                       value={cliente.identificacion}
                       onChange={onChangeFormulario}
                     />
                     <TextField
                       required
                       id="outlined-required"
-                      label='Primer nombre'
+                      label="Primer nombre"
                       color="success"
                       defaultValue=" "
-                      name='primerNombre'
+                      name="primerNombre"
                       value={cliente.primerNombre}
                       onChange={onChangeFormulario}
                     />
@@ -159,7 +188,7 @@ const callRelationship = async() => {
                       label="Segundo Nombre"
                       color="success"
                       defaultValue=" "
-                      name='segundoNombre'
+                      name="segundoNombre"
                       value={cliente.segundoNombre}
                       onChange={onChangeFormulario}
                     />
@@ -167,29 +196,29 @@ const callRelationship = async() => {
                       required
                       id="outliend-required"
                       label="Primer Apellido"
-                      color='success'
+                      color="success"
                       defaultValue=" "
-                      name='primerApellido'
+                      name="primerApellido"
                       value={cliente.primerApellido}
                       onChange={onChangeFormulario}
                     />
-                     <TextField
+                    <TextField
                       required
                       id="outliend-required"
                       label="Segundo Apellido"
-                      color='success'
+                      color="success"
                       defaultValue=" "
-                      name='segundoApellido'
+                      name="segundoApellido"
                       value={cliente.segundoApellido}
                       onChange={onChangeFormulario}
                     />
-                    
+
                     <TextField
                       id="outlined-number"
                       label="Dirección"
                       type="text"
-                      color='success'
-                      name='direccion'
+                      color="success"
+                      name="direccion"
                       value={cliente.direccion}
                       onChange={onChangeFormulario}
                     />
@@ -198,8 +227,8 @@ const callRelationship = async() => {
                       id="outlined-number"
                       label="Telefono"
                       type="text"
-                      color='success'
-                      name='telefono'
+                      color="success"
+                      name="telefono"
                       value={cliente.telefono}
                       onChange={onChangeFormulario}
                     />
@@ -208,20 +237,20 @@ const callRelationship = async() => {
                       required
                       id="outliend-number"
                       label="Cupo"
-                      color='success'
+                      color="success"
                       defaultValue="150000"
-                      name='cupo'
+                      name="cupo"
                       value={cliente.cupo}
                       onChange={onChangeFormulario}
                     />
-                    
+
                     <TextField
                       id="outlined-select"
                       select
                       label="Barrio"
-                      color='success'
+                      color="success"
                       value={cliente.idBarrio}
-                      name='idBarrio'
+                      name="idBarrio"
                       onChange={onChangeFormulario}
                       helperText="Por favor seleccione un barrio"
                     >
@@ -231,40 +260,40 @@ const callRelationship = async() => {
                         </MenuItem>
                       ))}
                     </TextField>
-                    
                   </div>
-              <CardHeader title="Datos referencias" />
-                <Divider />
+                  <CardHeader title="Datos referencias" />
+                  <Divider />
                   <div>
                     <TextField
-                        required
-                        id="outlined-required"
-                        label="Nombre Completo"
-                        color="success"
-                        name="nombreReferencia1"
-                        value={cliente.nombreReferencia1}
-                        onChange={onChangeFormulario}
+                      required
+                      id="outlined-required"
+                      label="Nombre Completo"
+                      color="success"
+                      name="nombreReferencia1"
+                      value={cliente.nombreReferencia1}
+                      onChange={onChangeFormulario}
                     />
                     <TextField
-                        id="outlined-required"
-                        label="Telefono"
-                        type="text"
-                        color="success"
-                        name="telefonoReferencia1"
-                        defaultValue =" "
-                        value={cliente.telefonoReferencia1}
-                        onChange={onChangeFormulario}
-                      />
+                      id="outlined-required"
+                      label="Telefono"
+                      type="text"
+                      color="success"
+                      name="telefonoReferencia1"
+                      defaultValue=" "
+                      value={cliente.telefonoReferencia1}
+                      onChange={onChangeFormulario}
+                    />
                     <TextField
                       id="outlined-select"
                       select
                       label="parentesco"
-                      color='success'
-                      type= "text"
+                      color="success"
+                      type="text"
                       name="idParentescoReferencia1"
                       value={cliente.idParentescoReferencia1}
                       onChange={onChangeFormulario}
-                      helperText="Por favor seleccione un parentesco">
+                      helperText="Por favor seleccione un parentesco"
+                    >
                       {relationship.map((option) => (
                         <MenuItem key={option.id} value={option.id}>
                           {option.nombre}
@@ -276,10 +305,10 @@ const callRelationship = async() => {
                       required
                       id="outlined-required"
                       label="Nombre Completo"
-                      type= "text"
+                      type="text"
                       color="success"
                       defaultValue=" "
-                      name='nombreReferencia2'
+                      name="nombreReferencia2"
                       value={cliente.nombreReferencia2}
                       onChange={onChangeFormulario}
                     />
@@ -287,8 +316,8 @@ const callRelationship = async() => {
                       id="outlined-number"
                       label="Telefono"
                       type="text"
-                      color='success'
-                      name='telefonoReferencia2'
+                      color="success"
+                      name="telefonoReferencia2"
                       value={cliente.telefonoReferencia2}
                       onChange={onChangeFormulario}
                     />
@@ -296,11 +325,12 @@ const callRelationship = async() => {
                       id="outlined-select"
                       select
                       label="parentesco"
-                      color='success'
-                      name='idParentescoReferencia2'
+                      color="success"
+                      name="idParentescoReferencia2"
                       value={cliente.idParentescoReferencia2}
                       onChange={onChangeFormulario}
-                      helperText="Por favor seleccione un parentesco">
+                      helperText="Por favor seleccione un parentesco"
+                    >
                       {relationship.map((option) => (
                         <MenuItem key={option.id} value={option.id}>
                           {option.nombre}
@@ -309,11 +339,9 @@ const callRelationship = async() => {
                     </TextField>
                     <div>
                       <Button
-                         sx={{ margin: 1 }}
-                         variant="contained"
-                         onClick={
-                          submitCrearCliente
-                        }
+                        sx={{ margin: 1 }}
+                        variant="contained"
+                        onClick={submitCrearCliente}
                       >
                         GUARDAR
                       </Button>

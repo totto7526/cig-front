@@ -4,18 +4,34 @@ import RecentOrdersTable from './RecentOrdersTable';
 import clienteAxios from  'src/config/axios';
 import { useEffect, useState } from 'react';
 import { subDays } from 'date-fns';
+import { useAuth0 } from '@auth0/auth0-react';
 
 function RecentClientsOrders() {
 
   const [clients, setClients] = useState()
 
-  const callClients = async() => {
-    const response = await clienteAxios.get('/api/v1/clientes/con-referencias')
-    setClients(response.data)
-  }
+  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+
+
   useEffect(() => {
-      callClients();
-  }, [])
+    (async () => {
+      try {
+        const token = await getAccessTokenSilently({
+          audience: 'htttps://cig/api',
+          scope: 'read:cig-vendedor read:cig-cobrador',
+        });
+        console.log(token);
+        const response = await clienteAxios.get('/api/v1/clientes/con-referencias', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setClients(response.data);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, [getAccessTokenSilently])
 
 
   return (

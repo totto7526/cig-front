@@ -1,85 +1,113 @@
-import { Helmet } from 'react-helmet-async';
-import PageTitle from 'src/components/PageTitle';
-import { useState,useEffect } from 'react';
+import { Helmet } from "react-helmet-async";
+import PageTitle from "src/components/PageTitle";
+import { useState, useEffect } from "react";
 
-import PageTitleWrapper from 'src/components/PageTitleWrapper';
-import { Container, Grid, Card, CardHeader, CardContent, Divider, Button } from '@mui/material';
-import Footer from 'src/components/Footer';
+import PageTitleWrapper from "src/components/PageTitleWrapper";
+import {
+  Container,
+  Grid,
+  Card,
+  CardHeader,
+  CardContent,
+  Divider,
+  Button,
+} from "@mui/material";
+import Footer from "src/components/Footer";
 
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import clienteAxios from  'src/config/axios';
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import clienteAxios from "src/config/axios";
 
-// importacion de la librería
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
+import { useAuth0 } from "@auth0/auth0-react";
 
-
-const label = { inputProps: { 'aria-label': 'Switch demo' } };
-
+const label = { inputProps: { "aria-label": "Switch demo" } };
 
 function WorkerAdd() {
+  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
-const [neighborhood, setNeighborhood] = useState([ ])
+  const [neighborhood, setNeighborhood] = useState([]);
 
-const callNeighborhood = async() => {
-  const response = await clienteAxios.get('/api/v1/barrios')
-  setNeighborhood(response.data)
-}
-useEffect(() => {
-    callNeighborhood();
-}, [])
+  const callNeighborhood = async (token) => {
+    const response = await clienteAxios.get('/api/v1/barrios', {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    setNeighborhood(await response.data);
+  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const token = await getAccessTokenSilently({
+          audience: "htttps://cig/api",
+          scope: "read:cig-vendedor read:cig-cobrador",
+        });
+        console.log(token);
+
+        callNeighborhood(token);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, []);
 
   const [empleado, setEmpleado] = useState({
-    primerNombre: '',
-    segundoNombre: '',
-    primerApellido: '',
-    segundoApellido: '',
-    identificacion: '',
-    telefono: '',
-    direccion: '',
-    idBarrio:0
-  })
-  
-  const onChangeFormulario = e => {
+    primerNombre: "",
+    segundoNombre: "",
+    primerApellido: "",
+    segundoApellido: "",
+    identificacion: "",
+    telefono: "",
+    direccion: "",
+    idBarrio: 0,
+  });
+
+  const onChangeFormulario = (e) => {
     setEmpleado({
       ...empleado,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
-
-  const submitCrearEmpleado = async(e) => {
+  const submitCrearEmpleado = async (e) => {
     // Se enviaria el cliente al back
-    try{
+    try {
       console.log(empleado);
-      const response = await clienteAxios.post('/api/v1/trabajadores/trabajador', empleado);
-      
+      const token = await getAccessTokenSilently({
+        audience: "htttps://cig/api",
+        scope: "read:cig-vendedor read:cig-cobrador",
+      });
+      const response = await clienteAxios.post('/api/v1/trabajadores/trabajador', empleado, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
       // Mensaje de exito
       Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: 'Empleado registrado exitosamente.',
+        position: "top-end",
+        icon: "success",
+        title: "Empleado registrado exitosamente.",
         showConfirmButton: false,
-        timer: 1500
-      })
+        timer: 1500,
+      });
       console.log("Se ha creado el empleado exitosamente");
-    }catch(error){
-
+    } catch (error) {
       const mensaje = error.response.data.mensaje;
 
       // mensaje de error
       Swal.fire({
-        icon: 'error',
-        title: 'Error al crear empleado',
-        text: mensaje
-      })
+        icon: "error",
+        title: "Error al crear empleado",
+        text: mensaje,
+      });
       console.log(error);
     }
-  }
- 
-
+  };
 
   return (
     <>
@@ -91,7 +119,8 @@ useEffect(() => {
           textButton="Inicio"
           heading="Registro Empleado"
           subHeading="Proceso para registrar un empleado nuevo"
-          docs="/overview" />
+          docs="/overview"
+        />
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
@@ -109,7 +138,7 @@ useEffect(() => {
                 <Box
                   component="form"
                   sx={{
-                    '& .MuiTextField-root': { m: 6, width: '25ch' },
+                    "& .MuiTextField-root": { m: 6, width: "25ch" },
                   }}
                   noValidate
                   autoComplete="off"
@@ -121,7 +150,7 @@ useEffect(() => {
                       label="Primer Nombre"
                       color="success"
                       defaultValue=" "
-                      name='primerNombre'
+                      name="primerNombre"
                       value={empleado.primerNombre}
                       onChange={onChangeFormulario}
                     />
@@ -131,7 +160,7 @@ useEffect(() => {
                       label="Segundo Nombre"
                       color="success"
                       defaultValue=" "
-                      name='segundoNombre'
+                      name="segundoNombre"
                       value={empleado.segundoNombre}
                       onChange={onChangeFormulario}
                     />
@@ -139,37 +168,37 @@ useEffect(() => {
                       required
                       id="outliend-required"
                       label="Primer Apellido"
-                      color='success'
+                      color="success"
                       defaultValue=" "
-                      name='primerApellido'
+                      name="primerApellido"
                       value={empleado.primerApellido}
                       onChange={onChangeFormulario}
                     />
-                     <TextField
+                    <TextField
                       required
                       id="outliend-required"
                       label="Segundo Apellido"
-                      color='success'
+                      color="success"
                       defaultValue=" "
-                      name='segundoApellido'
+                      name="segundoApellido"
                       value={empleado.segundoApellido}
                       onChange={onChangeFormulario}
                     />
-                     <TextField
+                    <TextField
                       id="outlined-number"
                       label="Numero Identificación"
-                      color='success'
+                      color="success"
                       type="number"
-                      name='identificacion'
+                      name="identificacion"
                       value={empleado.identificacion}
                       onChange={onChangeFormulario}
                     />
                     <TextField
                       id="outlined-number"
                       label="Telefono"
-                      color='success'
+                      color="success"
                       type="number"
-                      name='telefono'
+                      name="telefono"
                       value={empleado.telefono}
                       onChange={onChangeFormulario}
                     />
@@ -177,8 +206,8 @@ useEffect(() => {
                       required
                       id="outliend-required"
                       label="Dirección"
-                      color='success'
-                      name='direccion'
+                      color="success"
+                      name="direccion"
                       value={empleado.direccion}
                       onChange={onChangeFormulario}
                     />
@@ -186,7 +215,7 @@ useEffect(() => {
                       id="outlined-select"
                       select
                       label="Barrio"
-                      name='idBarrio'
+                      name="idBarrio"
                       value={empleado.idBarrio}
                       onChange={onChangeFormulario}
                       helperText="Por favor seleccione un barrio"
@@ -198,12 +227,11 @@ useEffect(() => {
                       ))}
                     </TextField>
                     <div>
-                      <Button 
-                        sx={{ margin: 1 }} 
-                        variant="contained"  
-                        onClick={
-                          submitCrearEmpleado
-                          }>
+                      <Button
+                        sx={{ margin: 1 }}
+                        variant="contained"
+                        onClick={submitCrearEmpleado}
+                      >
                         GUARDAR
                       </Button>
                     </div>
