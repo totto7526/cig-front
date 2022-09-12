@@ -4,25 +4,62 @@ import RecentOrdersTable from './RecentOrdersTable';
 import clienteAxios from  'src/config/axios';
 import { useEffect, useState } from 'react';
 import { subDays } from 'date-fns';
+import { useAuth0 } from '@auth0/auth0-react';
 
 
 
 function RecentWorkersOrders() {
 
+  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+  const [userMetadata, setUserMetadata] = useState(null);
+
   const [workers, setWorkers] = useState()
 
-  const callWorker = async() => {
-    const response = await clienteAxios.get('/api/v1/trabajadores')
+  const callWorker = async(accessToken) => {
+    const response = await clienteAxios.get('/api/v1/trabajadores', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    });
+
     setWorkers(response.data)
   }
+
   useEffect(() => {
-      callWorker();
-  }, [])
+    (async () => {
+      try {
+        const token = await getAccessTokenSilently({
+          audience: 'htttps://cig/api',
+          scope: 'read:cig-admin',
+        });
+        console.log(token);
+        const response = await clienteAxios.get('/api/v1/trabajadores', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        setWorkers(await response.data);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, [getAccessTokenSilently])
+  
 
   return (
+
+    isAuthenticated && (
+      <>
     <Card>
       <RecentOrdersTable Workers={workers} />
     </Card>
+    {userMetadata ? (
+      <pre>{JSON.stringify(userMetadata, null, 2)}</pre>
+    ) : (
+      "No user metadata defined"
+    )}
+    </>
+    )
   );
 }
 
