@@ -26,9 +26,13 @@ function CreateRuteOptions() {
     setCountry(response.data)
   }
 
+ 
+
   const [departament, setDepartament] = useState([ ])
   const [region, setRegion] = useState([ ])
   const [city, setCity] = useState([])
+  const [district, setDistrict] = useState([])
+  const [zone, setZone] = useState([])
 
   useEffect(() => {
     callCountry();
@@ -36,14 +40,17 @@ function CreateRuteOptions() {
 
   const [CreateRuteOptions, setCreateRuteOptions] = useState({
     idPais:0,
-    nombrePais:'',
+    newCountry:'',
     idDepartamento:0,
-    nombreDepartamento:'',
+    newDepartament:'',
     idRegion:0,
-    nombreRegion:'',
+    newRegion:'',
     idCiudad:0,
-    nombreCiudad:'',
-    nombreZona:'',
+    newCity:'',
+    idZona:0,
+    newZone:'',
+    idBarrio:0,
+    newDistrict:''
   })
 
   useEffect(() => {
@@ -71,38 +78,33 @@ function CreateRuteOptions() {
       }
       CallRegion();
     }
+
+    if (CreateRuteOptions.idCiudad != 0){
+        const callCity = async() => {
+            const response = await clienteAxios.get(`/api/v1/rutas/barrios/${CreateRuteOptions.idCiudad}`)
+            setDistrict(response.data)
+          }
+          callCity();
+    }
+    if (CreateRuteOptions.idZona != 0){
+        const callZone = async() => {
+            const response = await clienteAxios.get(`/api/v1/rutas/zonas/${CreateRuteOptions.idZona}`)
+            setZone(response.data)
+          }
+          callZone();
+    }
+
     console.log(CreateRuteOptions)
   }, [CreateRuteOptions])
 
-  const[createCountry, setcreateCountry] = useState(false)
-  const[createDepartament, setcreateDepartament] = useState(false)
-  const[createRegion, setcreateRegion] = useState(false)
-  const[createCity, setcreateCity] = useState(false)
 
+  const[createDistrict, setcreateDistrict] = useState(false)
 
-  const onChangeCountry = e => {
-    setcreateCountry(
-      !createCountry
+  const onChangeDistrict = e =>{
+    setcreateDistrict(
+        !createDistrict
     )
-  };
-
-  const onChangeDepartament = e => {
-    setcreateDepartament(
-      !createDepartament
-    )
-  };
-
-  const onChangeRegion = e => {
-    setcreateRegion(
-      !createRegion
-    )
-  };
-
-  const onChangeCity = e => {
-    setcreateCity(
-      !createCity
-    )
-  };
+  }
 
   const onChangeFormulario = (e, option) => {
     setCreateRuteOptions({
@@ -122,7 +124,8 @@ function CreateRuteOptions() {
 
   const submitCreateRouteOptions = async(e) => {
     try{
-      const response = await clienteAxios.post('/api/v1/rutas/ruta', CreateRuteOptions);
+      console.log(CreateRuteOptions);
+      const response = await clienteAxios.post(' ', CreateRuteOptions);
       // Mensaje de exito
       Swal.fire({
         position: 'top-end',
@@ -133,7 +136,9 @@ function CreateRuteOptions() {
       })
       console.log("Se ha creado la ruta exitosamente");
     }catch(error){
+
       const mensaje = error.response.data.mensaje;
+
       // mensaje de error
       Swal.fire({
         icon: 'error',
@@ -154,8 +159,8 @@ function CreateRuteOptions() {
       <PageTitleWrapper>
         <PageTitle
           textButton="Inicio"
-          heading="Crear nueva ruta"
-          subHeading="Proceso Crear Ruta Nueva"
+          heading="Crear nuevo barrio"
+          subHeading="Proceso para crear un nuevo barrio"
           docs="/overview" />
       </PageTitleWrapper>
       <Container maxWidth="lg">
@@ -168,7 +173,7 @@ function CreateRuteOptions() {
         >
           <Grid item xs={12}>
             <Card>
-              <CardHeader title="Complete los datos necesarios para crear la nueva ruta" />
+              <CardHeader title="Asigna un nuevo barrio o cree uno nuevo para asignar a una ruta establecida" />
               <Divider />
               <CardContent>
                 <Box
@@ -179,19 +184,6 @@ function CreateRuteOptions() {
                   noValidate
                   autoComplete="off"
                 > 
-                 <div>
-                      <FormControlLabel
-                        control={
-                          // <Switch checked={state.gilad} onChange={handleChange} name="gilad" />
-                          <Switch 
-                            checked={createCountry} 
-                            onChange={onChangeCountry} 
-                            name= "check"
-                          />
-                        }
-                        label="Nuevo"
-                      />
-                  </div>
                   <div>
                       <TextField
                         id="outlined-select"
@@ -201,7 +193,6 @@ function CreateRuteOptions() {
                         color='success'
                         value={CreateRuteOptions.idPais}
                         onChange={e => {onChangeFormulario(e,"country")}}
-                        disabled = {createCountry}
                         helperText="Por favor seleccione un pais"
                       >
                         {country.map((option) => (
@@ -210,33 +201,6 @@ function CreateRuteOptions() {
                           </MenuItem>
                         ))}
                       </TextField>
-                          
-                      <TextField
-                        id="outlined-select"
-                        required
-                        label="Nuevo Pais"
-                        name='nombrePais'
-                        color='success'
-                        value={CreateRuteOptions.nombrePais}
-                        onChange={e => {onChangeFormulario(e,"null")}}
-                        disabled = {!createCountry}
-                        helperText="Por favor ingrese el nuevo pais"
-                      />
-                    <div>
-                    <div>
-                      <FormControlLabel
-                        control={
-                          // <Switch checked={state.gilad} onChange={handleChange} name="gilad" />
-                          <Switch 
-                            checked={createDepartament} 
-                            onChange={onChangeDepartament} 
-                            name= "check"
-                          />
-                        }
-                        label="Nuevo"
-                      />
-                  </div>
-                  <div>
                       <TextField
                         id="outlined-select"
                         select
@@ -245,7 +209,6 @@ function CreateRuteOptions() {
                         color='success'
                         value={CreateRuteOptions.idDepartamento}
                         onChange={e => {onChangeFormulario(e,"departament")}}
-                        disabled = {createDepartament}
                         helperText="Por favor seleccione un departamento"
                       >
                         {departament.map((option) => (
@@ -254,33 +217,6 @@ function CreateRuteOptions() {
                           </MenuItem>
                         ))}
                       </TextField>
-                          
-                      <TextField
-                        id="outlined-select"
-                        required
-                        label="Nuevo Departamento"
-                        name='nombreDepartamento'
-                        color='success'
-                        value={CreateRuteOptions.nombreDepartamento}
-                        onChange={e => {onChangeFormulario(e,"null")}}
-                        disabled = {!createDepartament}
-                        helperText="Por favor ingrese el nuevo departamento"
-                      />
-                  </div>
-                  <div>
-                      <FormControlLabel
-                        control={
-                          // <Switch checked={state.gilad} onChange={handleChange} name="gilad" />
-                          <Switch 
-                            checked={createRegion} 
-                            onChange={onChangeRegion} 
-                            name= "check"
-                          />
-                        }
-                        label="Nuevo"
-                      />
-                  </div>
-                  <div>
                       <TextField
                         id="outlined-select"
                         select
@@ -289,7 +225,6 @@ function CreateRuteOptions() {
                         color='success'
                         value={CreateRuteOptions.idRegion}
                         onChange={e => {onChangeFormulario(e,"region")}}
-                        disabled = {createRegion}
                         helperText="Por favor seleccione una region"
                       >
                         {region.map((option) => (
@@ -298,33 +233,6 @@ function CreateRuteOptions() {
                           </MenuItem>
                         ))}
                       </TextField>
-                          
-                      <TextField
-                        id="outlined-select"
-                        required
-                        label="Nueva Region"
-                        name='nombreRegion'
-                        color='success'
-                        value={CreateRuteOptions.nombreRegion}
-                        onChange={e => {onChangeFormulario(e,"null")}}
-                        disabled = {!createRegion}
-                        helperText="Por favor ingrese la nueva region"
-                      />
-                  </div>
-                  <div>
-                      <FormControlLabel
-                        control={
-                          // <Switch checked={state.gilad} onChange={handleChange} name="gilad" />
-                          <Switch 
-                            checked={createCity} 
-                            onChange={onChangeCity} 
-                            name= "check"
-                          />
-                        }
-                        label="Nuevo"
-                      />
-                  </div>
-                  <div>
                       <TextField
                         id="outlined-select"
                         select
@@ -333,7 +241,6 @@ function CreateRuteOptions() {
                         color='success'
                         value={CreateRuteOptions.idCiudad}
                         onChange={e => {onChangeFormulario(e,"city")}}
-                        disabled = {createCity}
                         helperText="Por favor seleccione una ciudad"
                       >
                         {city.map((option) => (
@@ -341,32 +248,65 @@ function CreateRuteOptions() {
                             {option.nombre}
                           </MenuItem>
                         ))}
-                      </TextField>
-                          
+                      </TextField> 
                       <TextField
                         id="outlined-select"
-                        required
-                        label="Nueva Ciudad"
-                        name='nombreCiudad'
+                        select
+                        label="Zona"
+                        name='idZona'
                         color='success'
-                        value={CreateRuteOptions.nombreCiudad}
-                        onChange={e => {onChangeFormulario(e,"null")}}
-                        disabled = {!createCity}
-                        helperText="Por favor ingrese la nueva ciudad"
-                      />
-                    </div>
-                  <div>    
-                      <TextField
-                        id="outlined-select"
-                        required
-                        label="Nueva Zona"
-                        name='nombreZona'
-                        color='success'
-                        value={CreateRuteOptions.nombreZona}
-                        onChange={e => {onChangeFormulario(e,"null")}}
+                        value={CreateRuteOptions.idZona}
+                        onChange={e => {onChangeFormulario(e,"zone")}}
                         helperText="Por favor ingrese la nueva zona"
+                      >
+                        {zone.map((option) => (
+                          <MenuItem key={option.id} value={option.id}>
+                            {option.nombre}
+                          </MenuItem>
+                        ))}
+                    </TextField>
+                    <div>
+                      <FormControlLabel
+                        control={
+                          // <Switch checked={state.gilad} onChange={handleChange} name="gilad" />
+                          <Switch 
+                            checked={createDistrict} 
+                            onChange={onChangeDistrict} 
+                            name= "check"
+                          />
+                        }
+                        label="Nuevo"
                       />
-                    </div>
+                      <TextField
+                        id="outlined-select"
+                        select
+                        label="Barrio"
+                        name='idBarrio'
+                        color='success'
+                        value={CreateRuteOptions.idBarrio}
+                        onChange={e => {onChangeFormulario(e,"barrio")}}
+                        disabled = {createDistrict}
+                        helperText="Por favor seleccione un barrio o cree uno nuevo"
+                      >
+                        {district.map((option) => (
+                          <MenuItem key={option.id} value={option.id}>
+                            {option.nombre}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                      <TextField
+                        id="outlined-select"
+                        required
+                        label="Nuevo Barrio"
+                        name='newDistrict'
+                        color='success'
+                        value={CreateRuteOptions.newDistrict}
+                        onChange={e => {onChangeFormulario(e,"null")}}
+                        disabled = {!createDistrict}
+                        helperText="Por favor ingrese el nuevo barrio"
+                      />
+                  </div>
+                  <div>
                     <Button 
                         sx={{ margin: 5, width: '25ch'}} 
                         variant="contained"

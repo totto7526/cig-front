@@ -92,7 +92,7 @@ const callRelationship = async() => {
        // mensaje de error
        Swal.fire({
          icon: 'error',
-         title: 'Error al crear empleado',
+         title: 'Error al crear el cliente',
          text: mensaje
       })
        console.log(error);

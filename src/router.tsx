@@ -23,17 +23,10 @@ const Login = Loader(lazy(() => import('src/content/auth/SignIn')));
 const LoginUp = Loader(lazy(() => import('src/content/auth/SignUp')));
 
 // Dashboards
-
-const Crypto = Loader(lazy(() => import('src/content/dashboards/Crypto')));
-
+const Cards = Loader(
+  lazy(() => import('src/content/dashboards/Cards'))
+);
 // Applications
-
-const Messenger = Loader(
-  lazy(() => import('src/content/applications/Messenger'))
-);
-const Transactions = Loader(
-  lazy(() => import('src/content/applications/Transactions'))
-);
 const UserProfile = Loader(
   lazy(() => import('src/content/applications/Users/profile'))
 );
@@ -43,31 +36,7 @@ const UserSettings = Loader(
 
 // Components
 
-const Buttons = Loader(
-  lazy(() => import('src/content/pages/Components/Buttons'))
-);
-const Modals = Loader(
-  lazy(() => import('src/content/pages/Components/Modals'))
-);
-const Accordions = Loader(
-  lazy(() => import('src/content/pages/Components/Accordions'))
-);
-const Tabs = Loader(lazy(() => import('src/content/pages/Components/Tabs')));
-const Badges = Loader(
-  lazy(() => import('src/content/pages/Components/Badges'))
-);
-const Tooltips = Loader(
-  lazy(() => import('src/content/pages/Components/Tooltips'))
-);
-const Avatars = Loader(
-  lazy(() => import('src/content/pages/Components/Avatars'))
-);
-const Cards = Loader(
-  lazy(() => import('src/content/pages/Components/Cards'))
-);
-const Forms = Loader(
-  lazy(() => import('src/content/pages/Components/Forms'))
-);
+
 const ClientAdd = Loader(
   lazy(() => import('src/content/pages/Components/ClientAdd'))
 );
@@ -104,6 +73,11 @@ const RouteOptions = Loader(
 const EditRoute = Loader(
   lazy(()=> import('src/content/applications/EditRoute'))
 );
+
+
+
+//TRANSACCIONES
+
 const PaymentRecord = Loader(
   lazy(()=> import('src/content/pages/Components/PaymentRecord'))
 );
@@ -115,6 +89,11 @@ const Sales = Loader(
 const CreateRuteOptions = Loader(
   lazy(() => import('src/content/pages/Components/CreateRuteOptions'))
 );
+
+const CreateDistrict = Loader(
+  lazy(() => import('src/content/pages/Components/CreateDistrict'))
+);
+
 
 
 
@@ -197,18 +176,10 @@ const routes: RouteObject[] = [
         path: '',
         element: <Navigate to="/dashboards/crypto" replace />
       },
-      // {
-      //   path: 'crypto',
-      //   element: <Crypto />
-      // },
       {
         path: 'cards',
         element: <Cards />
-      },
-      // {
-      //   path: 'messenger',
-      //   element: <Messenger />
-      // }
+      }
     ]
   },
   {
@@ -251,37 +222,33 @@ const routes: RouteObject[] = [
     ] 
   },
 
-  // {
-  //   path: '/management',
-  //   element: <SidebarLayout />,
-  //   children: [
-  //     {
-  //       path: '',
-  //       element: <Navigate to="/management/transactions" replace />
-  //     },
-  //     {
-  //       path: 'transactions',
-  //       element: <Transactions />
-  //     },
-  //     {
-  //       path: 'profile',
-  //       children: [
-  //         {
-  //           path: '',
-  //           element: <Navigate to="details" replace />
-  //         },
-  //         {
-  //           path: 'details',
-  //           element: <UserProfile />
-  //         },
-  //         {
-  //           path: 'settings',
-  //           element: <UserSettings />
-  //         }
-  //       ]
-  //     }
-  //   ]
-  // },
+   {
+     path: '/management',
+     element: <SidebarLayout />,
+     children: [
+       {
+         path: '',
+         element: <Navigate to="/management/transactions" replace />
+       },
+       {
+         path: 'profile',
+         children: [
+           {
+             path: '',
+             element: <Navigate to="details" replace />
+           },
+           {
+             path: 'details',
+             element: <UserProfile />
+           },
+           {
+             path: 'settings',
+             element: <UserSettings />
+           }
+         ]
+       }
+     ]
+   },
   {
     path: '/clientes',
     element: <SidebarLayout />,
@@ -364,6 +331,10 @@ const routes: RouteObject[] = [
             path:'editar-ruta',
             element:<EditRoute/>
           },
+          {
+            path:'asignar-barrio',
+            element:<CreateDistrict/>
+          },
         ]
       }
     ]
@@ -389,10 +360,6 @@ const routes: RouteObject[] = [
         element: <Navigate to="/management/transactions" replace />
       },
       {
-        path: 'transactions',
-        element: <Transactions />
-      },
-      {
         path: 'profile',
         children: [
           {
@@ -411,49 +378,6 @@ const routes: RouteObject[] = [
       }
     ]
   },
-  // {
-  //   path: '/admin',
-  //   element: <SidebarLayout />,
-  //   children: [
-  //     {
-  //       path: '',
-  //       element: <Navigate to="/admin/buttons" replace />
-  //     },
-  //     {
-  //       path: 'buttons',
-  //       element: <Buttons />
-  //     },
-  //     {
-  //       path: 'modals',
-  //       element: <Modals />
-  //     },
-  //     {
-  //       path: 'accordions',
-  //       element: <Accordions />
-  //     },
-  //     {
-  //       path: 'tabs',
-  //       element: <Tabs />
-  //     },
-  //     {
-  //       path: 'badges',
-  //       element: <Badges />
-  //     },
-  //     {
-  //       path: 'tooltips',
-  //       element: <Tooltips />
-  //     },
-  //     {
-  //       path: 'avatars',
-  //       element: <Avatars />
-  //     },
-  //     
-  //     {
-  //       path: 'forms',
-  //       element: <Forms />
-  //     },
-  //   ]
-  // }
 ];
 
 export default routes;

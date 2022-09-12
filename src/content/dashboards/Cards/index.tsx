@@ -71,12 +71,9 @@ function Cards() {
       <Container maxWidth="lg">
         <Grid
           container
-          direction="row"
-          justifyContent="center"
-          alignItems="stretch"
           spacing={3}
         >
-          <Grid item xs={12}>
+          <Grid item xs={12} spacing={3}>
             <Card>
               <CardHeader title="BIENVENIDOS"/>
               <Divider />
@@ -97,15 +94,14 @@ function Cards() {
             </Card>
           </Grid>
 
-          <Grid item xs={12}>
+          <Grid item xs={12} spacing={3}>
             <Card>
               <CardHeader title="Nuestros Productos"/>
               <Divider />
             <CardContent>
               <Grid 
-                  item xs={6}  
-                  justifyContent="left"
-                  alignItems="stretch">
+                  item xs={6}
+                  >
                 <Card sx={{ maxWidth: 345}}>
                   <CardActionArea>
                     <CardMedia
@@ -132,8 +128,7 @@ function Cards() {
             <CardContent>
             <Grid 
               item xs={6}
-              justifyContent="right"
-              alignItems="stretch">
+              >
               <Card sx={{ maxWidth: 345 }}>
                 <CardActionArea>
                   <CardMedia
@@ -144,7 +139,7 @@ function Cards() {
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                      Cortina Giraltex Bordada
+                      Cortinas Chinas 
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                       Juego de cortinas chinas estampadas, contiene dos 
@@ -200,7 +195,7 @@ function Cards() {
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                      Unifaz Doble Brocado
+                      Cobija Ovejera
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                       Tendido para cama doble unifaz, garantias de color e imprefectos
