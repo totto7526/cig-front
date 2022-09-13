@@ -1,9 +1,13 @@
-import { ListSubheader, List } from '@mui/material';
-import { useLocation, matchPath } from 'react-router-dom';
-import SidebarMenuItem from './item';
-import menuItems, { MenuItem } from './items';
-import { styled } from '@mui/material/styles';
-
+import { ListSubheader, List } from "@mui/material";
+import { useLocation, matchPath } from "react-router-dom";
+import SidebarMenuItem from "./item";
+import menuItems, { MenuItem } from "./items";
+import menuItemsSales from "./itemsSales";
+import menuItemsCollections from "./itemsCollections";
+import { MenuItems } from './itemsCollections';
+import { styled } from "@mui/material/styles";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect } from "react";
 
 const MenuWrapper = styled(List)(
   ({ theme }) => `
@@ -32,7 +36,9 @@ const SubMenuWrapper = styled(List)(
 
       .MuiList-root .MuiList-root .MuiListItem-root .MuiButton-root {
         font-weight: normal !important;
-      }
+      }import menuItemsSales from './itemsSales';
+import menuItemsCollections from './itemsCollections';
+
 
       .MuiListItem-root {
         padding: 2px ${theme.spacing(2)};
@@ -63,7 +69,7 @@ const SubMenuWrapper = styled(List)(
     
           .MuiButton-startIcon,
           .MuiButton-endIcon {
-            transition: ${theme.transitions.create(['color'])};
+            transition: ${theme.transitions.create(["color"])};
 
             .MuiSvgIcon-root {
               font-size: inherit;
@@ -127,7 +133,7 @@ const SubMenuWrapper = styled(List)(
 
 const renderSidebarMenuItems = ({
   items,
-  path
+  path,
 }: {
   items: MenuItem[];
   path: string;
@@ -140,7 +146,7 @@ const renderSidebarMenuItems = ({
 const reduceChildRoutes = ({
   ev,
   path,
-  item
+  item,
 }: {
   ev: JSX.Element[];
   path: string;
@@ -148,16 +154,26 @@ const reduceChildRoutes = ({
 }): Array<JSX.Element> => {
   const key = item.name;
 
-  const exactMatch = item.link ? !!matchPath({
-    path: item.link,
-    end: true
-  }, path) : false;
+  const exactMatch = item.link
+    ? !!matchPath(
+        {
+          path: item.link,
+          end: true,
+        },
+        path
+      )
+    : false;
 
   if (item.items) {
-    const partialMatch = item.link ? !!matchPath({
-      path: item.link,
-      end: false
-    }, path) : false;
+    const partialMatch = item.link
+      ? !!matchPath(
+          {
+            path: item.link,
+            end: false,
+          },
+          path
+        )
+      : false;
 
     ev.push(
       <SidebarMenuItem
@@ -171,7 +187,7 @@ const reduceChildRoutes = ({
       >
         {renderSidebarMenuItems({
           path,
-          items: item.items
+          items: item.items,
         })}
       </SidebarMenuItem>
     );
@@ -189,24 +205,38 @@ const reduceChildRoutes = ({
   }
 
   return ev;
-}
+};
 
 function SidebarMenu() {
   const location = useLocation();
 
+  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+
+  let itemsMenu = () => {
+    if (user?.access?.includes("admin-cig")) return menuItems;
+
+    if (user?.access?.includes("cobrador-cig")) return menuItemsCollections;
+
+    if (user?.access?.includes("vendedor-cig")) return menuItemsSales;
+
+    return
+    [];
+  };
 
   return (
     <>
-      {menuItems.map((section) => (
+      {itemsMenu().map((section) => (
         <MenuWrapper
           key={section.heading}
           subheader={
-            <ListSubheader component="div" disableSticky>{section.heading}</ListSubheader>
+            <ListSubheader component="div" disableSticky>
+              {section.heading}
+            </ListSubheader>
           }
         >
           {renderSidebarMenuItems({
             items: section.items,
-            path: location.pathname
+            path: location.pathname,
           })}
         </MenuWrapper>
       ))}

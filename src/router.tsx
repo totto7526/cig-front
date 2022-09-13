@@ -8,6 +8,7 @@ import BaseLayout from 'src/layouts/BaseLayout';
 import SuspenseLoader from 'src/components/SuspenseLoader';
 import { element } from 'prop-types';
 import CountryOptions from 'src/content/pages/Components/CreateRuteOptions';
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Loader = (Component) => (props) =>
   (
