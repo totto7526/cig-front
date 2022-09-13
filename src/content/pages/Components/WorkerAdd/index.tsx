@@ -46,7 +46,6 @@ function WorkerAdd() {
           audience: "htttps://cig/api",
           scope: "read:cig-vendedor read:cig-cobrador",
         });
-        console.log(token);
 
         callNeighborhood(token);
       } catch (e) {
@@ -76,7 +75,6 @@ function WorkerAdd() {
   const submitCrearEmpleado = async (e) => {
     // Se enviaria el cliente al back
     try {
-      console.log(empleado);
       const token = await getAccessTokenSilently({
         audience: "htttps://cig/api",
         scope: "read:cig-vendedor read:cig-cobrador",
@@ -95,7 +93,6 @@ function WorkerAdd() {
         showConfirmButton: false,
         timer: 1500,
       });
-      console.log("Se ha creado el empleado exitosamente");
     } catch (error) {
       const mensaje = error.response.data.mensaje;
 

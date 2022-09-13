@@ -75,7 +75,6 @@ function ProductAdd() {
           audience: "htttps://cig/api",
           scope: "read:cig-vendedor read:cig-cobrador",
         });
-        console.log(token);
 
         callCategorias(token);
         callMedidas(token);
@@ -105,13 +104,11 @@ function ProductAdd() {
   const submitCrearProducto = async (e) => {
     // Se enviaria el cliente al back
     try {
-      console.log(producto);
 
       const token = await getAccessTokenSilently({
         audience: "htttps://cig/api",
         scope: "read:cig-admin",
       });
-      console.log(token);
 
       const response = await clienteAxios.post(
         "/api/v1/productos/producto",

@@ -23,8 +23,6 @@ const App = () => {
             audience: "htttps://cig/api",
             scope: "read:cig-admin",
           });
-          console.log(token);
-          console.log(user);
         }
       } catch (e) {
         console.error(e);

@@ -42,7 +42,6 @@ function CreateRuteOptions() {
           audience: "htttps://cig/api",
           scope: "read:cig-admin",
         });
-        console.log(token);
         const response = await clienteAxios.get("/api/v1/rutas/paises", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -138,8 +137,6 @@ function CreateRuteOptions() {
       } catch (error) {
         console.error(error);
       }
-
-      console.log(CreateRuteOptions);
     })();
   }, [getAccessTokenSilently, CreateRuteOptions]);
 
@@ -154,21 +151,11 @@ function CreateRuteOptions() {
       ...CreateRuteOptions,
       [e.target.name]: e.target.value,
     });
-    console.log(CreateRuteOptions);
-    switch (option) {
-      case "country":
-        console.log("Paiiiis" + " " + CreateRuteOptions.idPais);
-        break;
-      default:
-        console.log("No esta");
-        break;
-    }
   };
 
   const submitCreateRouteOptions = async (e) => {
     try {
-      console.log(CreateRuteOptions);
-      
+
       const token = await getAccessTokenSilently({
         audience: "htttps://cig/api",
         scope: "read:cig-admin",
@@ -191,7 +178,6 @@ function CreateRuteOptions() {
         showConfirmButton: false,
         timer: 1500,
       });
-      console.log("Se ha creado la ruta exitosamente");
     } catch (error) {
       const mensaje = error.response.data.mensaje;
 

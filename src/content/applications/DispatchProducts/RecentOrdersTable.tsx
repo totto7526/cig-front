@@ -164,11 +164,6 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Dispatchs }) => {
     console.log("Se ha asignado la ruta exitosamente");
   }
 
-
-
-
-
-
   const [selectedDispatchs, setSelectedDispatchs] = useState<string[]>(
     []
   );

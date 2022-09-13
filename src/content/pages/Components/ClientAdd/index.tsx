@@ -58,7 +58,6 @@ function ClientAdd() {
           audience: 'htttps://cig/api',
           scope: 'read:cig-vendedor read:cig-cobrador',
         });
-        console.log(token);
         callRelationship(token);
         callNeighborhood(token);
       } catch (e) {
@@ -90,13 +89,11 @@ function ClientAdd() {
       ...cliente,
       [e.target.name]: e.target.value,
     });
-    console.log(cliente);
   };
 
   const submitCrearCliente = async (e) => {
     // Se enviaria el cliente al back
     try {
-      console.log(cliente);
       const token = await getAccessTokenSilently({
         audience: 'htttps://cig/api',
         scope: 'read:cig-vendedor read:cig-cobrador',
