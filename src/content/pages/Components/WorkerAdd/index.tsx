@@ -77,7 +77,7 @@ function WorkerAdd() {
     try {
       const token = await getAccessTokenSilently({
         audience: "htttps://cig/api",
-        scope: "read:cig-vendedor read:cig-cobrador",
+        scope: "read:cig-admin",
       });
       const response = await clienteAxios.post('/api/v1/trabajadores/trabajador', empleado, {
         headers: {
