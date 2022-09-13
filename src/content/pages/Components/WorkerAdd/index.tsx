@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import PageTitle from "src/components/PageTitle";
 import { useState, useEffect } from "react";
+import {useNavigate} from 'react-router-dom';
 
 import PageTitleWrapper from "src/components/PageTitleWrapper";
 import {
@@ -26,6 +27,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
 function WorkerAdd() {
+
+  let navigate = useNavigate();
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   const [neighborhood, setNeighborhood] = useState([]);
@@ -93,6 +96,8 @@ function WorkerAdd() {
         showConfirmButton: false,
         timer: 1500,
       });
+      navigate("/empleados/gestion_empleados/editar-empleados", {replace:true})
+      
     } catch (error) {
       const mensaje = error.response.data.mensaje;
 
