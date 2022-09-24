@@ -138,25 +138,52 @@ que son aplicables en un contexto de desarrollo específico, restringen las deci
 
 
 ## Notas de lo que se tenia hasta la fecha de reunion de entrega y lo que se tiene hasta su entrega 4 dias despues 
-<p> Hasta el 08/09/2022
+
+Hasta el 08/09/2022
 
 Frontend:
 
--Diseño de las pantallas establecidas.
-- Navegación entre las pantallas operativas 
+1. Diseño de las pantallas establecidas.
+2. Navegación entre las pantallas operativas.
+3. Conectividad con el backend (solo pantalla crear cliente)
 
--Conectividad con el backend (solo pantalla crear cliente)
 Hasta el 12/09/2022
 
 Frontend:
--modificación diseño pantalla crear ruta
+1. modificación diseño pantalla crear ruta.
+2. limpieza en código y empalme con backend de pantallas:
+crear cliente.
+crear empleado.
+crear ruta.
+realizar venta.
+visualizar clientes.
+visualizar empleados
+implementacion del auth0 y configuración de roles.
 
--limpieza en código y empalme con backend de pantallas:
---》crear cliente
---》crear empleado
---》crear ruta
---》realizar venta
---》visualizar clientes 
---》visualizar empleados
---》implementacion del auth0 y configuración de roles.
-</p>
+
+Backend:
+
+Hasta el 08-sep-2022
+
+1. Se tenía definida arquitectura hexagonal con la siguiente estructura
+<img src="ArqRef.png"/>
+
+-	Se tenía definido el dominio con los puestos expuestos de los repositorios
+-	Ya estaba definidas todas las entidades de la base de datos
+-	Se tenían los adaptadores para los repositorios expuestos en el dominio
+-	Se tienen construidos los casos de uso para administrar 
+-	Clientes
+-	Empleados
+-	Ventas
+-	Cobros
+-	Productos
+-	Estaban creados los controladores rest
+-	Despliegue en Heroku
+
+Después del el 08-sep-2022
+
+-	Se crearon pruebas unitarias para los casos de uso (no se alcanzó a cubrir el 100%)
+-	Se implementó Auth0 para la autorización del api
+-	Se crearon casos de uso para la administración de Rutas
+-	Se despliega en Heroku con los nuevos cambios
+
