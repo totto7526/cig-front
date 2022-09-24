@@ -166,7 +166,7 @@ Backend:
 Hasta el 08-sep-2022
 
 1. Se tenía definida arquitectura hexagonal con la siguiente estructura
-<img src="ArqRef.png"/>
+<img src="Back.png"/>
 
 -	Se tenía definido el dominio con los puestos expuestos de los repositorios
 -	Ya estaba definidas todas las entidades de la base de datos
