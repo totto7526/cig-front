@@ -136,3 +136,27 @@ que son aplicables en un contexto de desarrollo específico, restringen las deci
 <p> Es un tipo de diagrama UML que muestra la arquitectura de ejecución de un sistema, incluyendo nodos como entornos de ejecución de hardware o software, y el middleware que los conecta. </p>
 <img src="DiagDesp.png"/>
 
+
+## Notas de lo que se tenia hasta la fecha de reunion de entrega y lo que se tiene hasta su entrega 4 dias despues 
+<p> Hasta el 08/09/2022
+
+Frontend:
+
+-Diseño de las pantallas establecidas.
+- Navegación entre las pantallas operativas 
+
+-Conectividad con el backend (solo pantalla crear cliente)
+Hasta el 12/09/2022
+
+Frontend:
+-modificación diseño pantalla crear ruta
+
+-limpieza en código y empalme con backend de pantallas:
+--》crear cliente
+--》crear empleado
+--》crear ruta
+--》realizar venta
+--》visualizar clientes 
+--》visualizar empleados
+--》implementacion del auth0 y configuración de roles.
+</p>
