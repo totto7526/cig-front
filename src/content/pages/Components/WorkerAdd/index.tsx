@@ -1,6 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import PageTitle from "src/components/PageTitle";
 import { useState, useEffect } from "react";
+import {useNavigate} from 'react-router-dom';
 
 import PageTitleWrapper from "src/components/PageTitleWrapper";
 import {
@@ -26,6 +27,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
 function WorkerAdd() {
+
+  let navigate = useNavigate();
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   const [neighborhood, setNeighborhood] = useState([]);
@@ -46,7 +49,6 @@ function WorkerAdd() {
           audience: "htttps://cig/api",
           scope: "read:cig-vendedor read:cig-cobrador",
         });
-        console.log(token);
 
         callNeighborhood(token);
       } catch (e) {
@@ -76,10 +78,9 @@ function WorkerAdd() {
   const submitCrearEmpleado = async (e) => {
     // Se enviaria el cliente al back
     try {
-      console.log(empleado);
       const token = await getAccessTokenSilently({
         audience: "htttps://cig/api",
-        scope: "read:cig-vendedor read:cig-cobrador",
+        scope: "read:cig-admin",
       });
       const response = await clienteAxios.post('/api/v1/trabajadores/trabajador', empleado, {
         headers: {
@@ -95,7 +96,8 @@ function WorkerAdd() {
         showConfirmButton: false,
         timer: 1500,
       });
-      console.log("Se ha creado el empleado exitosamente");
+      navigate("/empleados/gestion_empleados/editar-empleados", {replace:true})
+      
     } catch (error) {
       const mensaje = error.response.data.mensaje;
 

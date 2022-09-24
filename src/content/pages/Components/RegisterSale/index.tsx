@@ -83,7 +83,6 @@ function RegisterSale() {
           audience: "htttps://cig/api",
           scope: "read:cig-vendedor read:cig-cobrador",
         });
-        console.log(token);
 
         callTrabajadores(token);
         callFormaPago(token);
@@ -127,7 +126,6 @@ function RegisterSale() {
     };
 
     setDetails([...details, newdetail]);
-    console.log(details);
   };
 
   const submitCrearVenta = async (e) => {
@@ -136,7 +134,6 @@ function RegisterSale() {
       audience: "htttps://cig/api",
       scope: "read:cig-vendedor",
     });
-    console.log(token);
 
     const response = await clienteAxios.get("/api/v1/clientes/cliente", {
       params: { identificacion: identificacion },
@@ -150,7 +147,6 @@ function RegisterSale() {
 
     //Se enviaria el cliente al back
     try {
-      console.log(register);
       const name =
         response.data.persona.primerNombre +
         " " +
@@ -187,7 +183,6 @@ function RegisterSale() {
         showConfirmButton: false,
         timer: 1500,
       });
-      console.log("Se ha creado la venta exitosamente");
     } catch (error) {
       const mensaje = error.response.data.mensaje;
 

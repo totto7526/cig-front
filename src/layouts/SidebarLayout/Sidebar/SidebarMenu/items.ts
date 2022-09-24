@@ -1,20 +1,6 @@
 import { ReactNode } from 'react';
 
 import DesignServicesTwoToneIcon from '@mui/icons-material/DesignServicesTwoTone';
-import BrightnessLowTwoToneIcon from '@mui/icons-material/BrightnessLowTwoTone';
-import MmsTwoToneIcon from '@mui/icons-material/MmsTwoTone';
-import TableChartTwoToneIcon from '@mui/icons-material/TableChartTwoTone';
-import AccountCircleTwoToneIcon from '@mui/icons-material/AccountCircleTwoTone';
-import BallotTwoToneIcon from '@mui/icons-material/BallotTwoTone';
-import BeachAccessTwoToneIcon from '@mui/icons-material/BeachAccessTwoTone';
-import EmojiEventsTwoToneIcon from '@mui/icons-material/EmojiEventsTwoTone';
-import FilterVintageTwoToneIcon from '@mui/icons-material/FilterVintageTwoTone';
-import HowToVoteTwoToneIcon from '@mui/icons-material/HowToVoteTwoTone';
-import LocalPharmacyTwoToneIcon from '@mui/icons-material/LocalPharmacyTwoTone';
-import RedeemTwoToneIcon from '@mui/icons-material/RedeemTwoTone';
-import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
-import TrafficTwoToneIcon from '@mui/icons-material/TrafficTwoTone';
-import VerifiedUserTwoToneIcon from '@mui/icons-material/VerifiedUserTwoTone';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -26,7 +12,6 @@ import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
 import SettingsIcon from '@mui/icons-material/Settings';
 import CreateIcon from '@mui/icons-material/Create';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import { linkClasses } from '@mui/material';
 
 
 export interface MenuItem {
@@ -120,7 +105,6 @@ const menuItems: MenuItems[] = [
       
     ]
   },
-
   {
     heading:'Transacciones',
     items:[
@@ -165,10 +149,6 @@ const menuItems: MenuItems[] = [
       }
     ]
   },
-
- 
- 
-
   {
     heading: 'SEGUIMIENTO EMPLEADO',
     items: [
@@ -200,64 +180,6 @@ const menuItems: MenuItems[] = [
             link: '/seguimientoEmpleado/gestion_seguimiento/recibir-productos'
     
           },
-        ]
-      }
-    ]
-  },
-  {
-    heading: 'Dashboards',
-    items: [
-      {
-        name: 'Cards',
-        icon: SettingsTwoToneIcon,
-        link: '/dashboards/cards'
-      },
-    ]
-  },
-   {
-     heading: 'Management',
-     items: [
-       {
-         name: 'User Profile',
-         icon: AccountCircleTwoToneIcon,
-         link: '/management/profile',
-         items: [
-           {
-             name: 'Profile Details',
-             link: '/management/profile/details'
-           },
-           {
-             name: 'User Settings',
-             link: '/management/profile/settings'
-           }
-         ]
-       }
-     ]
-   },
-  {
-    heading: 'Extra Pages',
-    items: [
-      {
-        name: 'Status',
-        icon: VerifiedUserTwoToneIcon,
-        link: '/status',
-        items: [
-          {
-            name: 'Error 404',
-            link: '/status/404'
-          },
-          {
-            name: 'Error 500',
-            link: '/status/500'
-          },
-          {
-            name: 'Maintenance',
-            link: '/status/maintenance'
-          },
-          {
-            name: 'Coming Soon',
-            link: '/status/coming-soon'
-          }
         ]
       }
     ]

@@ -22,10 +22,13 @@ import clienteAxios from "src/config/axios";
 import Swal from "sweetalert2";
 
 import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from 'react-router-dom';
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
 function ClientAdd() {
+
+  let navigate = useNavigate();
 
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
@@ -58,7 +61,6 @@ function ClientAdd() {
           audience: 'htttps://cig/api',
           scope: 'read:cig-vendedor read:cig-cobrador',
         });
-        console.log(token);
         callRelationship(token);
         callNeighborhood(token);
       } catch (e) {
@@ -90,13 +92,11 @@ function ClientAdd() {
       ...cliente,
       [e.target.name]: e.target.value,
     });
-    console.log(cliente);
   };
 
   const submitCrearCliente = async (e) => {
     // Se enviaria el cliente al back
     try {
-      console.log(cliente);
       const token = await getAccessTokenSilently({
         audience: 'htttps://cig/api',
         scope: 'read:cig-vendedor read:cig-cobrador',
@@ -114,7 +114,7 @@ function ClientAdd() {
         showConfirmButton: false,
         timer: 1500,
       });
-      console.log("Se ha creado el cliente exitosamente");
+      navigate("/clientes/gestion_clientes/editar-clientes", {replace:true})
     } catch (error) {
       const mensaje = error.response.data.mensaje;
 

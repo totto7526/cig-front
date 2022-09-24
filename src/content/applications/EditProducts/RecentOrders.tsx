@@ -19,7 +19,6 @@ function RecentProductsOrders() {
           audience: 'htttps://cig/api',
           scope: 'read:cig-vendedor read:cig-cobrador',
         });
-        console.log(token);
         const response = await clienteAxios.get('/api/v1/productos', {
           headers: {
             Authorization: `Bearer ${token}`

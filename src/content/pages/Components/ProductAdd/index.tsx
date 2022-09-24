@@ -31,10 +31,14 @@ import InputAdornment from "@mui/material/InputAdornment";
 import clienteAxios from "src/config/axios";
 import Swal from "sweetalert2";
 import { useAuth0 } from "@auth0/auth0-react";
+import {useNavigate} from 'react-router-dom'
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
 function ProductAdd() {
+
+  let navigate = useNavigate();
+
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   const [listCategorias, setListCategorias] = useState([]);
@@ -75,7 +79,6 @@ function ProductAdd() {
           audience: "htttps://cig/api",
           scope: "read:cig-vendedor read:cig-cobrador",
         });
-        console.log(token);
 
         callCategorias(token);
         callMedidas(token);
@@ -105,13 +108,11 @@ function ProductAdd() {
   const submitCrearProducto = async (e) => {
     // Se enviaria el cliente al back
     try {
-      console.log(producto);
 
       const token = await getAccessTokenSilently({
         audience: "htttps://cig/api",
         scope: "read:cig-admin",
       });
-      console.log(token);
 
       const response = await clienteAxios.post(
         "/api/v1/productos/producto",
@@ -131,7 +132,7 @@ function ProductAdd() {
         showConfirmButton: false,
         timer: 1500,
       });
-      console.log("Se ha creado el producto  exitosamente");
+      navigate("/productos/gestion_productos/editar-productos", {replace:true})
     } catch (error) {
       const mensaje = error.response.data.mensaje;
 

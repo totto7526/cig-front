@@ -21,7 +21,6 @@ function RecentWorkersOrders() {
           audience: 'htttps://cig/api',
           scope: 'read:cig-admin',
         });
-        console.log(token);
         const response = await clienteAxios.get('/api/v1/trabajadores', {
           headers: {
             Authorization: `Bearer ${token}`
