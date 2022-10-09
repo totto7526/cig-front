@@ -229,7 +229,7 @@ function CreateRuteOptions() {
                     <TextField
                       id="outlined-select"
                       select
-                      label="Pais"
+                      label="País"
                       name="idPais"
                       color="success"
                       value={CreateRuteOptions.idPais}
@@ -265,7 +265,7 @@ function CreateRuteOptions() {
                     <TextField
                       id="outlined-select"
                       select
-                      label="Region"
+                      label="Región"
                       name="idRegion"
                       color="success"
                       value={CreateRuteOptions.idRegion}

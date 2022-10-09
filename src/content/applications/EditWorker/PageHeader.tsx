@@ -17,7 +17,7 @@ function PageHeader() {
           Editar Empleado
         </Typography>
         <Typography variant="subtitle2">
-          {user.name}, Aca podras editar un empleado o eliminarlo
+          {user.name}, Acá podrás modificar o eliminar la información de un empleado.
         </Typography>
       </Grid>
       <Grid item>

@@ -252,12 +252,12 @@ function RegisterSale() {
                     <TextField
                       id="outlined-select"
                       required
-                      label="Ingrese la cedula del cliente"
+                      label="Ingrese la cédula del cliente"
                       name="identificacion"
                       color="success"
                       value={identificacion}
                       onChange={(e) => setIdentificacion(e.target.value)}
-                      helperText="Por favor ingrese el numero de cedula del cliente"
+                      helperText="Por favor ingrese el número de cédula del cliente"
                     />
                     <TextField
                       id="outlined-select-currency"
@@ -336,7 +336,7 @@ function RegisterSale() {
                     />
                     <TextField
                       id="outlined-required"
-                      label="Descripcion Descuento"
+                      label="Descripción Descuento"
                       color="success"
                       name="justificacion"
                       value={justificacion}
@@ -374,7 +374,7 @@ function RegisterSale() {
                               <TableCell>Producto</TableCell>
                               <TableCell>Cantidad</TableCell>
                               <TableCell>Descuento</TableCell>
-                              <TableCell>Justificacion</TableCell>
+                              <TableCell>Justificación</TableCell>
                             </TableRow>
                           </TableHead>
                           <TableBody>

@@ -213,11 +213,11 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
                   onChange={handleSelectAllClients}
                 />
               </TableCell>
-              <TableCell>Cedula</TableCell>
+              <TableCell>Cédula</TableCell>
               <TableCell>Nombre Completo</TableCell>
               <TableCell>Apellidos</TableCell>
-              <TableCell>Direccion</TableCell>
-              <TableCell>Telefono</TableCell>
+              <TableCell>Dirección</TableCell>
+              <TableCell>Teléfono / Celular</TableCell>
               <TableCell>Cupo</TableCell>
               <TableCell>Referencia</TableCell>
               <TableCell>Referencia</TableCell>

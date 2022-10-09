@@ -18,7 +18,7 @@ function Overview() {
   return (
     <OverviewWrapper>
       <Helmet>
-        <title>Almacen Cadena El Cig</title>
+        <title>Almacén Cadena El Cig</title>
       </Helmet>
       <Container maxWidth="lg">
         <Box display="flex" justifyContent="center" py={5} alignItems="center">

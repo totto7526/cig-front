@@ -99,7 +99,7 @@ function Hero() {
             color="text.secondary"
             fontWeight="normal"
           >
-            Almacén cadena el cig es un almacén que distribuye productos para el hogar a crédito o de contado por el oriente antioqueño           
+            Almacén cadena el cig es un almacén que distribuye productos para el hogar a crédito o de contado por medio del oriente antioqueño           
             </TypographyH2>
           <Button
             component={RouterLink}

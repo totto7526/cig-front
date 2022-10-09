@@ -386,7 +386,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Dispatchs }) => {
               <TableCell>Cantidad</TableCell>
               <TableCell>Nombre Producto</TableCell>
               <TableCell>Referencia Producto</TableCell>
-              <TableCell>Descripcion</TableCell>
+              <TableCell>Descripción</TableCell>
               <TableCell align="right">Medidas</TableCell>
               <TableCell align="right">Estado</TableCell>
               <TableCell align="right">Actions</TableCell>

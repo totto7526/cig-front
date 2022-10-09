@@ -16,7 +16,7 @@ function PageHeader() {
           Recibir Productos
         </Typography>
         <Typography variant="subtitle2">
-          {user.name}, Aca podras recibirle los productos a un empleado
+          {user.name}, Acá podrás recibir los productos de un empleado
         </Typography>
       </Grid>
       <Grid item>

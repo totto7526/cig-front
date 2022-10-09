@@ -42,7 +42,7 @@ const menuItems: MenuItems[] = [
     heading: 'Empleados',
     items: [
       {
-        name:'Gestion empleados',
+        name:'Gestión empleados',
         link :'empleados/gestion_empleados',
         icon: SettingsIcon,
         items:[
@@ -64,7 +64,7 @@ const menuItems: MenuItems[] = [
     heading: 'Productos',
     items: [
       {
-        name:'Gestion Productos',
+        name:'Gestión Productos',
         link:'/productos/gestion_productos',
         icon: SettingsIcon,
         items: [
@@ -86,7 +86,7 @@ const menuItems: MenuItems[] = [
     heading: 'Clientes',
     items: [
       {
-        name: 'Gestion clientes',
+        name: 'Gesti+on clientes',
         icon: SettingsIcon,
         link: '/clientes/gestion_clientes',
         items:[
@@ -109,7 +109,7 @@ const menuItems: MenuItems[] = [
     heading:'Transacciones',
     items:[
       {
-        name:'Gestion transacciones',
+        name:'Gestión transacciones',
         icon: MonetizationOnIcon,
         link: '/transacciones/gestion_transacciones',
         items:[
@@ -131,7 +131,7 @@ const menuItems: MenuItems[] = [
     heading: 'Ruta',
     items:[
       {
-        name:'Gestion rutas',
+        name:'Gestión rutas',
         link:'opcionesRuta/gestion_rutas',
         icon:SettingsIcon,
         items:[
@@ -153,7 +153,7 @@ const menuItems: MenuItems[] = [
     heading: 'SEGUIMIENTO EMPLEADO',
     items: [
       {
-        name: 'Gestion seguimiento',
+        name: 'Gestión seguimiento',
         icon: SettingsIcon,
         link: '/seguimientoEmpleado/gestion_seguimiento',
         items:[

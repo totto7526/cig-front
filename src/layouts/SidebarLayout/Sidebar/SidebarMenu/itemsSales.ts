@@ -35,7 +35,7 @@ const menuItemsSales: MenuItems[] = [
     heading: 'Clientes',
     items: [
       {
-        name: 'Gestion clientes',
+        name: 'Gesti+on clientes',
         icon: SettingsIcon,
         link: '/clientes/gestion_clientes',
         items:[
@@ -59,7 +59,7 @@ const menuItemsSales: MenuItems[] = [
     heading:'Transacciones',
     items:[
       {
-        name:'Gestion transacciones',
+        name:'Gestión transacciones',
         icon: MonetizationOnIcon,
         link: '/transacciones/gestion_transacciones',
         items:[

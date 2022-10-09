@@ -16,7 +16,7 @@ function PageHeader() {
           Editar Cliente
         </Typography>
         <Typography variant="subtitle2">
-          {user.name}, Aca podras editar un cliente o eliminarlo
+          {user.name}, Acá podrás modificar o eliminar un cliente.
         </Typography>
       </Grid>
       <Grid item>

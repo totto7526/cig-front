@@ -218,7 +218,7 @@ function Liquidateroute() {
                         <FormLabel component="legend">Estado Liquidación</FormLabel>
                           <RadioGroup 
                             row aria-label="Estado Liquidacion"
-                            defaultValue={"Se pago"}
+                            defaultValue={"Se pagó"}
                             name='state'
                             value={liquidate.state}
                             onChange={onChangeFormulario}

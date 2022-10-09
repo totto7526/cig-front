@@ -16,7 +16,7 @@ function PageHeader() {
           Editar Producto
         </Typography>
         <Typography variant="subtitle2">
-          {user.name}, Aca podras editar un producto o eliminarlo
+          {user.name}, Acá podrás modificar o eliminar un producto.
         </Typography>
       </Grid>
       <Grid item>

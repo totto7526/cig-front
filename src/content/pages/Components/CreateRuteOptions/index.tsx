@@ -194,7 +194,7 @@ function CreateRuteOptions() {
         <PageTitle
           textButton="Inicio"
           heading="Crear nueva ruta"
-          subHeading="Proceso Crear Ruta Nueva"
+          subHeading="Proceso crear ruta nueva"
           docs="/overview" />
       </PageTitleWrapper>
       <Container maxWidth="lg">
@@ -235,13 +235,13 @@ function CreateRuteOptions() {
                       <TextField
                         id="outlined-select"
                         select
-                        label="Pais"
+                        label="País"
                         name='idPais'
                         color='success'
                         value={CreateRuteOptions.idPais}
                         onChange={e => {onChangeFormulario(e,"country")}}
                         disabled = {createCountry}
-                        helperText="Por favor seleccione un pais"
+                        helperText="Por favor seleccione un país"
                       >
                         {country.map((option) => (
                           <MenuItem key={option.id} value={option.id}>
@@ -253,7 +253,7 @@ function CreateRuteOptions() {
                       <TextField
                         id="outlined-select"
                         required
-                        label="Nuevo Pais"
+                        label="Nuevo País"
                         name='nombrePais'
                         color='success'
                         value={CreateRuteOptions.nombrePais}
@@ -323,7 +323,7 @@ function CreateRuteOptions() {
                       <TextField
                         id="outlined-select"
                         select
-                        label="Region"
+                        label="Región"
                         name='idRegion'
                         color='success'
                         value={CreateRuteOptions.idRegion}
@@ -341,13 +341,13 @@ function CreateRuteOptions() {
                       <TextField
                         id="outlined-select"
                         required
-                        label="Nueva Region"
+                        label="Nueva Región"
                         name='nombreRegion'
                         color='success'
                         value={CreateRuteOptions.nombreRegion}
                         onChange={e => {onChangeFormulario(e,"null")}}
                         disabled = {!createRegion}
-                        helperText="Por favor ingrese la nueva region"
+                        helperText="Por favor ingrese la nueva región"
                       />
                   </div>
                   <div>

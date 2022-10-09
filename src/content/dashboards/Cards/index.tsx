@@ -59,7 +59,7 @@ function Cards() {
   return (
     <>
       <Helmet>
-        <title>Almacen Cadena El Cig</title>
+        <title>Almacén Cadena El Cig</title>
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
@@ -81,8 +81,8 @@ function Cards() {
                 <Card sx={{ minWidth: 150 }}>
                   <CardContent>
                     <Typography sx={{ fontSize: 20 }} color="text.secondary" gutterBottom>
-                      Almacen Cadena el Cig cuenta con rutas en el oriente antioqueño
-                      prestando sus servicios de manera consecutiva por mas de 20 años llevando producto y servicio de calidad 
+                      Almacén Cadena el Cig cuenta con rutas en el oriente antioqueño
+                      prestando sus servicios de manera consecutiva por mas de 20 años, llevando productos y servicios de calidad 
                       a los hogares del oriente antioqueño.
                     </Typography>
                   </CardContent>
@@ -116,7 +116,7 @@ function Cards() {
                       </Typography>
                       <Typography variant="body2" color="text.secondary">
                         Juego de cortinas contiene velo suizo, el par de cortinas con 
-                        cenefas incluidas y sus respectivas amarraderas.
+                        cenefas incluídas y sus respectivas amarraderas.
                         ¡Excelente para combinar en tu sala !
                       </Typography>
                     </CardContent>
@@ -144,7 +144,7 @@ function Cards() {
                     <Typography variant="body2" color="text.secondary">
                       Juego de cortinas chinas estampadas, contiene dos 
                        cortinas hermosas y sus respectivas amarraderas.
-                      ¡Excelente para combinar en tu sala !
+                      ¡Excelente para combinar en tu sala!
                     </Typography>
                   </CardContent>
                 </CardActionArea>
@@ -199,7 +199,7 @@ function Cards() {
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                       Tendido para cama doble unifaz, garantias de color e imprefectos
-                      un tendido practico y facil de manipular a la hora del lavado, contiene
+                      un tendido practico y fácil de manipular a la hora del lavado, contiene
                       el tendido y las dos fundas de almohadas.
                     </Typography>
                   </CardContent>

@@ -298,7 +298,7 @@ function ProductAdd() {
 
                     <div>
                       <FormControl component="fieldset">
-                        <FormLabel component="legend">Tipo Categoria</FormLabel>
+                        <FormLabel component="legend">Tipo Categoría</FormLabel>
                         <RadioGroup
                           row
                           aria-label="Tipo categorias"
@@ -416,7 +416,7 @@ function ProductAdd() {
                     <div>
                       <FormControl component="fieldset" sx={{ margin: 5 }}>
                         <InputLabel htmlFor="standard-adornment-amount">
-                          Precio Credito
+                          Precio Crédito
                         </InputLabel>
                         <Input
                           id="standard-adornment-amount"

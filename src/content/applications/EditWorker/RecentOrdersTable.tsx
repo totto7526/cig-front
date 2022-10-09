@@ -216,9 +216,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
               </TableCell>
               <TableCell>Nombre Completo</TableCell>
               <TableCell>Apellidos</TableCell>
-              <TableCell>Cedula</TableCell>
-              <TableCell>Telefono</TableCell>
-              <TableCell align="right">Direccion</TableCell>
+              <TableCell>Cédula</TableCell>
+              <TableCell>Teléfono / Celular</TableCell>
+              <TableCell align="right">Dirección</TableCell>
               <TableCell align="right">Estado</TableCell>
               <TableCell align="right">Actions</TableCell>
             </TableRow>

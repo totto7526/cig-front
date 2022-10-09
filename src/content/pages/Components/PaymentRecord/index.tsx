@@ -210,12 +210,12 @@ function PaymentRecord() {
                     <TextField
                       id="outlined-select"
                       required
-                      label="Ingrese la cedula del idCliente"
+                      label="Ingrese la cédula del idCliente"
                       name='identificacion'
                       color='success'
                       value={identificacion}
                       onChange={e => setIdentificacion(e.target.value)}
-                      helperText="Por favor ingrese el numero de cedula del idCliente"
+                      helperText="Por favor ingrese el numero de cédula del idCliente"
                     />
                   
                     <TextField

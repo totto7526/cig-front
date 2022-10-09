@@ -16,7 +16,7 @@ function PageHeader() {
           Editar Rutas
         </Typography>
         <Typography variant="subtitle2">
-          {user.name}, Aca podras Editar la ruta seleccionada
+          {user.name}, Acá podrás modificar la ruta seleccionada
         </Typography>
       </Grid>
       <Grid item>

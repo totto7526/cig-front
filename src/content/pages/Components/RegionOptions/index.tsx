@@ -121,13 +121,13 @@ function RegionOptions() {
                       <TextField
                         id="outlined-select"
                         select
-                        label="Region"
-                        name='region'
+                        label="Región"
+                        name='región'
                         color='success'
                         value={regionOptions.region}
                         onChange={onChangeFormulario}
                         disabled = {createRegion}
-                        helperText="Por favor seleccione una region"
+                        helperText="Por favor seleccione una región"
                       >
                         {listRegion.map((option) => (
                           <MenuItem key={option.value} value={option.value}>
@@ -139,13 +139,13 @@ function RegionOptions() {
                       <TextField
                         id="outlined-select"
                         required
-                        label="Nueva Region"
+                        label="Nueva Región"
                         name='newRegion'
                         color='success'
                         value={regionOptions.newRegion}
                         onChange={onChangeFormulario}
                         disabled = {!createRegion}
-                        helperText="Por favor ingrese la nueva region"
+                        helperText="Por favor ingrese la nueva región"
                       />
                     <div>
                     <Button 

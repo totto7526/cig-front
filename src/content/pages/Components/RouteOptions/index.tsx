@@ -67,7 +67,7 @@ function RouteOptions() {
     console.log(routeOptions)
 
     // aqui estaria la respuesta del back
-    console.log("Preciono alguno de los dos botones");
+    console.log("Presiono alguno de los dos botones");
   }
 
   

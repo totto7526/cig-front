@@ -12,7 +12,6 @@ const LogoWrapper = styled(Link)(
 `
 );
 
-
 const LogoSignWrapper = styled(Box)(
   () => `
         width: 52px;
