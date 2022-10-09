@@ -66,19 +66,21 @@ function Cards() {
           textButton='Inicio'
           heading="Cadena Cig"
           subHeading="Almacen Bodega"
-          docs='/overview'/>
+          docs='/dashboards/cards'/>
       </PageTitleWrapper>
-      <Container maxWidth="lg">
+      <Container maxWidth="sm">
         <Grid
-          container
-          spacing={3}
+          display= "flexbox"
+          flexbox-direction= "row"
+          justify-content = "flexbox-start"
+          flexbox-wrap= "wrap"
         >
           <Grid item xs={12} spacing={3}>
             <Card>
               <CardHeader title="BIENVENIDOS"/>
               <Divider />
               <CardContent>
-                <Card sx={{ minWidth: 150 }}>
+                <Card sx={{ minWidth: 100 }}>
                   <CardContent>
                     <Typography sx={{ fontSize: 20 }} color="text.secondary" gutterBottom>
                       Almacen Cadena el Cig cuenta con rutas en el oriente antioqueño
@@ -86,9 +88,6 @@ function Cards() {
                       a los hogares del oriente antioqueño.
                     </Typography>
                   </CardContent>
-                  <CardActions>
-                    <Button size="small">Learn More</Button>
-                  </CardActions>
                 </Card>
               </CardContent>
             </Card>
@@ -99,10 +98,7 @@ function Cards() {
               <CardHeader title="Nuestros Productos"/>
               <Divider />
             <CardContent>
-              <Grid 
-                  item xs={6}
-                  >
-                <Card sx={{ maxWidth: 345}}>
+                <Card sx={{ minWidth: 100}}>
                   <CardActionArea>
                     <CardMedia
                       component="img"
@@ -122,14 +118,17 @@ function Cards() {
                     </CardContent>
                   </CardActionArea>
                 </Card>
-              </Grid>
-            </CardContent>
+               </CardContent>
+              </Card>
+             </Grid>
 
+
+          <Grid item xs={12} spacing={3}>
+          <Card>
+              <CardHeader title="Nuestros Productos"/>
+              <Divider />
             <CardContent>
-            <Grid 
-              item xs={6}
-              >
-              <Card sx={{ maxWidth: 345 }}>
+              <Card sx={{ minWidth: 100 }}>
                 <CardActionArea>
                   <CardMedia
                     component="img"
@@ -148,16 +147,18 @@ function Cards() {
                     </Typography>
                   </CardContent>
                 </CardActionArea>
-               </Card>
-              </Grid>
-            </CardContent>
+                </Card>
+               </CardContent>
+              </Card>
+             </Grid>
 
+
+          <Grid item xs={12} spacing={3}>
+          <Card>
+              <CardHeader title="Nuestros Productos"/>
+              <Divider />
             <CardContent>
-            <Grid 
-              item xs={6}
-              justifyContent="right"
-              alignItems="stretch">
-              <Card sx={{ maxWidth: 345 }}>
+              <Card sx={{ minWidth: 100 }}>
                 <CardActionArea>
                   <CardMedia
                     component="img"
@@ -176,16 +177,18 @@ function Cards() {
                     </Typography>
                   </CardContent>
                 </CardActionArea>
-               </Card>
-              </Grid>
-            </CardContent>
+                </Card>
+               </CardContent>
+              </Card>
+             </Grid>
 
+
+          <Grid item xs={12} spacing={3}>
+          <Card>
+              <CardHeader title="Nuestros Productos"/>
+              <Divider />
             <CardContent>
-            <Grid 
-              item xs={6}
-              justifyContent="right"
-              alignItems="stretch">
-              <Card sx={{ maxWidth: 345 }}>
+              <Card sx={{ minWidth: 100 }}>
                 <CardActionArea>
                   <CardMedia
                     component="img"
@@ -204,19 +207,14 @@ function Cards() {
                     </Typography>
                   </CardContent>
                 </CardActionArea>
-               </Card>
-              </Grid>
-            </CardContent>
-            
+                </Card>
+               </CardContent>
+              </Card>
+             </Grid>
 
-          </Card>
-        </Grid>
-         
-
-
-        </Grid>
-      </Container>
-      <Footer />
+           </Grid>
+        </Container>
+      <Footer/>
     </>
   );
 }

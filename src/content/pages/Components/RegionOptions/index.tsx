@@ -78,7 +78,7 @@ function RegionOptions() {
           textButton="Inicio"
           heading="Crear nueva ruta"
           subHeading="Proceso Region"
-          docs="/overview" />
+          docs="/dashboards/cards" />
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid

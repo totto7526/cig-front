@@ -111,7 +111,7 @@ function Liquidateroute() {
           textButton='Inicio'
           heading="liquidar ruta"
           subHeading="Proceso para liquidar una ruta o producido de un empleado"
-          docs="/overview" />
+          docs="/dashboards/cards" />
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid

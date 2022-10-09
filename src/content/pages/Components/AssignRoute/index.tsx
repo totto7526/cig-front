@@ -110,7 +110,7 @@ function AssignRoute() {
           textButton='Inicio'
           heading="Asignar ruta"
           subHeading="Proceso para asignar una ruta a un empleado"
-          docs="/overview" />
+          docs="/dashboards/cards" />
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid

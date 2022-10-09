@@ -201,7 +201,7 @@ function CreateRuteOptions() {
           textButton="Inicio"
           heading="Crear nuevo barrio"
           subHeading="Proceso para crear un nuevo barrio"
-          docs="/overview"
+          docs="/dashboards/cards"
         />
       </PageTitleWrapper>
       <Container maxWidth="lg">

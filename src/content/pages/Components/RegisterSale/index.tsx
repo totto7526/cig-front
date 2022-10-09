@@ -206,7 +206,7 @@ function RegisterSale() {
           textButton="Inicio"
           heading="Registro Venta"
           subHeading="Proceso para registrar una venta"
-          docs="/overview"
+          docs="/dashboards/cards"
         />
       </PageTitleWrapper>
       <Container maxWidth="lg">

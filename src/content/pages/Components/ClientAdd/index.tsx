@@ -227,8 +227,7 @@ function ClientAdd() {
 
   const submitCrearCliente = async (e) => {
     // Se enviaria el cliente al back
-    actualizarExistenciaError()
-    console.log(errorValue.identificacion);
+    actualizarExistenciaError();
 
     if (
       !errorValue.identificacion  &&
@@ -293,7 +292,7 @@ function ClientAdd() {
           textButton="Inicio"
           heading="Registro cliente"
           subHeading="Proceso para registrar un cliente nuevo"
-          docs="/overview"
+          docs="/dashboards/cards"
         />
       </PageTitleWrapper>
       <Container maxWidth="lg">

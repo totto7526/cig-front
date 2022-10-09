@@ -154,7 +154,7 @@ function PaymentRecord() {
           textButton="Inicio"
           heading="Registro Abono"
           subHeading="Proceso para registrar el pago cuota o abono de un idCliente"
-          docs='/overview' />
+          docs='/dashboards/cards' />
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid

@@ -105,44 +105,138 @@ function ProductAdd() {
     cantidad: 0,
   });
 
+  
+  const [errorValue, setErrorValue] = useState({
+    nombre: false,
+    referencia: false,
+    descripcion:false,
+    valorCredito:false,
+  });
+
+  const [helperTextValue, sethelperTextValue] = useState({
+    nombre: "",
+    referencia:"",
+    descripcion:"",
+    valorCredito:"",
+  });
+
+  
+  const actualizarExistenciaError = () => {
+    let errors = {
+      nombre: false,
+      referencia: false,
+      descripcion: false,
+      valorCredito: false,
+      
+    }
+
+    let errorText = {
+      nombre: "",
+      referencia: "",
+      descripcion:"",
+      valorCredito:"",
+    }
+
+    if (producto.nombre.trim().length === 0) {
+      errors = {...errors, nombre: true};
+      errorText = {...errorText, nombre: 'Campo obligatorio ingrese el nombre del producto'}
+    }
+    if (producto.referencia.trim().length === 0) {
+      errors = {...errors, referencia: true};
+      errorText = {...errorText, referencia: 'Campo obligatorio ingrese la referencia del producto'}
+    }
+    if (producto.descripcion.trim().length === 0) {
+      errors = {...errors, descripcion: true};
+      errorText = {...errorText, descripcion: 'Campo obligatorio'}
+    }
+    if (producto.valorCredito === 0) {
+      errors = {...errors, valorCredito: true};
+      errorText = {...errorText, valorCredito: 'Campo obligatorio Ingrese el valor del producto'}
+    }
+
+    setErrorValue(errors);
+    sethelperTextValue(errorText);
+  };
+
+  const onChangeFormulario = (e) => {
+    setProducto({
+      ...producto,
+      [e.target.name]: e.target.value,
+    });
+
+    if (e.target.value.trim().length === 0) {
+      setErrorValue({
+        ...errorValue,
+        [e.target.name]: true,
+      });
+
+      sethelperTextValue({
+        ...helperTextValue,
+        [e.target.name]: "Campo obligatorio",
+      });
+    } else {
+      setErrorValue({
+        ...errorValue,
+        [e.target.name]: false,
+      });
+
+      sethelperTextValue({
+        ...helperTextValue,
+        [e.target.name]: "",
+      });
+    }
+  };
+
+
   const submitCrearProducto = async (e) => {
     // Se enviaria el cliente al back
-    try {
+    actualizarExistenciaError();
 
-      const token = await getAccessTokenSilently({
-        audience: "htttps://cig/api",
-        scope: "read:cig-admin",
-      });
+    
+    if (
+      !errorValue.nombre  &&
+      !errorValue.referencia &&
+      !errorValue.descripcion &&
+      !errorValue.valorCredito
+      
+    ) {
+      try {
 
-      const response = await clienteAxios.post(
-        "/api/v1/productos/producto",
-        producto,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      // Mensaje de exito
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Producto registrado exitosamente.",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      navigate("/productos/gestion_productos/editar-productos", {replace:true})
-    } catch (error) {
-      const mensaje = error.response.data.mensaje;
-
-      // mensaje de error
-      Swal.fire({
-        icon: "error",
-        title: "Error al crear producto",
-        text: mensaje,
-      });
-      console.log(error);
+        const token = await getAccessTokenSilently({
+          audience: "htttps://cig/api",
+          scope: "read:cig-admin",
+        });
+  
+        const response = await clienteAxios.post(
+          "/api/v1/productos/producto",
+          producto,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+  
+        // Mensaje de exito
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Producto registrado exitosamente.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate("/productos/gestion_productos/editar-productos", {replace:true})
+      } catch (error) {
+        const mensaje = error.response.data.mensaje;
+  
+        // mensaje de error
+        Swal.fire({
+          icon: "error",
+          title: "Error al crear producto",
+          text: mensaje,
+        });
+        console.log(error);
+      }
     }
   };
 
@@ -150,12 +244,7 @@ function ProductAdd() {
   const [listaCategoria, setListaCategoria] = useState(true);
   const [tipoColor, setTipoColor] = useState(true);
 
-  const onChangeFormulario = (e) => {
-    setProducto({
-      ...producto,
-      [e.target.name]: e.target.value,
-    });
-  };
+ 
 
   const onChangeMedida = (e) => {
     setMedidaEstandar(!medidaEstandar);
@@ -177,7 +266,7 @@ function ProductAdd() {
           textButton="Inicio"
           heading="Registro producto"
           subHeading="Proceso para registrar un producto nuevo"
-          docs="/overview"
+          docs="/dashboards/cards"
         />
       </PageTitleWrapper>
       <Container maxWidth="lg">
@@ -205,6 +294,8 @@ function ProductAdd() {
                     <TextField
                       required
                       id="outlined-required"
+                      error={errorValue.nombre}
+                      helperText={helperTextValue.nombre}
                       label="Nombre Producto"
                       color="success"
                       defaultValue=" "
@@ -215,6 +306,8 @@ function ProductAdd() {
                     <TextField
                       required
                       id="outlined-required"
+                      error={errorValue.referencia}
+                      helperText={helperTextValue.referencia}
                       label="Referencia Producto"
                       color="success"
                       defaultValue=" "
@@ -225,6 +318,8 @@ function ProductAdd() {
                     <TextField
                       required
                       id="outliend-required"
+                      error={errorValue.descripcion}
+                      helperText={helperTextValue.descripcion}
                       label="Descripción"
                       color="success"
                       defaultValue=" "
@@ -420,6 +515,7 @@ function ProductAdd() {
                         </InputLabel>
                         <Input
                           id="standard-adornment-amount"
+                          error={errorValue.valorCredito}
                           required={true}
                           color="success"
                           name="valorCredito"
@@ -441,7 +537,7 @@ function ProductAdd() {
                           color="success"
                           name="valorContado"
                           type="number"
-                          value={producto.valorContado}
+                          value={producto.valorContado = (producto.valorCredito)-(producto.valorCredito*0.3)}
                           onChange={onChangeFormulario}
                           startAdornment={
                             <InputAdornment position="start">$</InputAdornment>

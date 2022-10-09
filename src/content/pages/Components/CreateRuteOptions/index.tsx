@@ -195,7 +195,7 @@ function CreateRuteOptions() {
           textButton="Inicio"
           heading="Crear nueva ruta"
           subHeading="Proceso Crear Ruta Nueva"
-          docs="/overview" />
+          docs="/dashboards/cards" />
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid

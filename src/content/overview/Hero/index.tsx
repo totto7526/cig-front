@@ -108,7 +108,7 @@ function Hero() {
             variant="contained"
             onClick={() => loginWithRedirect()}
           >
-            ¡Visitanos!
+            ¡Ingresar!
           </Button>
           <Button
             sx={{ ml: 2 }}

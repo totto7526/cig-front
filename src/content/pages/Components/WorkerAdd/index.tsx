@@ -68,46 +68,154 @@ function WorkerAdd() {
     idBarrio: 0,
   });
 
+  const [errorValue, setErrorValue] = useState({
+    primerNombre:false,
+    segundoNombre:false,
+    primerApellido:false,
+    segundoApellido: false,
+    identificacion: false,
+    telefono: false,
+    direccion:false,
+  });
+
+  
+  const [helperTextValue, sethelperTextValue] = useState({
+    primerNombre: "",
+    segundoNombre:"",
+    primerApellido:"",
+    segundoApellido:"",
+    identificacion:"",
+    telefono:"",
+    direccion:"",    
+  });
+
+    const actualizarExistenciaError = () => {
+      let errors = {
+        primerNombre:false,
+        segundoNombre:false,
+        primerApellido:false,
+        segundoApellido: false,
+        identificacion: false,
+        telefono: false,
+        direccion:false,
+      }
+
+      let errorText = {
+        primerNombre: "",
+        segundoNombre:"",
+        primerApellido:"",
+        segundoApellido:"",
+        identificacion:"",
+        telefono:"",
+        direccion:"",    
+      }
+
+      if (empleado.primerNombre.trim().length === 0) {
+        errors = {...errors, primerNombre: true};
+        errorText = {...errorText, primerNombre: 'Campo obligatorio'}
+      }
+      if (empleado.primerApellido.trim().length === 0) {
+        errors = {...errors, primerApellido: true};
+        errorText = {...errorText, primerApellido: 'Campo obligatorio'}
+      }
+      if (empleado.segundoApellido.trim().length === 0) {
+        errors = {...errors, segundoApellido: true};
+        errorText = {...errorText, segundoApellido: 'Campo obligatorio'}
+      }
+      if (empleado.identificacion.trim().length === 0) {
+        errors = {...errors, identificacion: true};
+        errorText = {...errorText, identificacion: 'Campo obligatorio'}
+      }
+
+      if (empleado.telefono.trim().length === 0) {
+        errors = {...errors, telefono: true};
+        errorText = {...errorText, telefono: 'Campo obligatorio'}
+      }
+      if (empleado.direccion.trim().length === 0) {
+        errors = {...errors, direccion: true};
+        errorText = {...errorText, direccion: 'Campo obligatorio'}
+      }
+      setErrorValue(errors);
+      sethelperTextValue(errorText);
+    };
+
+  
+
   const onChangeFormulario = (e) => {
     setEmpleado({
       ...empleado,
       [e.target.name]: e.target.value,
     });
+
+    if (e.target.value.trim().length === 0) {
+      setErrorValue({
+        ...errorValue,
+        [e.target.name]: true,
+      });
+
+      sethelperTextValue({
+        ...helperTextValue,
+        [e.target.name]: "Campo obligatorio",
+      });
+    } else {
+      setErrorValue({
+        ...errorValue,
+        [e.target.name]: false,
+      });
+
+      sethelperTextValue({
+        ...helperTextValue,
+        [e.target.name]: "",
+      });
+    }
   };
 
   const submitCrearEmpleado = async (e) => {
     // Se enviaria el cliente al back
-    try {
-      const token = await getAccessTokenSilently({
-        audience: "htttps://cig/api",
-        scope: "read:cig-admin",
-      });
-      const response = await clienteAxios.post('/api/v1/trabajadores/trabajador', empleado, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+    actualizarExistenciaError();
 
-      // Mensaje de exito
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Empleado registrado exitosamente.",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-      navigate("/empleados/gestion_empleados/editar-empleados", {replace:true})
-      
-    } catch (error) {
-      const mensaje = error.response.data.mensaje;
+    if (
+      !errorValue.primerNombre &&
+      !errorValue.segundoNombre &&
+      !errorValue.primerApellido &&
+      !errorValue.segundoApellido &&
+      !errorValue.identificacion &&
+      !errorValue.telefono &&
+      !errorValue.direccion
+    ) {
 
-      // mensaje de error
-      Swal.fire({
-        icon: "error",
-        title: "Error al crear empleado",
-        text: mensaje,
-      });
-      console.log(error);
+      try {
+        const token = await getAccessTokenSilently({
+          audience: "htttps://cig/api",
+          scope: "read:cig-admin",
+        });
+        const response = await clienteAxios.post('/api/v1/trabajadores/trabajador', empleado, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+  
+        // Mensaje de exito
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Empleado registrado exitosamente.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        navigate("/empleados/gestion_empleados/editar-empleados", {replace:true})
+        
+      } catch (error) {
+        const mensaje = error.response.data.mensaje;
+  
+        // mensaje de error
+        Swal.fire({
+          icon: "error",
+          title: "Error al crear empleado",
+          text: mensaje,
+        });
+        console.log(error);
+      }
     }
   };
 
@@ -121,7 +229,7 @@ function WorkerAdd() {
           textButton="Inicio"
           heading="Registro Empleado"
           subHeading="Proceso para registrar un empleado nuevo"
-          docs="/overview"
+          docs="/dashboards/cards"
         />
       </PageTitleWrapper>
       <Container maxWidth="lg">
@@ -149,6 +257,8 @@ function WorkerAdd() {
                     <TextField
                       required
                       id="outlined-required"
+                      error={errorValue.primerNombre}
+                      helperText={helperTextValue.primerNombre}
                       label="Primer Nombre"
                       color="success"
                       defaultValue=" "
@@ -169,6 +279,8 @@ function WorkerAdd() {
                     <TextField
                       required
                       id="outliend-required"
+                      error={errorValue.primerNombre}
+                      helperText={helperTextValue.primerApellido}
                       label="Primer Apellido"
                       color="success"
                       defaultValue=" "
@@ -179,6 +291,8 @@ function WorkerAdd() {
                     <TextField
                       required
                       id="outliend-required"
+                      error={errorValue.segundoApellido}
+                      helperText={helperTextValue.segundoApellido}
                       label="Segundo Apellido"
                       color="success"
                       defaultValue=" "
@@ -188,6 +302,8 @@ function WorkerAdd() {
                     />
                     <TextField
                       id="outlined-number"
+                      error={errorValue.identificacion}
+                      helperText={helperTextValue.identificacion}
                       label="Numero Identificación"
                       color="success"
                       type="number"
@@ -197,6 +313,8 @@ function WorkerAdd() {
                     />
                     <TextField
                       id="outlined-number"
+                      error={errorValue.telefono}
+                      helperText={helperTextValue.telefono}
                       label="Telefono"
                       color="success"
                       type="number"
@@ -207,6 +325,8 @@ function WorkerAdd() {
                     <TextField
                       required
                       id="outliend-required"
+                      error={errorValue.direccion}
+                      helperText={helperTextValue.direccion}
                       label="Dirección"
                       color="success"
                       name="direccion"

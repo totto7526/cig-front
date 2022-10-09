@@ -83,7 +83,7 @@ function RouteOptions() {
           textButton="Inicio"
           heading="Opciones de Ruta"
           subHeading="Proceso Opciones de Ruta"
-          docs="/overview" />
+          docs="/dashboards/cards" />
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid

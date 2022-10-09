@@ -97,9 +97,6 @@ const CreateDistrict = Loader(
 
 
 
-
-
-
 // Status
 
 const Status404 = Loader(
@@ -173,10 +170,6 @@ const routes: RouteObject[] = [
     path: '/dashboards',
     element: <SidebarLayout />,
     children: [
-      {
-        path: '',
-        element: <Navigate to="/dashboards/crypto" replace />
-      },
       {
         path: 'cards',
         element: <Cards />
