@@ -281,7 +281,6 @@ function WorkerAdd() {
                       onChange={onChangeFormulario}
                     />
                     <TextField
-                      required
                       id="outlined-search"
                       label="Segundo Nombre"
                       color="success"

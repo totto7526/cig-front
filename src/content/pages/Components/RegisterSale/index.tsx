@@ -97,7 +97,7 @@ function RegisterSale() {
   const [identificacion, setIdentificacion] = useState("");
   const [details, setDetails] = useState([]);
   const [idProducto, setIdProducto] = useState(0);
-  const [cantidad, setCantidad] = useState(0);
+  const [cantidad, setCantidad] = useState(1);
   const [descuento, setDescuento] = useState(0);
   const [justificacion, setJustificacion] = useState("");
 
@@ -407,10 +407,12 @@ function RegisterSale() {
                       error={errorValue.cuotaInicial}
                       helperText={helperTextValue.coutaInicial}
                       label="Cuota Inicial"
+                      type='number'
                       color="success"
                       name="cuotaInicial"
                       value={register.cuotaInicial}
                       onChange={onChangeFormulario}
+                      InputProps={{ inputProps: { min: 0} }}
                     />
 
                     <TextField
@@ -439,6 +441,7 @@ function RegisterSale() {
                       name="cantidad"
                       value={cantidad}
                       onChange={(e) => setCantidad(parseInt(e.target.value))}
+                      InputProps={{ inputProps: { min: 1, max: 20 } }}
                     />
 
                     <TextField
@@ -451,6 +454,7 @@ function RegisterSale() {
                       name="descuento"
                       value={descuento}
                       onChange={(e) => setDescuento(parseInt(e.target.value))}
+                      InputProps={{ inputProps: { min: 0} }}
                     />
                     <TextField
                       id="outlined-required"
@@ -507,7 +511,12 @@ function RegisterSale() {
                                   },
                                 }}
                               >
-                                <TableCell>{row.idProducto.nombre}</TableCell>
+                                <TableCell>{
+                                  idProducto !== 0 ?
+                                  listProducto.find(x => x.id === idProducto).nombre :
+                                  'N/A'
+                                }
+                                </TableCell>
                                 <TableCell>{row.cantidad}</TableCell>
                                 <TableCell>{row.descuentoAdicional}</TableCell>
                                 <TableCell align="left">
