@@ -110,42 +110,152 @@ function RegisterSale() {
     detallesVenta: [],
   });
 
+
+  const [errorValue, setErrorValue] = useState({
+    identificacion: false,
+    cuotaInicial: false,
+    cantidad: false,
+    descuento: false,
+    justificacion: false,
+  });
+
+  const [helperTextValue, sethelperTextValue] = useState({
+    identificacion: "",
+    coutaInicial: "",
+    cantidad: "",
+    descuento: "",
+    justificacion: "",
+  });
+
+  const actualizarExistenciaError = () => {
+    let errors = {
+      identificacion: false,
+      cuotaInicial: false,
+      cantidad: false,
+      descuento: false,
+      justificacion: false,
+    }
+
+    let errorText = {
+      identificacion: "",
+      coutaInicial: "",
+      cantidad: "",
+      descuento: "",
+      justificacion: "",
+    }
+
+    if (identificacion.trim().length === 0 || identificacion.trim().length > 10) {
+      errors = {...errors, identificacion: true};
+      errorText = {...errorText, identificacion: 'Campo obligatorio y longitud debe ser menor a 10'}
+    }
+    if (register.cuotaInicial === 0 || register.cuotaInicial < 1) {
+      errors = {...errors, cuotaInicial: true};
+      errorText = {...errorText, coutaInicial: 'Campo obligatorio y el valor debe ser mayor a cero'}
+    }
+    if (cantidad === 0 || cantidad < 0) {
+      errors = {...errors, cantidad: true};
+      errorText = {...errorText, cantidad: 'Campo obligatorio y el valor debe ser mayor a cero'}
+    }
+    if (descuento <0) {
+      errors = {...errors, descuento: true};
+      errorText = {...errorText, descuento: 'Campo obligatorio y el valor debe ser mayor a cero'}
+    }
+    if (justificacion.trim().length === 0) {
+      errors = {...errors, justificacion: true};
+      errorText = {...errorText, justificacion: 'Campo obligatorio'}
+    }
+    setErrorValue(errors);
+    sethelperTextValue(errorText);
+  };
+
+
+
   const onChangeFormulario = (e) => {
     setRegister({
       ...register,
       [e.target.name]: e.target.value,
     });
+    
+   if(e.target.name !== 'idFormaPago' && e.target.name !== 'idModalidad' &&
+      e.target.name !== 'idProducto'){
+
+      
+    if (e.target.value.trim().length === 0) {
+      setErrorValue({
+        ...errorValue,
+        [e.target.name]: true,
+      });
+
+      sethelperTextValue({
+        ...helperTextValue,
+        [e.target.name]: "Campo obligatorio",
+      });
+    } else {
+      setErrorValue({
+        ...errorValue,
+        [e.target.name]: false,
+      });
+
+      sethelperTextValue({
+        ...helperTextValue,
+        [e.target.name]: "",
+      });
+    }
+   }
   };
 
   const submitCrearDetalles = (idP, ca, da, just) => {
-    let newdetail = {
-      idProducto: idP,
-      cantidad: ca,
-      descuentoAdicional: da,
-      justificacion: just,
-    };
+    
+    actualizarExistenciaError();
 
-    setDetails([...details, newdetail]);
+    if (
+      !errorValue.identificacion  &&
+      !errorValue.cuotaInicial &&
+      !errorValue.cantidad &&
+      !errorValue.descuento &&
+      !errorValue.justificacion
+    ){
+
+      let newdetail = {
+        idProducto: idP,
+        cantidad: ca,
+        descuentoAdicional: da,
+        justificacion: just,
+      };
+  
+      setDetails([...details, newdetail]);
+
+    }
   };
 
   const submitCrearVenta = async (e) => {
     //LLamado cliente por identificación
-    const token = await getAccessTokenSilently({
-      audience: "htttps://cig/api",
-      scope: "read:cig-vendedor",
-    });
 
-    const response = await clienteAxios.get("/api/v1/clientes/cliente", {
-      params: { identificacion: identificacion },
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    actualizarExistenciaError();
 
-    register.idCliente = response.data.id;
-    register.detallesVenta = details;
+    if (
+      !errorValue.identificacion  &&
+      !errorValue.cuotaInicial &&
+      !errorValue.cantidad &&
+      !errorValue.descuento &&
+      !errorValue.justificacion
+    ){
+      const token = await getAccessTokenSilently({
+        audience: "htttps://cig/api",
+        scope: "read:cig-vendedor",
+      });
 
-    //Se enviaria el cliente al back
+      const response = await clienteAxios.get("/api/v1/clientes/cliente", {
+        params: { identificacion: identificacion },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      register.idCliente = response.data.id;
+      register.detallesVenta = details;
+
+          //Se enviaria el cliente al back
     try {
       const name =
         response.data.persona.primerNombre +
@@ -194,12 +304,13 @@ function RegisterSale() {
       });
       console.log(error);
     }
+   }
   };
 
   return (
     <>
       <Helmet>
-        <title>RegistroVenta - Components</title>
+        <title>Registro Venta - Components</title>
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
@@ -251,13 +362,14 @@ function RegisterSale() {
 
                     <TextField
                       id="outlined-select"
+                      error={errorValue.identificacion}
+                      helperText={helperTextValue.identificacion}
                       required
                       label="Ingrese la cedula del cliente"
                       name="identificacion"
                       color="success"
                       value={identificacion}
                       onChange={(e) => setIdentificacion(e.target.value)}
-                      helperText="Por favor ingrese el numero de cedula del cliente"
                     />
                     <TextField
                       id="outlined-select-currency"
@@ -292,6 +404,8 @@ function RegisterSale() {
 
                     <TextField
                       id="outlined-number"
+                      error={errorValue.cuotaInicial}
+                      helperText={helperTextValue.coutaInicial}
                       label="Cuota Inicial"
                       color="success"
                       name="cuotaInicial"
@@ -317,6 +431,8 @@ function RegisterSale() {
 
                     <TextField
                       id="outlined-number"
+                      error={errorValue.cantidad}
+                      helperText={helperTextValue.cantidad}
                       label="Cantidad"
                       type="number"
                       color="success"
@@ -327,6 +443,8 @@ function RegisterSale() {
 
                     <TextField
                       id="outlined-number"
+                      error={errorValue.descuento}
+                      helperText={helperTextValue.descuento}
                       label="Descuento"
                       type="number"
                       color="success"
@@ -336,6 +454,8 @@ function RegisterSale() {
                     />
                     <TextField
                       id="outlined-required"
+                      error={errorValue.justificacion}
+                      helperText={helperTextValue.justificacion}
                       label="Descripcion Descuento"
                       color="success"
                       name="justificacion"
@@ -387,7 +507,7 @@ function RegisterSale() {
                                   },
                                 }}
                               >
-                                <TableCell>{row.idProducto}</TableCell>
+                                <TableCell>{row.idProducto.nombre}</TableCell>
                                 <TableCell>{row.cantidad}</TableCell>
                                 <TableCell>{row.descuentoAdicional}</TableCell>
                                 <TableCell align="left">

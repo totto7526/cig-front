@@ -164,6 +164,9 @@ function ProductAdd() {
       [e.target.name]: e.target.value,
     });
 
+   if(e.target.name !== 'idColor' && e.target.name !== 'idCategoria' && e.target.name !== 'idDimension'){
+
+   
     if (e.target.value.trim().length === 0) {
       setErrorValue({
         ...errorValue,
@@ -185,6 +188,7 @@ function ProductAdd() {
         [e.target.name]: "",
       });
     }
+   }
   };
 
 

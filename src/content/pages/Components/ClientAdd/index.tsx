@@ -202,6 +202,8 @@ function ClientAdd() {
       [e.target.name]: e.target.value,
     });
 
+   if(e.target.name !== 'idBarrio' && e.target.name !== 'idParentescoReferencia1' && 
+      e.target.name !== 'idParentescoReferencia1'){
     if (e.target.value.trim().length === 0) {
       setErrorValue({
         ...errorValue,
@@ -223,9 +225,10 @@ function ClientAdd() {
         [e.target.name]: "",
       });
     }
+   }
   };
 
-  const submitCrearCliente = async (e) => {
+  const submitCrearCliente = async (e) =>{ 
     // Se enviaria el cliente al back
     actualizarExistenciaError();
 
