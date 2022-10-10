@@ -34,7 +34,7 @@ function CreateRuteOptions() {
       try {
         const token = await getAccessTokenSilently({
           audience: "htttps://cig/api",
-          scope: "read:cig-admin",
+          scope: "read:cig-vendedor read:cig-cobrador",
         });
         const response = await clienteAxios.get("/api/v1/rutas/paises", {
           headers: {
@@ -65,7 +65,7 @@ function CreateRuteOptions() {
       try {
         const token = await getAccessTokenSilently({
           audience: "htttps://cig/api",
-          scope: "read:cig-admin",
+          scope: "read:cig-vendedor read:cig-cobrador",
         });
 
         if (CreateRuteOptions.idPais != 0) {
