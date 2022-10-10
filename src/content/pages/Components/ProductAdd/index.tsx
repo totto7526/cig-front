@@ -55,7 +55,7 @@ function ProductAdd() {
   };
 
   const callMedidas = async (token) => {
-    const response = await clienteAxios.get("/api/v1/dimensiones", {
+    const response = await clienteAxios.get(`/api/v1/dimensiones/${producto.idCategoria}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -81,14 +81,13 @@ function ProductAdd() {
         });
 
         callCategorias(token);
-        callMedidas(token);
         callColores(token);
       } catch (e) {
         console.error(e);
       }
     })();
   }, [getAccessTokenSilently]);
-
+  
   const [producto, setProducto] = useState({
     nombre: "",
     referencia: "",
@@ -104,6 +103,19 @@ function ProductAdd() {
     valorContado: 0,
     cantidad: 0,
   });
+
+  useEffect(() => {
+    (async () => {
+    const token = await getAccessTokenSilently({
+      audience: "htttps://cig/api",
+      scope: "read:cig-vendedor read:cig-cobrador",
+    });
+
+    if(producto.idCategoria !== 0){
+      callMedidas(token)
+    }
+  })();
+  }, [getAccessTokenSilently, producto.idCategoria])
 
   
   const [errorValue, setErrorValue] = useState({
