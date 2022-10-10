@@ -198,7 +198,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
               </FormControl>
             </Box>
           }
-          title="Productos"
+          title="Empleados"
         />
       )}
       <Divider />
@@ -218,6 +218,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
               <TableCell>Apellidos</TableCell>
               <TableCell>Cedula</TableCell>
               <TableCell>Telefono</TableCell>
+              <TableCell>Correo</TableCell>
               <TableCell align="right">Direccion</TableCell>
               <TableCell align="right">Estado</TableCell>
               <TableCell align="right">Actions</TableCell>
@@ -286,6 +287,17 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
                       noWrap
                     >
                       {Worker.persona.telefono}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      variant="body1"
+                      fontWeight="bold"
+                      color="text.primary"
+                      gutterBottom
+                      noWrap
+                    >
+                      {Worker.correo}
                     </Typography>
                   </TableCell>
                   <TableCell align="right">

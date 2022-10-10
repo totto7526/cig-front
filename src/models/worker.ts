@@ -39,5 +39,6 @@ export interface Worker {
     estado: {
         id: number,
         nombre: string
-    }
+    },
+    correo:string
 }

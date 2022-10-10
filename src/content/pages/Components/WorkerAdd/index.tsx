@@ -66,6 +66,7 @@ function WorkerAdd() {
     telefono: "",
     direccion: "",
     idBarrio: 0,
+    correo: ""
   });
 
   const [errorValue, setErrorValue] = useState({
@@ -76,6 +77,7 @@ function WorkerAdd() {
     identificacion: false,
     telefono: false,
     direccion:false,
+    correo: false
   });
 
   
@@ -86,7 +88,8 @@ function WorkerAdd() {
     segundoApellido:"",
     identificacion:"",
     telefono:"",
-    direccion:"",    
+    direccion:"",   
+    correo: "" 
   });
 
     const actualizarExistenciaError = () => {
@@ -98,6 +101,7 @@ function WorkerAdd() {
         identificacion: false,
         telefono: false,
         direccion:false,
+        correo: false
       }
 
       let errorText = {
@@ -107,7 +111,8 @@ function WorkerAdd() {
         segundoApellido:"",
         identificacion:"",
         telefono:"",
-        direccion:"",    
+        direccion:"",   
+        correo: ""    
       }
 
       if (empleado.primerNombre.trim().length === 0) {
@@ -135,6 +140,12 @@ function WorkerAdd() {
         errors = {...errors, direccion: true};
         errorText = {...errorText, direccion: 'Campo obligatorio'}
       }
+
+      if(empleado.correo.trim.length === 0 || !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3,4})+$/.test(empleado.correo))){
+        errors = {...errors, correo: true};
+        errorText = {...errorText, correo: 'Formato de correo electrónico incorrecto'}
+      }
+
       setErrorValue(errors);
       sethelperTextValue(errorText);
     };
@@ -147,26 +158,28 @@ function WorkerAdd() {
       [e.target.name]: e.target.value,
     });
 
-    if (e.target.value.trim().length === 0) {
-      setErrorValue({
-        ...errorValue,
-        [e.target.name]: true,
-      });
-
-      sethelperTextValue({
-        ...helperTextValue,
-        [e.target.name]: "Campo obligatorio",
-      });
-    } else {
-      setErrorValue({
-        ...errorValue,
-        [e.target.name]: false,
-      });
-
-      sethelperTextValue({
-        ...helperTextValue,
-        [e.target.name]: "",
-      });
+    if(e.target.name !== 'idBarrio'){
+      if (e.target.value.trim().length === 0) {
+        setErrorValue({
+          ...errorValue,
+          [e.target.name]: true,
+        });
+  
+        sethelperTextValue({
+          ...helperTextValue,
+          [e.target.name]: "Campo obligatorio",
+        });
+      } else {
+        setErrorValue({
+          ...errorValue,
+          [e.target.name]: false,
+        });
+  
+        sethelperTextValue({
+          ...helperTextValue,
+          [e.target.name]: "",
+        });
+      }
     }
   };
 
@@ -181,7 +194,8 @@ function WorkerAdd() {
       !errorValue.segundoApellido &&
       !errorValue.identificacion &&
       !errorValue.telefono &&
-      !errorValue.direccion
+      !errorValue.direccion &&
+      !errorValue.correo
     ) {
 
       try {
@@ -268,7 +282,7 @@ function WorkerAdd() {
                     />
                     <TextField
                       required
-                      id="outlined-required"
+                      id="outlined-search"
                       label="Segundo Nombre"
                       color="success"
                       defaultValue=" "
@@ -331,6 +345,17 @@ function WorkerAdd() {
                       color="success"
                       name="direccion"
                       value={empleado.direccion}
+                      onChange={onChangeFormulario}
+                    />
+                    <TextField
+                      required
+                      id="outliend-required"
+                      error={errorValue.correo}
+                      helperText={helperTextValue.correo}
+                      label="Correo Electrónico"
+                      color="success"
+                      name="correo"
+                      value={empleado.correo}
                       onChange={onChangeFormulario}
                     />
                     <TextField
