@@ -31,7 +31,7 @@ function RecentWorkersOrders() {
         console.error(e);
       }
     })();
-  }, [getAccessTokenSilently])
+  }, [getAccessTokenSilently, workers])
   
 
   return (

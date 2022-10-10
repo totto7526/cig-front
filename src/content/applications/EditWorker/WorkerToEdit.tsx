@@ -1,3 +1,4 @@
+
 import { Helmet } from "react-helmet-async";
 import PageTitle from "src/components/PageTitle";
 import { useState, useEffect } from "react";
@@ -12,6 +13,7 @@ import {
   CardContent,
   Divider,
   Button,
+  useTheme,
 } from "@mui/material";
 import Footer from "src/components/Footer";
 
@@ -26,8 +28,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
-function WorkerAdd() {
+function WorkerToEdit({worker}) {
 
+  const theme = useTheme();
   let navigate = useNavigate();
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
@@ -44,6 +47,7 @@ function WorkerAdd() {
 
   useEffect(() => {
     (async () => {
+        
       try {
         const token = await getAccessTokenSilently({
           audience: "htttps://cig/api",
@@ -58,15 +62,15 @@ function WorkerAdd() {
   }, []);
 
   const [empleado, setEmpleado] = useState({
-    primerNombre: "",
-    segundoNombre: "",
-    primerApellido: "",
-    segundoApellido: "",
-    identificacion: "",
-    telefono: "",
-    direccion: "",
-    idBarrio: 0,
-    correo: ""
+    primerNombre: worker.persona.primerNombre,
+    segundoNombre: worker.persona.segundoNombre,
+    primerApellido: worker.persona.primerApellido,
+    segundoApellido: worker.persona.segundoApellido,
+    identificacion: worker.persona.identificacion,
+    telefono: worker.persona.telefono,
+    direccion: worker.persona.direccion,
+    idBarrio: worker.persona.barrio.id,
+    correo: worker.correo
   });
 
   const [errorValue, setErrorValue] = useState({
@@ -140,12 +144,11 @@ function WorkerAdd() {
         errors = {...errors, direccion: true};
         errorText = {...errorText, direccion: 'Campo obligatorio'}
       }
-      
+
       if(empleado.correo.trim().length === 0){
         errors = {...errors, correo: true};
         errorText = {...errorText, correo: 'Campo Obligatorio'}
       }
-      console.log(empleado.correo.trim().length);
       
       let correoRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
       if(!(correoRegex.test(empleado.correo))){
@@ -160,11 +163,10 @@ function WorkerAdd() {
   
 
   const onChangeFormulario = (e) => {
-    
     setEmpleado({
       ...empleado,
-      [e.target.name]: e.target.value
-    })
+      [e.target.name]: e.target.value,
+    });
 
     if(e.target.name !== 'idBarrio'){
       if (e.target.value.trim().length === 0) {
@@ -191,7 +193,7 @@ function WorkerAdd() {
     }
   };
 
-  const submitCrearEmpleado = async (e) => {
+  const submitEditarEmpleado = async (e) => {
     // Se enviaria el cliente al back
     actualizarExistenciaError();
 
@@ -211,7 +213,8 @@ function WorkerAdd() {
           audience: "htttps://cig/api",
           scope: "read:cig-admin",
         });
-        const response = await clienteAxios.post('/api/v1/trabajadores/trabajador', empleado, {
+        const response = await clienteAxios.put(`/api/v1/trabajadores/trabajador/${worker.id}`,
+         empleado, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -221,12 +224,13 @@ function WorkerAdd() {
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: "Empleado registrado exitosamente.",
+          title: "Empleado Actualizado exitosamente.",
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/empleados/gestion_empleados/editar-empleados", {replace:true})
-        
+        setTimeout(() => {
+            window.location.reload();
+        }, 1500);
       } catch (error) {
         const mensaje = error.response.data.mensaje;
   
@@ -243,17 +247,6 @@ function WorkerAdd() {
 
   return (
     <>
-      <Helmet>
-        <title>RegistroEmpleado - Components</title>
-      </Helmet>
-      <PageTitleWrapper>
-        <PageTitle
-          textButton="Inicio"
-          heading="Registro Empleado"
-          subHeading="Proceso para registrar un empleado nuevo"
-          docs="/dashboards/cards"
-        />
-      </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
           container
@@ -264,7 +257,7 @@ function WorkerAdd() {
         >
           <Grid item xs={12}>
             <Card>
-              <CardHeader title="Datos Personales" />
+              <CardHeader title={`Datos Personales ${empleado.primerNombre} ${empleado.primerApellido}`} />
               <Divider />
               <CardContent>
                 <Box
@@ -384,9 +377,16 @@ function WorkerAdd() {
                       <Button
                         sx={{ margin: 1 }}
                         variant="contained"
-                        onClick={submitCrearEmpleado}
+                        onClick={submitEditarEmpleado}
                       >
                         GUARDAR
+                      </Button>
+                      <Button
+                        sx={{ margin: 1,  backgroundColor: theme.palette.error.main}}
+                        variant="contained"
+                        href="/empleados/gestion_empleados/editar-empleados" 
+                      >
+                        CANCELAR
                       </Button>
                     </div>
                   </div>
@@ -401,4 +401,4 @@ function WorkerAdd() {
   );
 }
 
-export default WorkerAdd;
+export default WorkerToEdit;

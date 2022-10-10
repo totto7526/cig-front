@@ -1,7 +1,7 @@
-import { FC, ChangeEvent, useState } from 'react';
-import { format } from 'date-fns';
-import numeral from 'numeral';
-import PropTypes from 'prop-types';
+import { FC, ChangeEvent, useState } from "react";
+import { format } from "date-fns";
+import numeral from "numeral";
+import PropTypes from "prop-types";
 import {
   Tooltip,
   Divider,
@@ -22,14 +22,20 @@ import {
   MenuItem,
   Typography,
   useTheme,
-  CardHeader
-} from '@mui/material';
+  CardHeader,
+} from "@mui/material";
 
-import Label from 'src/components/Label';
-import { Worker, WorkerStatus } from 'src/models/worker';
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import BulkActions from './BulkActions';
+import Label from "src/components/Label";
+import { Worker, WorkerStatus } from "src/models/worker";
+import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
+import ToggleOnIcon from "@mui/icons-material/ToggleOn";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
+import BulkActions from "./BulkActions";
+import { useAuth0 } from "@auth0/auth0-react";
+import clienteAxios from "src/config/axios";
+import Swal from "sweetalert2";
+import WorkerToEdit from "./WorkerToEdit";
 
 interface RecentOrdersTableProps {
   className?: string;
@@ -44,15 +50,14 @@ const getStatusLabel = (WorkerStatus: WorkerStatus): JSX.Element => {
   const map = {
     activo: {
       id: 1,
-      text: 'ACTIVO',
-      color: 'succes'
+      text: "ACTIVO",
+      color: "succes",
     },
     inactivo: {
       id: 2,
-      text: 'INACTIVO',
-      color: 'danger'
+      text: "INACTIVO",
+      color: "danger",
     },
-    
   };
 
   const { text, color }: any = map[WorkerStatus];
@@ -60,10 +65,7 @@ const getStatusLabel = (WorkerStatus: WorkerStatus): JSX.Element => {
   return <Label color={color}>{text}</Label>;
 };
 
-const applyFilters = (
-  Workers: Worker[],
-  filters: Filters
-): Worker[] => {
+const applyFilters = (Workers: Worker[], filters: Filters): Worker[] => {
   return Workers.filter((Worker) => {
     let matches = true;
 
@@ -84,42 +86,39 @@ const applyPagination = (
 };
 
 const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
-
-  const [selectedWorkers, setSelectedWorkers] = useState<number[]>(
-    []
-  );
+  const [selectedWorkers, setSelectedWorkers] = useState<number[]>([]);
   const selectedBulkActions = selectedWorkers.length > 0;
   const [page, setPage] = useState<number>(0);
   const [limit, setLimit] = useState<number>(5);
   const [filters, setFilters] = useState<Filters>({
-    status: null
+    status: null,
   });
 
   const statusOptions = [
     {
-      id: 'all',
-      name: 'All'
+      id: "all",
+      name: "All",
     },
     {
-      id: 'completed',
-      name: 'ACTIVO'
+      id: "completed",
+      name: "ACTIVO",
     },
     {
-      id: 'failed',
-      name: 'INACTIVO'
+      id: "failed",
+      name: "INACTIVO",
     },
   ];
 
   const handleStatusChange = (e: ChangeEvent<HTMLInputElement>): void => {
     let value = null;
 
-    if (e.target.value !== 'all') {
+    if (e.target.value !== "all") {
       value = e.target.value;
     }
 
     setFilters((prevFilters) => ({
       ...prevFilters,
-      status: value
+      status: value,
     }));
   };
 
@@ -127,9 +126,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
     event: ChangeEvent<HTMLInputElement>
   ): void => {
     setSelectedWorkers(
-      event.target.checked
-        ? Workers.map((Worker) => Worker.id)
-        : []
+      event.target.checked ? Workers.map((Worker) => Worker.id) : []
     );
   };
 
@@ -138,10 +135,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
     WorkerId: number
   ): void => {
     if (!selectedWorkers.includes(WorkerId)) {
-      setSelectedWorkers((prevSelected) => [
-        ...prevSelected,
-        WorkerId
-      ]);
+      setSelectedWorkers((prevSelected) => [...prevSelected, WorkerId]);
     } else {
       setSelectedWorkers((prevSelected) =>
         prevSelected.filter((id) => id !== WorkerId)
@@ -158,19 +152,71 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
   };
 
   const filteredWorkers = applyFilters(Workers, filters);
-  const paginatedWorkers = applyPagination(
-    filteredWorkers,
-    page,
-    limit
-  );
+  const paginatedWorkers = applyPagination(filteredWorkers, page, limit);
   const selectedSomeWorkers =
-    selectedWorkers.length > 0 &&
-    selectedWorkers.length < Workers.length;
-  const selectedAllWorkers =
-    selectedWorkers.length === Workers.length;
+    selectedWorkers.length > 0 && selectedWorkers.length < Workers.length;
+  const selectedAllWorkers = selectedWorkers.length === Workers.length;
   const theme = useTheme();
 
+  const { getAccessTokenSilently } = useAuth0();
+
+  const [workerEdit, setWorkerEdit] = useState({})
+  const [isEdit, setIsEdit] = useState(false)
+
+  const cambiarEstado = async (idTrabajador, nombre, estado) => {
+    let nuevoEstado = estado === "ACTIVO" ? "INACTIVO" : "ACTIVO";
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: `Deseas cambiar el estado de ${nombre} a ${nuevoEstado}`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        console.log("CambiarEstado" + idTrabajador);
+
+        const token = await getAccessTokenSilently({
+          audience: "htttps://cig/api",
+          scope: "read:cig-admin",
+        });
+        console.log(token);
+
+        const response = await clienteAxios.put(
+          `/api/v1/trabajadores/trabajador/${idTrabajador}/cambiar-estado`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        Swal.fire({
+          title: "Cambiando estado",
+          html: "Espera un momento.",
+          timer: 2500,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        }).then((result) => {
+          
+        });
+      }
+    });
+  };
+
+  const goToWorkerToEdit = (worker) => {
+      console.log(worker);
+      setWorkerEdit(worker),
+      setIsEdit(true);
+  }
+
   return (
+    !isEdit ?
     <Card>
       {selectedBulkActions && (
         <Box flex={1} p={2}>
@@ -184,7 +230,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
               <FormControl fullWidth variant="outlined">
                 <InputLabel>Status</InputLabel>
                 <Select
-                  value={filters.status || 'all'}
+                  value={filters.status || "all"}
                   onChange={handleStatusChange}
                   label="Status"
                   autoWidth
@@ -206,14 +252,6 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox
-                  color="primary"
-                  checked={selectedAllWorkers}
-                  indeterminate={selectedSomeWorkers}
-                  onChange={handleSelectAllWorkers}
-                />
-              </TableCell>
               <TableCell>Nombre Completo</TableCell>
               <TableCell>Apellidos</TableCell>
               <TableCell>Cedula</TableCell>
@@ -226,25 +264,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
           </TableHead>
           <TableBody>
             {paginatedWorkers.map((Worker) => {
-              const isWorkerSelected = selectedWorkers.includes(
-                Worker.id
-              );
+              const isWorkerSelected = selectedWorkers.includes(Worker.id);
               return (
-                <TableRow
-                  hover
-                  key={Worker.id}
-                  selected={isWorkerSelected}
-                >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      checked={isWorkerSelected}
-                      onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        handleSelectOneWorker(event, Worker.id)
-                      }
-                      value={isWorkerSelected}
-                    />
-                  </TableCell>
+                <TableRow hover key={Worker.id} selected={isWorkerSelected}>
                   <TableCell>
                     <Typography
                       variant="body1"
@@ -253,7 +275,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
                       gutterBottom
                       noWrap
                     >
-                      {Worker.persona.primerNombre +' ' +Worker.persona.segundoNombre}
+                      {Worker.persona.primerNombre +
+                        " " +
+                        Worker.persona.segundoNombre}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -264,7 +288,9 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
                       gutterBottom
                       noWrap
                     >
-                      {Worker.persona.primerApellido + ' ' +Worker.persona.segundoApellido}
+                      {Worker.persona.primerApellido +
+                        " " +
+                        Worker.persona.segundoApellido}
                     </Typography>
                   </TableCell>
                   <TableCell>
@@ -317,33 +343,71 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
 
                   <TableCell align="right">
                     {/* {getStatusLabel(Worker)} */}
-                    {Worker.estado.nombre}
+                    {Worker.estado.nombre === "ACTIVO" ? (
+                      <Tooltip title="ACTIVO" arrow>
+                        <IconButton
+                          sx={{
+                            "&:hover": {
+                              background: theme.colors.primary.lighter,
+                            },
+                            color: theme.palette.primary.main,
+                          }}
+                          color="inherit"
+                          size="small"
+                        >
+                          <CheckCircleIcon fontSize="medium" />
+                        </IconButton>
+                      </Tooltip>
+                    ) : (
+                      <Tooltip title="INACTIVO" arrow>
+                        <IconButton
+                          sx={{
+                            "&:hover": {
+                              background: theme.colors.primary.lighter,
+                            },
+                            color: theme.palette.error.main,
+                          }}
+                          color="inherit"
+                          size="small"
+                        >
+                          <CancelIcon fontSize="medium" />
+                        </IconButton>
+                      </Tooltip>
+                    )}
                   </TableCell>
                   <TableCell align="right">
-                    <Tooltip title="Edit Order" arrow>
+                    <Tooltip title="Editar" arrow>
                       <IconButton
                         sx={{
-                          '&:hover': {
-                            background: theme.colors.primary.lighter
+                          "&:hover": {
+                            background: theme.colors.primary.lighter,
                           },
-                          color: theme.palette.primary.main
+                          color: theme.palette.primary.main,
                         }}
                         color="inherit"
                         size="small"
+                        onClick={() => goToWorkerToEdit(Worker)}
                       >
                         <EditTwoToneIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
-                    <Tooltip title="Delete Order" arrow>
+                    <Tooltip title="Cambiar Estado" arrow>
                       <IconButton
                         sx={{
-                          '&:hover': { background: theme.colors.error.lighter },
-                          color: theme.palette.error.main
+                          "&:hover": { background: theme.colors.error.lighter },
+                          color: theme.palette.primary.main,
                         }}
                         color="inherit"
                         size="small"
+                        onClick={() =>
+                          cambiarEstado(
+                            Worker.id,
+                            Worker.persona.primerNombre,
+                            Worker.estado.nombre
+                          )
+                        }
                       >
-                        <DeleteTwoToneIcon fontSize="small" />
+                        <ToggleOnIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
                   </TableCell>
@@ -365,15 +429,17 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
         />
       </Box>
     </Card>
+    :
+    <WorkerToEdit worker = {workerEdit}/>
   );
 };
 
 RecentOrdersTable.propTypes = {
-  Workers: PropTypes.array.isRequired
+  Workers: PropTypes.array.isRequired,
 };
 
 RecentOrdersTable.defaultProps = {
-  Workers: []
+  Workers: [],
 };
 
 export default RecentOrdersTable;
