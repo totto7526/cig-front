@@ -151,10 +151,8 @@ function PaymentRecord() {
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
-          textButton="Inicio"
           heading="Registro Abono"
-          subHeading="Proceso para registrar el pago cuota o abono de un idCliente"
-          docs='/dashboards/cards' />
+          subHeading="Proceso para registrar el pago cuota o abono de un idCliente" />
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid

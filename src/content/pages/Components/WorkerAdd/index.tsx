@@ -14,15 +14,13 @@ import {
   Button,
 } from "@mui/material";
 import Footer from "src/components/Footer";
-
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import clienteAxios from "src/config/axios";
-
 import Swal from "sweetalert2";
-
 import { useAuth0 } from "@auth0/auth0-react";
+
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
@@ -77,6 +75,7 @@ function WorkerAdd() {
     identificacion: false,
     telefono: false,
     direccion:false,
+    idBarrio: false,
     correo: false
   });
 
@@ -88,7 +87,8 @@ function WorkerAdd() {
     segundoApellido:"",
     identificacion:"",
     telefono:"",
-    direccion:"",   
+    direccion:"", 
+    idBarrio: "",  
     correo: "" 
   });
 
@@ -101,6 +101,7 @@ function WorkerAdd() {
         identificacion: false,
         telefono: false,
         direccion:false,
+        idBarrio:false,
         correo: false
       }
 
@@ -112,7 +113,8 @@ function WorkerAdd() {
         identificacion:"",
         telefono:"",
         direccion:"",   
-        correo: ""    
+        idBarrio:"",
+        correo:"",  
       }
 
       if (empleado.primerNombre.trim().length === 0) {
@@ -144,6 +146,11 @@ function WorkerAdd() {
       if(empleado.correo.trim().length === 0){
         errors = {...errors, correo: true};
         errorText = {...errorText, correo: 'Campo Obligatorio'}
+      }
+
+      if(empleado.idBarrio == 0 || empleado.idBarrio < 0){
+        errors = {...errors, idBarrio: true};
+        errorText = {...errorText, idBarrio: 'Campo Obligatorio'}
       }
       console.log(empleado.correo.trim().length);
       
@@ -248,10 +255,8 @@ function WorkerAdd() {
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
-          textButton="Inicio"
           heading="Registro Empleado"
-          subHeading="Proceso para registrar un empleado nuevo"
-          docs="/dashboards/cards"
+          subHeading="Registrar un empleado nuevo"
         />
       </PageTitleWrapper>
       <Container maxWidth="lg">
@@ -368,11 +373,12 @@ function WorkerAdd() {
                     <TextField
                       id="outlined-select"
                       select
+                      error={errorValue.idBarrio}
+                      helperText={helperTextValue.idBarrio}
                       label="Barrio"
                       name="idBarrio"
                       value={empleado.idBarrio}
                       onChange={onChangeFormulario}
-                      helperText="Por favor seleccione un barrio"
                     >
                       {neighborhood.map((option) => (
                         <MenuItem key={option.id} value={option.id}>

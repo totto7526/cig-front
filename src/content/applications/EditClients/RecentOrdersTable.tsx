@@ -28,8 +28,15 @@ import {
 import Label from 'src/components/Label';
 import { Client, ClientStatus } from 'src/models/client';
 import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
+import ToggleOnIcon from "@mui/icons-material/ToggleOn";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import BulkActions from './BulkActions';
+import { useAuth0 } from "@auth0/auth0-react";
+import clienteAxios from "src/config/axios";
+import Swal from "sweetalert2";
+import ClientToEdit from "./ClientToEdit";
 
 interface RecentOrdersTableProps {
   className?: string;
@@ -169,7 +176,65 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
     selectedClients.length === Clients.length;
   const theme = useTheme();
 
+  const { getAccessTokenSilently } = useAuth0();
+
+  const [clientEdit, setClientEdit] = useState({})
+  const [isEdit, setIsEdit] = useState(false)
+
+  const cambiarEstado = async (idCliente, nombre, estado) => {
+    let nuevoEstado = estado === "ACTIVO" ? "INACTIVO" : "ACTIVO";
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: `Deseas cambiar el estado de ${nombre} a ${nuevoEstado}`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        console.log("CambiarEstado" + idCliente);
+
+        const token = await getAccessTokenSilently({
+          audience: "htttps://cig/api",
+          scope: "read:cig-admin",
+        });
+        console.log(token);
+
+        const response = await clienteAxios.put(
+          `/api/v1/clientes/cliente/${idCliente}/cambiar-estado`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        Swal.fire({
+          title: "Cambiando estado",
+          html: "Espera un momento.",
+          timer: 2500,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        }).then((result) => {
+          
+        });
+      }
+    });
+  };
+
+    const goToClientToEdit = (client) => {
+      console.log(clientEdit);
+      setClientEdit(client),
+      setIsEdit(true);
+  }
+
   return (
+    !isEdit ?
     <Card>
       {selectedBulkActions && (
         <Box flex={1} p={2}>
@@ -205,14 +270,6 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox
-                  color="primary"
-                  checked={selectedAllClients}
-                  indeterminate={selectedSomeClients}
-                  onChange={handleSelectAllClients}
-                />
-              </TableCell>
               <TableCell>Cedula</TableCell>
               <TableCell>Nombre Completo</TableCell>
               <TableCell>Apellidos</TableCell>
@@ -236,16 +293,6 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
                   key={Client.cliente.id}
                   selected={isClientSelected}
                 >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      checked={isClientSelected}
-                      onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        handleSelectOneClient(event, Client.cliente.id)
-                      }
-                      value={isClientSelected}
-                    />
-                  </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
@@ -358,8 +405,38 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
                   </TableCell>     
 
                   <TableCell align="right">
-                    {/* {getStatusLabel(Client.estado.nombre)} */}
-                    {Client.cliente.estado.nombre}
+                    {/* {getStatusLabel(Worker)} */}
+                    {Client.cliente.estado.nombre === "ACTIVO" ? (
+                      <Tooltip title="ACTIVO" arrow>
+                        <IconButton
+                          sx={{
+                            "&:hover": {
+                              background: theme.colors.primary.lighter,
+                            },
+                            color: theme.palette.primary.main,
+                          }}
+                          color="inherit"
+                          size="small"
+                        >
+                          <CheckCircleIcon fontSize="medium" />
+                        </IconButton>
+                      </Tooltip>
+                    ) : (
+                      <Tooltip title="INACTIVO" arrow>
+                        <IconButton
+                          sx={{
+                            "&:hover": {
+                              background: theme.colors.primary.lighter,
+                            },
+                            color: theme.palette.error.main,
+                          }}
+                          color="inherit"
+                          size="small"
+                        >
+                          <CancelIcon fontSize="medium" />
+                        </IconButton>
+                      </Tooltip>
+                    )}
                   </TableCell>
                   <TableCell align="right">
                     <Tooltip title="Edit Order" arrow>
@@ -372,11 +449,12 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
                         }}
                         color="inherit"
                         size="small"
+                        onClick={() => goToClientToEdit(Client.cliente)}
                       >
                         <EditTwoToneIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
-                    <Tooltip title="Delete Order" arrow>
+                    <Tooltip title="Cambiar Estado" arrow>
                       <IconButton
                         sx={{
                           '&:hover': { background: theme.colors.error.lighter },
@@ -384,6 +462,13 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
                         }}
                         color="inherit"
                         size="small"
+                        onClick={() =>
+                          cambiarEstado(
+                            Client.cliente.id,
+                            Client.cliente.persona.primerNombre,
+                            Client.cliente.estado.nombre
+                          )
+                        }
                       >
                         <DeleteTwoToneIcon fontSize="small" />
                       </IconButton>
@@ -407,6 +492,8 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
         />
       </Box>
     </Card>
+    :
+    <ClientToEdit client = {clientEdit}/>
   );
 };
 

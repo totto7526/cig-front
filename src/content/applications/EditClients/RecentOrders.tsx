@@ -25,12 +25,13 @@ function RecentClientsOrders() {
             Authorization: `Bearer ${token}`
           }
         });
+        console.log(response.data);
         setClients(response.data);
       } catch (e) {
         console.error(e);
       }
     })();
-  }, [getAccessTokenSilently])
+  }, [getAccessTokenSilently, clients])
 
 
   return (

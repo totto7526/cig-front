@@ -6,8 +6,8 @@ function PageHeader() {
 
   const user =
   {
-    name: 'Jose Luis Castro',
-    avatar: '/static/images/avatars/3.jpg'
+    name:'',
+    avatar:''
   };
   return (
     <Grid container justifyContent="space-between" alignItems="center">
@@ -16,7 +16,7 @@ function PageHeader() {
           Recibir Productos
         </Typography>
         <Typography variant="subtitle2">
-          {user.name}, Aca podras recibirle los productos a un empleado
+          {user.name}Recibir los productos a un empleado
         </Typography>
       </Grid>
       <Grid item>

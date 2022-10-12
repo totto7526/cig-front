@@ -6,8 +6,8 @@ function PageHeader() {
 
   const user =
   {
-    name: 'Jose Luis Castro',
-    avatar: '/static/images/avatars/3.jpg'
+    name: '',
+    avatar: ''
   };
   return (
     <Grid container justifyContent="space-between" alignItems="center">
@@ -16,18 +16,8 @@ function PageHeader() {
           Despachar Productos
         </Typography>
         <Typography variant="subtitle2">
-          {user.name}, Aca podras despacharle los productos a un empleado
+          {user.name} Entrega de productos a un empleado
         </Typography>
-      </Grid>
-      <Grid item>
-        <Button
-          sx={{ mt: { xs: 2, md: 0 } }}
-          variant="contained"
-          startIcon={<AddTwoToneIcon fontSize="small" />}
-          href = '/dashboards/cards'
-        >
-          Inicio
-        </Button>
       </Grid>
     </Grid>
   );

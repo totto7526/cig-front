@@ -11,6 +11,7 @@ import {
   CardContent,
   Divider,
   Button,
+  useTheme,
 } from "@mui/material";
 import Footer from "src/components/Footer";
 
@@ -26,7 +27,9 @@ import { useNavigate } from "react-router-dom";
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
-function ClientAdd() {
+function ClientToEdit({client}) {
+
+  const theme = useTheme();
   let navigate = useNavigate();
 
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
@@ -69,21 +72,21 @@ function ClientAdd() {
   }, []);
 
   const [cliente, setCliente] = useState({
-    identificacion: "",
-    primerNombre: "",
-    segundoNombre: "",
-    primerApellido: "",
-    segundoApellido: "",
-    direccion: "",
-    telefono: "",
-    cupo: "",
-    idBarrio: 0,
-    nombreReferencia1: "",
-    telefonoReferencia1: "",
-    idParentescoReferencia1: 0,
-    nombreReferencia2: "",
-    telefonoReferencia2: "",
-    idParentescoReferencia2: 0,
+    identificacion: client.cliente.persona.identificacion,
+    primerNombre: client.cliente.persona.primerNombre,
+    segundoNombre: client.cliente.persona.segundoNombre,
+    primerApellido: client.cliente.persona.primerApellido,
+    segundoApellido: client.cliente.persona.segundoApellido,
+    direccion: client.cliente.persona.direccion,
+    telefono: client.cliente.persona.telefono,
+    cupo: client.cliente.cuentaCliente.cupo,
+    idBarrio: client.cliente.persona.barrio.id,
+    nombreReferencia1: client.referencias[0].nombre,
+    telefonoReferencia1: client.referencias[0].telefono,
+    idParentescoReferencia1: client.referencias[0].parentesco,
+    nombreReferencia2: client.referencias[1].nombre,
+    telefonoReferencia2: client.referencias[1].nombre,
+    idParentescoReferencia2: client.referencias[1].parentesco,
   });
 
   const [errorValue, setErrorValue] = useState({
@@ -318,8 +321,10 @@ function ClientAdd() {
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
+          textButton="Inicio"
           heading="Registro cliente"
           subHeading="Proceso para registrar un cliente nuevo"
+          docs="/dashboards/cards"
         />
       </PageTitleWrapper>
       <Container maxWidth="lg">
@@ -555,6 +560,13 @@ function ClientAdd() {
                       >
                         GUARDAR
                       </Button>
+                      <Button
+                        sx={{ margin: 1,  backgroundColor: theme.palette.error.main}}
+                        variant="contained"
+                        href="/clientes/gestion_clientes/editar-clientes" 
+                      >
+                        CANCELAR
+                      </Button>
                     </div>
                   </div>
                 </Box>
@@ -568,4 +580,4 @@ function ClientAdd() {
   );
 }
 
-export default ClientAdd;
+export default ClientToEdit;

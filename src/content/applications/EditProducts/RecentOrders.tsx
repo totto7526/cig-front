@@ -29,7 +29,7 @@ function RecentProductsOrders() {
         console.error(e);
       }
     })();
-  }, [getAccessTokenSilently])
+  }, [getAccessTokenSilently, products])
 
   return (
     <Card>

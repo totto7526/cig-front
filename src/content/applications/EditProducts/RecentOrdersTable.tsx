@@ -27,9 +27,15 @@ import {
 
 import Label from 'src/components/Label';
 import { Product, ProductStatus } from 'src/models/product';
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import BulkActions from './BulkActions';
+import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
+import ToggleOnIcon from "@mui/icons-material/ToggleOn";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
+import BulkActions from "./BulkActions";
+import { useAuth0 } from "@auth0/auth0-react";
+import clienteAxios from "src/config/axios";
+import Swal from "sweetalert2";
+import ProductToEdit from "./ProductToEdit";
 
 interface RecentOrdersTableProps {
   className?: string;
@@ -169,7 +175,64 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Products }) => {
     selectedProducts.length === Products.length;
   const theme = useTheme();
 
+  const { getAccessTokenSilently } = useAuth0();
+
+  const [productEdit, setProductEdit] = useState({})
+  const [isEdit, setIsEdit] = useState(false)
+
+  const cambiarEstado = async (idProducto, nombre, estado) => {
+    let nuevoEstado = estado === "ACTIVO" ? "INACTIVO" : "ACTIVO";
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: `Deseas cambiar el estado de ${nombre} a ${nuevoEstado}`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        console.log("CambiarEstado" + idProducto);
+
+        const token = await getAccessTokenSilently({
+          audience: "htttps://cig/api",
+          scope: "read:cig-admin",
+        });
+        console.log(token);
+
+        const response = await clienteAxios.put(
+          `/api/v1/productos${idProducto}/cambiar-estado`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        Swal.fire({
+          title: "Cambiando estado",
+          html: "Espera un momento.",
+          timer: 2500,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        }).then((result) => {
+          
+        });
+      }
+    });
+  };
+
+  const goToWorkerToEdit = (product) => {
+      console.log(product);
+      setProductEdit(product),
+      setIsEdit(true);
+  }
   return (
+    !isEdit ?
     <Card>
       {selectedBulkActions && (
         <Box flex={1} p={2}>
@@ -205,14 +268,6 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Products }) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell padding="checkbox">
-                <Checkbox
-                  color="primary"
-                  checked={selectedAllProducts}
-                  indeterminate={selectedSomeProducts}
-                  onChange={handleSelectAllProducts}
-                />
-              </TableCell>
               <TableCell>Nombre Producto</TableCell>
               <TableCell>Referencia Producto</TableCell>
               <TableCell>Descripcion</TableCell>
@@ -235,16 +290,6 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Products }) => {
                   key={Product.id}
                   selected={isProductSelected}
                 >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      checked={isProductSelected}
-                      onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        handleSelectOneProduct(event, Product.id)
-                      }
-                      value={isProductSelected}
-                    />
-                  </TableCell>
                   <TableCell>
                     <Typography
                       variant="body1"
@@ -327,33 +372,71 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Products }) => {
                   </TableCell>
                   <TableCell align="right">
                     {/* {getStatusLabel(Product.status)} */}
-                    {Product.estado.nombre}
-                  </TableCell>
-                  <TableCell align="right">
-                    <Tooltip title="Edit Order" arrow>
+                    {Product.estado.nombre === "ACTIVO" ? (
+                      <Tooltip title="ACTIVO" arrow>
+                        <IconButton
+                          sx={{
+                            '&:hover': {
+                              background: theme.colors.primary.lighter
+                            },
+                            color: theme.palette.primary.main
+                          }}
+                          color="inherit"
+                          size="small"
+                        >
+                          <CheckCircleIcon fontSize="medium" />
+                        </IconButton>
+                      </Tooltip>                 
+                    ):(
+                      <Tooltip title="INACTIVO" arrow>
                       <IconButton
                         sx={{
-                          '&:hover': {
-                            background: theme.colors.primary.lighter
-                          },
-                          color: theme.palette.primary.main
-                        }}
-                        color="inherit"
-                        size="small"
-                      >
-                        <EditTwoToneIcon fontSize="small" />
-                      </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Delete Order" arrow>
-                      <IconButton
-                        sx={{
-                          '&:hover': { background: theme.colors.error.lighter },
+                          '&:hover': { 
+                            background: theme.colors.error.lighter,
+                           },
                           color: theme.palette.error.main
                         }}
                         color="inherit"
                         size="small"
                       >
-                        <DeleteTwoToneIcon fontSize="small" />
+                        <CancelIcon fontSize="medium" />
+                      </IconButton>
+                    </Tooltip>
+                    )}
+                  </TableCell>
+                  <TableCell align="right">
+                   <Tooltip title="Editar" arrow>
+                      <IconButton
+                        sx={{
+                          "&:hover": {
+                            background: theme.colors.primary.lighter,
+                          },
+                          color: theme.palette.primary.main,
+                        }}
+                        color="inherit"
+                        size="small"
+                        onClick={() => goToWorkerToEdit(Product)}
+                      >
+                        <EditTwoToneIcon fontSize="small" />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Cambiar Estado" arrow>
+                      <IconButton
+                        sx={{
+                          "&:hover": { background: theme.colors.error.lighter },
+                          color: theme.palette.primary.main,
+                        }}
+                        color="inherit"
+                        size="small"
+                        onClick={() =>
+                          cambiarEstado(
+                            Product.id,
+                            Product.nombre,
+                            Product.estado.nombre
+                          )
+                        }
+                      >
+                        <ToggleOnIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
                   </TableCell>
@@ -375,6 +458,8 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Products }) => {
         />
       </Box>
     </Card>
+    :
+    <ProductToEdit product = {productEdit}/>
   );
 };
 

@@ -65,7 +65,10 @@ const getStatusLabel = (WorkerStatus: WorkerStatus): JSX.Element => {
   return <Label color={color}>{text}</Label>;
 };
 
-const applyFilters = (Workers: Worker[], filters: Filters): Worker[] => {
+const applyFilters = (
+    Workers: Worker[],
+    filters: Filters
+  ): Worker[] => {
   return Workers.filter((Worker) => {
     let matches = true;
 
@@ -135,7 +138,8 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
     WorkerId: number
   ): void => {
     if (!selectedWorkers.includes(WorkerId)) {
-      setSelectedWorkers((prevSelected) => [...prevSelected, WorkerId]);
+      setSelectedWorkers((prevSelected) => [
+        ...prevSelected, WorkerId]);
     } else {
       setSelectedWorkers((prevSelected) =>
         prevSelected.filter((id) => id !== WorkerId)
@@ -152,7 +156,11 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
   };
 
   const filteredWorkers = applyFilters(Workers, filters);
-  const paginatedWorkers = applyPagination(filteredWorkers, page, limit);
+  const paginatedWorkers = applyPagination(
+    filteredWorkers, 
+    page, 
+    limit
+  );
   const selectedSomeWorkers =
     selectedWorkers.length > 0 && selectedWorkers.length < Workers.length;
   const selectedAllWorkers = selectedWorkers.length === Workers.length;
@@ -264,9 +272,15 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
           </TableHead>
           <TableBody>
             {paginatedWorkers.map((Worker) => {
-              const isWorkerSelected = selectedWorkers.includes(Worker.id);
+              const isWorkerSelected = selectedWorkers.includes(
+                Worker.id
+              );
               return (
-                <TableRow hover key={Worker.id} selected={isWorkerSelected}>
+                <TableRow 
+                  hover 
+                  key={Worker.id} 
+                  selected={isWorkerSelected}
+                >
                   <TableCell>
                     <Typography
                       variant="body1"

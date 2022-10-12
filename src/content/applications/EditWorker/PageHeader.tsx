@@ -7,8 +7,8 @@ function PageHeader() {
   
   const user =
   {
-    name: 'Jose Luis Castro',
-    avatar: '/static/images/avatars/3.jpg'
+    name:'',
+    avatar:''
   };
   return (
     <Grid container justifyContent="space-between" alignItems="center">
@@ -17,7 +17,7 @@ function PageHeader() {
           Editar Empleado
         </Typography>
         <Typography variant="subtitle2">
-          {user.name}, Aca podras editar un empleado o eliminarlo
+          {user.name} Proceso para editar un empleado.
         </Typography>
       </Grid>
       <Grid item>
@@ -27,7 +27,7 @@ function PageHeader() {
           startIcon={<AddTwoToneIcon fontSize="small" />} 
           href="/empleados/gestion_empleados/agregar-empleados" 
         >
-          Crear empleado
+          Crear Empleado
         </Button>
       </Grid>
     </Grid>

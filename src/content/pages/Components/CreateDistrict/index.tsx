@@ -198,10 +198,8 @@ function CreateRuteOptions() {
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
-          textButton="Inicio"
           heading="Crear nuevo barrio"
           subHeading="Proceso para crear un nuevo barrio"
-          docs="/dashboards/cards"
         />
       </PageTitleWrapper>
       <Container maxWidth="lg">

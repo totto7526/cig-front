@@ -11,6 +11,7 @@ import {
   CardContent,
   Divider,
   Button,
+  useTheme,
 } from "@mui/material";
 import Footer from "src/components/Footer";
 
@@ -35,15 +36,17 @@ import {useNavigate} from 'react-router-dom'
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
-function ProductAdd() {
+function ProductAdd({product}) {
 
+  const theme = useTheme();
   let navigate = useNavigate();
-
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   const [listCategorias, setListCategorias] = useState([]);
   const [listMedidas, setListMedidas] = useState([]);
   const [listColores, setListColores] = useState([]);
+  const [precioProductoCredito,setPrecioProductoCredito] = useState([]);
+  const [precioProductoContado,setPrecioProductoContado] = useState([]);
 
   const callCategorias = async (token) => {
     const response = await clienteAxios.get(`/api/v1/categorias`, {
@@ -86,23 +89,64 @@ function ProductAdd() {
         console.error(e);
       }
     })();
-  }, [getAccessTokenSilently]);
+  }, []);
   
   const [producto, setProducto] = useState({
-    nombre: "",
-    referencia: "",
-    descripcion: "",
-    idDimension: 0,
-    largo: 0,
-    ancho: 0,
-    idCategoria: 0,
-    nombreCategoria: " ",
-    idColor: 0,
-    nombreColor: " ",
-    valorCredito: 0,
-    valorContado: 0,
-    cantidad: 0,
+    nombre: product.nombre,
+    referencia:product.referencia,
+    descripcion:product.descripcion,
+    idDimension: product.dimension.id,
+    largo: product.dimension.largo,
+    ancho: product.dimension.ancho,
+    idCategoria: product.categoria.id,
+    nombreCategoria:product.categoria.nombre,
+    idColor: product.color.id,
+    nombreColor:product.color.nombre,
+    valorCredito:precioProductoCredito,
+    valorContado:precioProductoContado,
+    cantidad: product.cantidadExistente,
   });
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const token = await getAccessTokenSilently({
+          audience: "htttps://cig/api",
+          scope: "read:cig-vendedor read:cig-cobrador",
+        });
+
+        if (product.id !== 0) {
+          const responseCredito = await clienteAxios.get(
+            `/api/v1/precios/producto/${product.id}/modalidad/${1}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          const responseContado = await clienteAxios.get(
+            `/api/v1/precios/producto/${product.id}/modalidad/${2}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setPrecioProductoCredito(responseCredito.data.valor);
+          setPrecioProductoContado(responseContado.data.valor);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, []);
+
+
+
+
+
+
+
 
   useEffect(() => {
     (async () => {
@@ -162,10 +206,10 @@ function ProductAdd() {
       errors = {...errors, descripcion: true};
       errorText = {...errorText, descripcion: 'Campo obligatorio'}
     }
-    if (producto.valorCredito === 0) {
-      errors = {...errors, valorCredito: true};
-      errorText = {...errorText, valorCredito: 'Campo obligatorio Ingrese el valor del producto'}
-    }
+    // if (producto.valorCredito === 0) {
+    //   errors = {...errors, valorCredito: true};
+    //   errorText = {...errorText, valorCredito: 'Campo obligatorio Ingrese el valor del producto'}
+    // }
 
     setErrorValue(errors);
     sethelperTextValue(errorText);
@@ -280,9 +324,10 @@ function ProductAdd() {
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
-          textButton=""
+          textButton="Inicio"
           heading="Registro producto"
           subHeading="Proceso para registrar un producto nuevo"
+          docs="/dashboards/cards"
         />
       </PageTitleWrapper>
       <Container maxWidth="lg">
@@ -539,7 +584,7 @@ function ProductAdd() {
                           color="success"
                           name="valorCredito"
                           type="number"
-                          value={producto.valorCredito}
+                          value={precioProductoCredito}
                           onChange={onChangeFormulario}
                           startAdornment={
                             <InputAdornment position="start">$</InputAdornment>
@@ -556,7 +601,7 @@ function ProductAdd() {
                           color="success"
                           name="valorContado"
                           type="number"
-                          value={producto.valorContado = (producto.valorCredito)-(producto.valorCredito*0.3)}
+                          value={precioProductoContado}
                           onChange={onChangeFormulario}
                           startAdornment={
                             <InputAdornment position="start">$</InputAdornment>
@@ -571,6 +616,13 @@ function ProductAdd() {
                         onClick={submitCrearProducto}
                       >
                         GUARDAR
+                      </Button>
+                      <Button
+                        sx={{ margin: 1,  backgroundColor: theme.palette.error.main}}
+                        variant="contained"
+                        href="/productos/gestion_productos/editar-productos" 
+                      >
+                        CANCELAR
                       </Button>
                     </div>
                   </div>

@@ -80,10 +80,8 @@ function RouteOptions() {
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
-          textButton="Inicio"
           heading="Opciones de Ruta"
-          subHeading="Proceso Opciones de Ruta"
-          docs="/dashboards/cards" />
+          subHeading="Proceso Opciones de Ruta"/>
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid

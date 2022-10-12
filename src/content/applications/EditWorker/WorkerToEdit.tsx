@@ -21,9 +21,7 @@ import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
 import clienteAxios from "src/config/axios";
-
 import Swal from "sweetalert2";
-
 import { useAuth0 } from "@auth0/auth0-react";
 
 const label = { inputProps: { "aria-label": "Switch demo" } };

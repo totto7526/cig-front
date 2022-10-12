@@ -107,10 +107,8 @@ function AssignRoute() {
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
-          textButton='Inicio'
           heading="Asignar ruta"
-          subHeading="Proceso para asignar una ruta a un empleado"
-          docs="/dashboards/cards" />
+          subHeading="Proceso para asignar una ruta" />
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid

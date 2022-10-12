@@ -192,10 +192,8 @@ function CreateRuteOptions() {
       </Helmet>
       <PageTitleWrapper>
         <PageTitle
-          textButton="Inicio"
           heading="Crear nueva ruta"
-          subHeading="Proceso Crear Ruta Nueva"
-          docs="/dashboards/cards" />
+          subHeading="Proceso Crear Ruta Nueva" />
       </PageTitleWrapper>
       <Container maxWidth="lg">
         <Grid
