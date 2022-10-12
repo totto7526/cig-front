@@ -136,14 +136,14 @@ const menuItems: MenuItems[] = [
         icon:SettingsIcon,
         items:[
           {
-            name:'Opciones Rutas',
-            icon: CreateIcon,
-            link:'/opcionesRuta/gestion_rutas/opciones-ruta',
-          },
-          {
             name:'Asignar Barrio',
             icon: CreateIcon,
             link:'/opcionesRuta/gestion_rutas/asignar-barrio',
+          },
+          {
+            name:'Crear Ruta',
+            icon: CreateIcon,
+            link:'/opcionesRuta/gestion_rutas/crear-ruta',
           },
         ]
       }

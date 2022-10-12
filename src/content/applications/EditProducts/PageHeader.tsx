@@ -6,8 +6,8 @@ function PageHeader() {
 
   const user =
   {
-    name: 'Jose Luis Castro',
-    avatar: '/static/images/avatars/3.jpg'
+    name: '',
+    avatar: ''
   };
   return (
     <Grid container justifyContent="space-between" alignItems="center">
@@ -16,7 +16,7 @@ function PageHeader() {
           Editar Producto
         </Typography>
         <Typography variant="subtitle2">
-          {user.name}, Aca podras editar un producto o eliminarlo
+          {user.name}Proceso para editar un producto o eliminarlo
         </Typography>
       </Grid>
       <Grid item>

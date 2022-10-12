@@ -68,12 +68,6 @@ const DispatchProducts = Loader(
 const ReceiveProducts = Loader(
   lazy(() => import('src/content/applications/ReceiveProducts'))
 );
-const RouteOptions = Loader(
-  lazy(() => import('src/content/pages/Components/RouteOptions'))
-);
-const EditRoute = Loader(
-  lazy(()=> import('src/content/applications/EditRoute'))
-);
 
 
 
@@ -318,29 +312,14 @@ const routes: RouteObject[] = [
         path:'gestion_rutas',
         children:[
           {
-            path:'opciones-ruta',
-            element:<RouteOptions/>
-          },
-          {
-            path:'editar-ruta',
-            element:<EditRoute/>
+            path:'crear-ruta',
+            element:<CreateRuteOptions/>
           },
           {
             path:'asignar-barrio',
             element:<CreateDistrict/>
           },
         ]
-      }
-    ]
-  },
-
-  {
-    path: '/crearRuta',
-    element:<BaseLayout/>,
-    children:[
-      {
-        path:'ruta',
-        element:<CreateRuteOptions/>
       }
     ]
   },
