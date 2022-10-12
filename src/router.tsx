@@ -59,15 +59,6 @@ const EditWorkers = Loader(
 const Liquidateroute = Loader(
   lazy(() => import('src/content/pages/Components/Liquidateroute'))
 );
-const AssignRoute = Loader(
-  lazy(() => import('src/content/pages/Components/AssignRoute'))
-);
-const DispatchProducts = Loader(
-  lazy(() => import('src/content/applications/DispatchProducts'))
-);
-const ReceiveProducts = Loader(
-  lazy(() => import('src/content/applications/ReceiveProducts'))
-);
 
 
 
@@ -287,19 +278,7 @@ const routes: RouteObject[] = [
           {
             path: 'liquidar-ruta',
             element: <Liquidateroute/>
-          },
-          {
-            path:'asignar-ruta',
-            element: <AssignRoute/>
-          },
-          {
-            path:'despachar-productos',
-            element: <DispatchProducts/>
-          },
-          {
-            path:'recibir-productos',
-            element: <ReceiveProducts/>
-          },
+          }
         ]
       }
     ]
@@ -319,34 +298,6 @@ const routes: RouteObject[] = [
             path:'asignar-barrio',
             element:<CreateDistrict/>
           },
-        ]
-      }
-    ]
-  },
-
-  {
-    path: '/management',
-    element: <SidebarLayout />,
-    children: [
-      {
-        path: '',
-        element: <Navigate to="/management/transactions" replace />
-      },
-      {
-        path: 'profile',
-        children: [
-          {
-            path: '',
-            element: <Navigate to="details" replace />
-          },
-          {
-            path: 'details',
-            element: <UserProfile />
-          },
-          {
-            path: 'settings',
-            element: <UserSettings />
-          }
         ]
       }
     ]

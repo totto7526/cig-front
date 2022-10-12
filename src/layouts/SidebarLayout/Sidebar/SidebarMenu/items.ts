@@ -162,24 +162,6 @@ const menuItems: MenuItems[] = [
             icon: AddShoppingCartIcon,
             link: '/seguimientoEmpleado/gestion_seguimiento/liquidar-ruta'
           },
-          {
-            name:'Asignar Ruta',
-            icon: AddLocationAltOutlinedIcon,
-            link: '/seguimientoEmpleado/gestion_seguimiento/asignar-ruta'
-    
-          },
-          {
-            name:'Despachar Productos',
-            icon: FormatListNumberedIcon,
-            link: '/seguimientoEmpleado/gestion_seguimiento/despachar-productos'
-    
-          },
-          {
-            name:'Recibir Productos',
-            icon: FormatListNumberedIcon,
-            link: '/seguimientoEmpleado/gestion_seguimiento/recibir-productos'
-    
-          },
         ]
       }
     ]

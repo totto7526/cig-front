@@ -558,7 +558,7 @@ function CreateRuteOptions() {
                           Cancelar
                       </Button>
                       <Button 
-                        sx={{ margin: 5, width: '25ch'}} 
+                        sx={{ margin: 1, width: '25ch'}} 
                         variant="contained"
                         onClick={
                           submitCreateRouteOptions
