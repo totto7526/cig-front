@@ -121,16 +121,34 @@ function ProductAdd() {
   const [errorValue, setErrorValue] = useState({
     nombre: false,
     referencia: false,
-    descripcion:false,
-    valorCredito:false,
+    descripcion: false,
+    idDimension: false,
+    largo: false,
+    ancho: false,
+    idCategoria: false,
+    nombreCategoria:false,
+    idColor: false,
+    nombreColor:false,
+    valorCredito: false,
+    valorContado: false,
+    cantidad: false,
 
   });
 
   const [helperTextValue, sethelperTextValue] = useState({
     nombre: "",
-    referencia:"",
-    descripcion:"",
-    valorCredito:"",
+    referencia: "",
+    descripcion: "",
+    idDimension: "",
+    largo: "",
+    ancho: "",
+    idCategoria: "",
+    nombreCategoria: " ",
+    idColor: "",
+    nombreColor: " ",
+    valorCredito: "",
+    valorContado: "",
+    cantidad: "",
   });
 
   
@@ -139,15 +157,33 @@ function ProductAdd() {
       nombre: false,
       referencia: false,
       descripcion: false,
+      idDimension: false,
+      largo: false,
+      ancho: false,
+      idCategoria: false,
+      nombreCategoria:false,
+      idColor: false,
+      nombreColor:false,
       valorCredito: false,
+      valorContado: false,
+      cantidad: false,
       
     }
 
     let errorText = {
       nombre: "",
       referencia: "",
-      descripcion:"",
-      valorCredito:"",
+      descripcion: "",
+      idDimension: "",
+      largo: "",
+      ancho: "",
+      idCategoria: "",
+      nombreCategoria: " ",
+      idColor: "",
+      nombreColor: " ",
+      valorCredito: "",
+      valorContado: "",
+      cantidad: "",
     }
 
     if (producto.nombre.trim().length === 0) {
@@ -162,10 +198,37 @@ function ProductAdd() {
       errors = {...errors, descripcion: true};
       errorText = {...errorText, descripcion: 'Campo obligatorio'}
     }
-    if (producto.valorCredito === 0) {
-      errors = {...errors, valorCredito: true};
-      errorText = {...errorText, valorCredito: 'Campo obligatorio Ingrese el valor del producto'}
+    if (producto.idDimension === 0 && producto.largo < 1 && producto.ancho <1) {
+      errors = {...errors, idDimension: true};
+      errors = {...errors, largo: true};
+      errors = {...errors, ancho: true};
+      errorText = {...errorText, idDimension: 'Seleccione una medida o ingrese una nueva'}
+      errorText = {...errorText, largo: 'Seleccione una medida o ingrese una nueva'}
+      errorText = {...errorText, ancho: 'Seleccione una medida o ingrese una nueva'}
     }
+    if (producto.idCategoria === 0 && producto.nombreCategoria.trim().length === 0) {
+      errors = {...errors, idCategoria: true};
+      errors = {...errors, nombreCategoria: true};
+      errorText = {...errorText, idCategoria: 'Seleccione una categoria o ingrese una nueva'}
+      errorText = {...errorText, nombreCategoria: 'Seleccione una categoria o ingrese una nueva'}
+    }
+    if (producto.idColor === 0 && producto.nombreColor.trim().length === 0) {
+      errors = {...errors, idColor: true};
+      errors = {...errors, nombreColor: true};      
+      errorText = {...errorText, idColor: 'Campo obligatorio seleccione un color o ingrese uno nuevo'}
+      errorText = {...errorText, nombreColor: 'Campo obligatorio seleccione un color o ingrese uno nuevo'}
+    }
+    if (producto.valorCredito === 0 && producto.valorContado ===0) {
+      errors = {...errors, valorCredito: true};
+      errors = {...errors, valorContado: true};
+      errorText = {...errorText, valorCredito: 'Campo obligatorio Ingrese el valor credito del producto'}
+      errorText = {...errorText, valorContado: 'Campo obligatorio Ingrese el valor credito del producto para calcular el valor contado'}
+    }
+    if (producto.cantidad === 0) {
+      errors = {...errors, cantidad: true};
+      errorText = {...errorText, cantidad: 'Ingrese la cantidad de productos'}
+    }
+
 
     setErrorValue(errors);
     sethelperTextValue(errorText);
@@ -177,9 +240,14 @@ function ProductAdd() {
       [e.target.name]: e.target.value,
     });
 
-   if(e.target.name !== 'idColor' && e.target.name !== 'idCategoria' && e.target.name !== 'idDimension'){
-
-   
+   if(e.target.name !== 'idColor'
+    && e.target.name !== 'idCategoria'
+    && e.target.name !== 'idDimension'
+    && e.target.name !== 'valorCredito'
+    && e.target.name !== 'valorContado'
+    && e.target.name !== 'cantidad'
+    && e.target.name !== 'largo'
+    && e.target.name !== 'ancho'){
     if (e.target.value.trim().length === 0) {
       setErrorValue({
         ...errorValue,
@@ -214,8 +282,16 @@ function ProductAdd() {
       !errorValue.nombre  &&
       !errorValue.referencia &&
       !errorValue.descripcion &&
-      !errorValue.valorCredito
-      
+      !errorValue.idDimension &&
+      !errorValue.largo &&
+      !errorValue.ancho &&
+      !errorValue.idCategoria &&
+      !errorValue.nombreCategoria &&
+      !errorValue.idColor &&
+      !errorValue.nombreColor &&
+      !errorValue.valorCredito &&
+      !errorValue.valorContado &&
+      !errorValue.cantidad      
     ) {
       try {
 
@@ -346,6 +422,8 @@ function ProductAdd() {
                     <TextField
                       required
                       id="cantidad"
+                      error={errorValue.cantidad}
+                      helperText={helperTextValue.cantidad}
                       label="Cantidad"
                       color="success"
                       type="number"
@@ -377,36 +455,41 @@ function ProductAdd() {
                           />
                         </RadioGroup>
                         <div>
-                          <TextField
-                            id="outlined-select"
-                            select
-                            label="Color"
-                            name="idColor"
-                            disabled={!tipoColor}
-                            value={producto.idColor}
-                            onChange={onChangeFormulario}
-                          >
-                            {listColores.map((option) => (
-                              <MenuItem key={option.id} value={option.id}>
-                                {option.nombre}
-                              </MenuItem>
-                            ))}
-                          </TextField>
-                          <TextField
-                            required
-                            id="ColorN"
-                            helperText='¡Ingresa un nuevo color!'
-                            label="ColorNuevo"
-                            color="success"
-                            name="nombreColor"
-                            value={producto.nombreColor}
-                            onChange={onChangeFormulario}
-                            disabled={tipoColor}
-                          />
+                          {
+                            tipoColor ?                          
+                            <TextField
+                              id="outlined-select"
+                              select
+                              error={errorValue.idColor}
+                              helperText={helperTextValue.idColor}
+                              label="Color"
+                              name="idColor"
+                              disabled={!tipoColor}
+                              value={producto.idColor}
+                              onChange={onChangeFormulario}
+                            >
+                              {listColores.map((option) => (
+                                <MenuItem key={option.id} value={option.id}>
+                                  {option.nombre}
+                                </MenuItem>
+                              ))}
+                            </TextField> :
+                              <TextField
+                              required
+                              id="ColorN"
+                              error={errorValue.nombreColor}
+                              helperText={helperTextValue.nombreColor}
+                              label="ColorNuevo"
+                              color="success"
+                              name="nombreColor"
+                              value={producto.nombreColor}
+                              onChange={onChangeFormulario}
+                              disabled={tipoColor}
+                            />
+                          }                                                    
                         </div>
                       </FormControl>
                     </div>
-
                     <div>
                       <FormControl component="fieldset">
                         <FormLabel component="legend">Tipo Categoria</FormLabel>
@@ -430,33 +513,38 @@ function ProductAdd() {
                           />
                         </RadioGroup>
                         <div>
-                          <TextField
-                            id="outlined-select"
-                            select
-                            label="Categoria"
-                            name="idCategoria"
-                            disabled={!listaCategoria}
-                            value={producto.idCategoria}
-                            onChange={onChangeFormulario}
-                            helperText="Por favor seleccione una categoria"
-                          >
-                            {listCategorias.map((option) => (
-                              <MenuItem key={option.id} value={option.id}>
-                                {option.nombre}
-                              </MenuItem>
-                            ))}
-                          </TextField>
-                          <TextField
-                            required
-                            id="CategoriaN"
-                            label="CategoriaNueva"
-                            color="success"
-                            name="nombreCategoria"
-                            value={producto.nombreCategoria}
-                            onChange={onChangeFormulario}
-                            disabled={listaCategoria}
-                            helperText='¡Ingresa una nueva categoria!'
-                          />
+                          {
+                            listaCategoria ?
+                            <TextField
+                              id="outlined-select"
+                              select
+                              error={errorValue.idCategoria}                              
+                              helperText={helperTextValue.idCategoria}
+                              label="Categoria"
+                              name="idCategoria"
+                              disabled={!listaCategoria}
+                              value={producto.idCategoria}
+                              onChange={onChangeFormulario}
+                            >
+                              {listCategorias.map((option) => (
+                                <MenuItem key={option.id} value={option.id}>
+                                  {option.nombre}
+                                </MenuItem>
+                              ))}
+                            </TextField> :
+                               <TextField
+                               required
+                               id="CategoriaN"
+                               error={errorValue.nombreCategoria}
+                               helperText={helperTextValue.nombreCategoria}
+                               label="CategoriaNueva"
+                               color="success"
+                               name="nombreCategoria"
+                               value={producto.nombreCategoria}
+                               onChange={onChangeFormulario}
+                               disabled={listaCategoria}
+                             />
+                          }                                                   
                         </div>
                       </FormControl>
                     </div>
@@ -484,46 +572,57 @@ function ProductAdd() {
                           />
                         </RadioGroup>
                         <div>
-                          <TextField
-                            id="est"
-                            select
-                            label="Estandar"
-                            name="idDimension"
-                            disabled={!medidaEstandar}
-                            value={producto.idDimension}
-                            onChange={onChangeFormulario}
-                            helperText="¡Por favor seleccione una medida!"
-                          >
-                            {listMedidas.map((option) => (
-                              <MenuItem key={option.id} value={option.id}>
-                                {option.largo + "X" + option.ancho + " CM"}
-                              </MenuItem>
-                            ))}
-                          </TextField>
-                          <TextField
-                            required
-                            id="lar"
-                            label="Largo"
-                            color="success"
-                            type="number"
-                            name="largo"
-                            value={producto.largo}
-                            onChange={onChangeFormulario}
-                            disabled={medidaEstandar}
-                            helperText='¡Ingrese el largo del producto!'
-                          />
-                          <TextField
-                            required
-                            id="anch"
-                            label="Ancho"
-                            color="success"
-                            type="number"
-                            name="ancho"
-                            value={producto.ancho}
-                            onChange={onChangeFormulario}
-                            disabled={medidaEstandar}
-                            helperText='¡Ingrese el ancho del producto!'
-                          />
+                          {
+                            medidaEstandar ?
+                            <TextField
+                              id="est"
+                              select
+                              error={errorValue.idDimension}                              
+                              helperText={helperTextValue.idDimension}
+                              label="Estandar"
+                              name="idDimension"
+                              disabled={!medidaEstandar}
+                              value={producto.idDimension}
+                              onChange={onChangeFormulario}
+                            >
+                              {listMedidas.map((option) => (
+                                <MenuItem key={option.id} value={option.id}>
+                                  {option.largo + "X" + option.ancho + " CM"}
+                                </MenuItem>
+                              ))}
+                            </TextField> :
+                               <TextField
+                                  required
+                                  id="lar"
+                                  error={errorValue.largo}
+                                  helperText={helperTextValue.largo}
+                                  label="Largo"
+                                  color="success"
+                                  type="number"
+                                  name="largo"
+                                  value={producto.largo}
+                                  onChange={onChangeFormulario}
+                                  disabled={medidaEstandar}
+                                /> 
+
+                              }
+                              {                                
+                                medidaEstandar ?
+                               <></> :
+                                <TextField
+                                  required
+                                  id="anch"
+                                  error={errorValue.ancho}
+                                  helperText={helperTextValue.ancho}
+                                  label="Ancho"
+                                  color="success"
+                                  type="number"
+                                  name="ancho"
+                                  value={producto.ancho}
+                                  onChange={onChangeFormulario}
+                                  disabled={medidaEstandar}
+                                />
+                              }                                                                              
                         </div>
                       </FormControl>
                     </div>
@@ -533,7 +632,7 @@ function ProductAdd() {
                           Precio Credito
                         </InputLabel>
                         <Input
-                          id="standard-adornment-amount"
+                          id="standard-adornment-amount"                          
                           error={errorValue.valorCredito}
                           required={true}
                           color="success"
@@ -548,10 +647,11 @@ function ProductAdd() {
                       </FormControl>
                       <FormControl component="fieldset" sx={{ margin: 5 }}>
                         <InputLabel htmlFor="standard-adornment-amount">
-                          Precio Contado
+                          Precio Contado                                                     
                         </InputLabel>
                         <Input
                           id="standard-adornment-amount"
+                          error={errorValue.valorContado}
                           required={true}
                           color="success"
                           name="valorContado"

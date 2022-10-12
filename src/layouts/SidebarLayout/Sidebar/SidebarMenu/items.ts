@@ -136,14 +136,14 @@ const menuItems: MenuItems[] = [
         icon:SettingsIcon,
         items:[
           {
-            name:'Opciones Rutas',
-            icon: CreateIcon,
-            link:'/opcionesRuta/gestion_rutas/opciones-ruta',
-          },
-          {
             name:'Asignar Barrio',
             icon: CreateIcon,
             link:'/opcionesRuta/gestion_rutas/asignar-barrio',
+          },
+          {
+            name:'Crear Ruta',
+            icon: CreateIcon,
+            link:'/opcionesRuta/gestion_rutas/crear-ruta',
           },
         ]
       }
@@ -161,24 +161,6 @@ const menuItems: MenuItems[] = [
             name: 'Liquidar Ruta',
             icon: AddShoppingCartIcon,
             link: '/seguimientoEmpleado/gestion_seguimiento/liquidar-ruta'
-          },
-          {
-            name:'Asignar Ruta',
-            icon: AddLocationAltOutlinedIcon,
-            link: '/seguimientoEmpleado/gestion_seguimiento/asignar-ruta'
-    
-          },
-          {
-            name:'Despachar Productos',
-            icon: FormatListNumberedIcon,
-            link: '/seguimientoEmpleado/gestion_seguimiento/despachar-productos'
-    
-          },
-          {
-            name:'Recibir Productos',
-            icon: FormatListNumberedIcon,
-            link: '/seguimientoEmpleado/gestion_seguimiento/recibir-productos'
-    
           },
         ]
       }

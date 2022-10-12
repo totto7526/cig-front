@@ -56,18 +56,87 @@ function CreateRuteOptions() {
 
   const [CreateRuteOptions, setCreateRuteOptions] = useState({
     idPais: 0,
-    newCountry: "",
     idDepartamento: 0,
-    newDepartament: "",
     idRegion: 0,
-    newRegion: "",
     idCiudad: 0,
-    newCity: "",
     idZona: 0,
-    newZone: "",
     idBarrio: 0,
     newDistrict: "",
   });
+
+  const [errorValue, setErrorValue] = useState({
+    idPais: false,
+    idDepartamento: false,
+    idRegion: false,
+    idCiudad: false,
+    idZona: false,
+    idBarrio: false,
+    newDistrict: false,
+  });
+
+  
+  const [helperTextValue, sethelperTextValue] = useState({
+    idPais: "",
+    idDepartamento: "",
+    idRegion: "",
+    idCiudad: "",
+    idZona: "",
+    idBarrio: "",
+    newDistrict: "",
+  });
+
+    const actualizarExistenciaError = () => {
+      let errors = {
+        idPais: false,
+        idDepartamento: false,
+        idRegion: false,
+        idCiudad: false,
+        idZona: false,
+        idBarrio: false,
+        newDistrict: false,
+      }
+
+      let errorText = {
+        idPais: "",
+        idDepartamento: "",
+        idRegion: "",
+        idCiudad: "",
+        idZona: "",
+        idBarrio: "",
+        newDistrict: "",
+      }
+
+      if(CreateRuteOptions.idPais === 0){
+        errors = {...errors, idPais: true};
+        errorText = {...errorText, idPais: 'Campo Obligatorio'}
+      }
+
+      if(CreateRuteOptions.idDepartamento === 0){
+        errors = {...errors, idDepartamento: true};
+        errorText = {...errorText, idDepartamento: 'Campo Obligatorio'}
+      }
+      if(CreateRuteOptions.idRegion === 0){
+        errors = {...errors, idRegion: true};
+        errorText = {...errorText, idRegion: 'Campo Obligatorio'}
+      }
+      if(CreateRuteOptions.idCiudad === 0){
+        errors = {...errors, idCiudad: true};
+        errorText = {...errorText, idCiudad: 'Campo Obligatorio'}
+      }
+      if(CreateRuteOptions.idZona === 0){
+        errors = {...errors, idZona: true};
+        errorText = {...errorText, idZona: 'Campo Obligatorio'}
+      }
+      if(CreateRuteOptions.idBarrio === 0 && CreateRuteOptions.newDistrict.trim().length === 0 ){
+        errors = {...errors, idBarrio: true};
+        errors = {...errors, newDistrict: true};
+        errorText = {...errorText, idBarrio: 'Seleccione un barrio o ingrese uno nuevo'}
+        errorText = {...errorText, newDistrict: 'Selecciones un barrio o ingrese uno nuevo'}
+      }
+      setErrorValue(errors);
+      sethelperTextValue(errorText);
+  };
+
 
   useEffect(() => {
     (async () => {
@@ -151,44 +220,86 @@ function CreateRuteOptions() {
       ...CreateRuteOptions,
       [e.target.name]: e.target.value,
     });
+
+    if(e.target.name !== 'idPais' && 
+       e.target.name !== 'idDepartamento' && 
+       e.target.name !== 'idRegion' &&
+       e.target.name !== 'idCiudad' &&
+       e.target.name !== 'idZona' &&
+       e.target.name !== 'idBarrio'){
+      if (e.target.value.trim().length === 0) {
+        setErrorValue({
+          ...errorValue,
+          [e.target.name]: true,
+        });
+  
+        sethelperTextValue({
+          ...helperTextValue,
+          [e.target.name]: "Campo obligatorio",
+        });
+      } else {
+        setErrorValue({
+          ...errorValue,
+          [e.target.name]: false,
+        });
+  
+        sethelperTextValue({
+          ...helperTextValue,
+          [e.target.name]: "",
+        });
+      }
+    }
   };
 
   const submitCreateRouteOptions = async (e) => {
-    try {
+    actualizarExistenciaError();
 
-      const token = await getAccessTokenSilently({
-        audience: "htttps://cig/api",
-        scope: "read:cig-admin",
-      });
+    if (
+      !errorValue.idPais &&
+      !errorValue.idDepartamento&&
+      !errorValue.idRegion&&
+      !errorValue.idCiudad&&
+      !errorValue.idBarrio&&
+      !errorValue.idZona&&
+      !errorValue.newDistrict
+    ){
+      try {
 
-      const response = await clienteAxios.post(
-        `/api/v1/rutas/ruta`,
-        CreateRuteOptions,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      // Mensaje de exito
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Ruta  registrada exitosamente.",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    } catch (error) {
-      const mensaje = error.response.data.mensaje;
-
-      // mensaje de error
-      Swal.fire({
-        icon: "error",
-        title: "Error al crear la ruta",
-        text: mensaje,
-      });
-      console.log(error);
+        const token = await getAccessTokenSilently({
+          audience: "htttps://cig/api",
+          scope: "read:cig-admin",
+        });
+  
+        const response = await clienteAxios.post(
+          `/api/v1/rutas/ruta`,
+          CreateRuteOptions,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        // Mensaje de exito
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Ruta  registrada exitosamente.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      } catch (error) {
+        const mensaje = error.response.data.mensaje;
+  
+        // mensaje de error
+        Swal.fire({
+          icon: "error",
+          title: "Error al crear la ruta",
+          text: mensaje,
+        });
+        console.log(error);
+      }
     }
+    
   };
 
   return (
@@ -227,6 +338,8 @@ function CreateRuteOptions() {
                     <TextField
                       id="outlined-select"
                       select
+                      error={errorValue.idPais}
+                      helperText={helperTextValue.idPais}
                       label="Pais"
                       name="idPais"
                       color="success"
@@ -234,7 +347,6 @@ function CreateRuteOptions() {
                       onChange={(e) => {
                         onChangeFormulario(e, "country");
                       }}
-                      helperText="Por favor seleccione un pais"
                     >
                       {country.map((option) => (
                         <MenuItem key={option.id} value={option.id}>
@@ -245,6 +357,8 @@ function CreateRuteOptions() {
                     <TextField
                       id="outlined-select"
                       select
+                      error={errorValue.idDepartamento}                      
+                      helperText={helperTextValue.idDepartamento}
                       label="Departamento"
                       name="idDepartamento"
                       color="success"
@@ -252,7 +366,6 @@ function CreateRuteOptions() {
                       onChange={(e) => {
                         onChangeFormulario(e, "departament");
                       }}
-                      helperText="Por favor seleccione un departamento"
                     >
                       {departament.map((option) => (
                         <MenuItem key={option.id} value={option.id}>
@@ -263,6 +376,8 @@ function CreateRuteOptions() {
                     <TextField
                       id="outlined-select"
                       select
+                      error={errorValue.idRegion}
+                      helperText={helperTextValue.idRegion}
                       label="Region"
                       name="idRegion"
                       color="success"
@@ -270,7 +385,6 @@ function CreateRuteOptions() {
                       onChange={(e) => {
                         onChangeFormulario(e, "region");
                       }}
-                      helperText="Por favor seleccione una region"
                     >
                       {region.map((option) => (
                         <MenuItem key={option.id} value={option.id}>
@@ -281,6 +395,8 @@ function CreateRuteOptions() {
                     <TextField
                       id="outlined-select"
                       select
+                      error={errorValue.idCiudad}                      
+                      helperText={helperTextValue.idCiudad}
                       label="Ciudad"
                       name="idCiudad"
                       color="success"
@@ -288,7 +404,6 @@ function CreateRuteOptions() {
                       onChange={(e) => {
                         onChangeFormulario(e, "city");
                       }}
-                      helperText="Por favor seleccione una ciudad"
                     >
                       {city.map((option) => (
                         <MenuItem key={option.id} value={option.id}>
@@ -298,7 +413,9 @@ function CreateRuteOptions() {
                     </TextField>
                     <TextField
                       id="outlined-select"
-                      select
+                      select    
+                      error={errorValue.idZona}                      
+                      helperText={helperTextValue.idZona}
                       label="Zona"
                       name="idZona"
                       color="success"
@@ -306,7 +423,6 @@ function CreateRuteOptions() {
                       onChange={(e) => {
                         onChangeFormulario(e, "zone");
                       }}
-                      helperText="Por favor ingrese la nueva zona"
                     >
                       {zone.map((option) => (
                         <MenuItem key={option.id} value={option.id}>
@@ -326,38 +442,45 @@ function CreateRuteOptions() {
                         }
                         label="Nuevo"
                       />
-                      <TextField
-                        id="outlined-select"
-                        select
-                        label="Barrio"
-                        name="idBarrio"
-                        color="success"
-                        value={CreateRuteOptions.idBarrio}
-                        onChange={(e) => {
-                          onChangeFormulario(e, "barrio");
-                        }}
-                        disabled={createDistrict}
-                        helperText="Por favor seleccione un barrio o cree uno nuevo"
-                      >
-                        {district.map((option) => (
-                          <MenuItem key={option.id} value={option.id}>
-                            {option.nombre}
-                          </MenuItem>
-                        ))}
-                      </TextField>
-                      <TextField
-                        id="outlined-select"
-                        required
-                        label="Nuevo Barrio"
-                        name="newDistrict"
-                        color="success"
-                        value={CreateRuteOptions.newDistrict}
-                        onChange={(e) => {
-                          onChangeFormulario(e, "null");
-                        }}
-                        disabled={!createDistrict}
-                        helperText="Por favor ingrese el nuevo barrio"
-                      />
+                      </div>
+                      <div>
+                        {
+                          createDistrict ?
+                          <TextField
+                            id="outlined-select"
+                            required
+                            error={errorValue.newDistrict}
+                            helperText={helperTextValue.newDistrict}
+                            label="Nuevo Barrio"
+                            name="newDistrict"
+                            color="success"
+                            value={CreateRuteOptions.newDistrict}
+                            onChange={(e) => {
+                              onChangeFormulario(e, "null");
+                            }}
+                            disabled={!createDistrict}
+                          /> :
+                          <TextField
+                            id="outlined-select"
+                            select
+                            error={errorValue.idBarrio}
+                            helperText={helperTextValue.idBarrio}
+                            label="Barrio"
+                            name="idBarrio"
+                            color="success"
+                            value={CreateRuteOptions.idBarrio}
+                            onChange={(e) => {
+                              onChangeFormulario(e, "barrio");
+                            }}
+                            disabled={createDistrict}
+                          >
+                            {district.map((option) => (
+                              <MenuItem key={option.id} value={option.id}>
+                                {option.nombre}
+                              </MenuItem>
+                            ))}
+                          </TextField>
+                        }                                            
                     </div>
                     <div>
                       <Button
@@ -370,7 +493,6 @@ function CreateRuteOptions() {
                       <Button
                         sx={{ margin: 5, width: "25ch" }}
                         variant="contained"
-                        href="/opcionesRuta/gestion_rutas/opciones-ruta"
                         onClick={submitCreateRouteOptions}
                       >
                         Guardar Ruta
