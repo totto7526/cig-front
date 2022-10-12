@@ -82,7 +82,7 @@ const routesNA: RouteObject[] = [
       },
       {
         path: '*',
-        element: <Status404 />
+        element: <StatusComingSoon />
       }
     ]
   }

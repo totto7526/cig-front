@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import PageTitle from 'src/components/PageTitle';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import PageTitleWrapper from 'src/components/PageTitleWrapper';
 import { Container, Grid, Card, CardHeader, CardContent, Divider, Button, InputAdornment } from '@mui/material';
@@ -28,29 +28,50 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Collections } from '@mui/icons-material';
+import clienteAxios from 'src/config/axios';
+import { useAuth0 } from '@auth0/auth0-react';
 
 
 
 const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
-const listEmpleados = [
-  {
-    value: 1,
-    label: 'Pepito Rodrigues',
-  },
-  {
-    value: 2,
-    label: 'Juana Maria',
-  },
-  {
-    value:3,
-    label:'   ',
-  },
-];
 
 
 function Liquidateroute() {
 
+  const [listEmpleados, setListEmpleados] = useState([])
+  const [listaEmpleados, setListaEmpleados] = useState([])
+
+  const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
+
+  const callEmpleados = async (token) => {
+    const response = await clienteAxios.get(`/api/v1/trabajadores`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(response.data);
+    
+    setListaEmpleados(await response.data),
+    console.log(listaEmpleados);
+    
+  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const token = await getAccessTokenSilently({
+          audience: "htttps://cig/api",
+          scope: "read:cig-admin",
+        });
+
+        callEmpleados(token);
+        
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, [getAccessTokenSilently]);
 
   const [liquidate, setLiquidate] = useState({
     employee: '',
@@ -154,7 +175,7 @@ function Liquidateroute() {
                       helperText="Por favor seleccione un empleado"
                     >
                       {listEmpleados.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
+                        <MenuItem key={option.id} value={option.persona.nombre}>
                           {option.label}
                         </MenuItem>
                       ))}
