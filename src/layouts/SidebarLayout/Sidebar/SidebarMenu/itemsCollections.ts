@@ -35,7 +35,7 @@ const menuItemsCollections: MenuItems[] = [
     heading: 'Clientes',
     items: [
       {
-        name: 'Gestion clientes',
+        name: 'Gestión clientes',
         icon: SettingsIcon,
         link: '/clientes/gestion_clientes',
         items:[

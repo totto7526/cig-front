@@ -44,7 +44,7 @@ En la actualidad las ventas a crédito son el único método que tienen muchas f
 Para superar estas dificultades a lo largo de los años el almacén cadena el CIG ha estado cambiando la forma de otorgar los créditos, de tal manera que sea más cómodo para sus clientes y más seguro para el negocio. En la actualidad el sistema de créditos se maneja de la siguiente manera:
 Para ventas nuevas:
 1. El vendedor visita al cliente. 
-2.	Le ofrece los productos en existencia.
+2. Le ofrece los productos en existencia.
 3.	Acuerda con ellos las formas de pago y precio de los productos.
 4.	Cuando el cliente acepta, proceden a llenar los datos para el crédito en la tarjeta física, los cuales son: nombre completo, numero de cedula, dirección de residencia, dos teléfonos familiares y por último firmar la parte de atrás de la tarjeta aceptando el crédito.
 Recargos: el vendedor visita al cliente, le ofrece los productos en existencia, pactan con ellos el precio y la forma en que debe seguir cancelando sus cuotas, ya que cuentan con un crédito previamente activo, una vez ellos llegan al almacén informan al personal administrativo para hacer el registro del recargo en la tarjeta física.
@@ -59,8 +59,6 @@ Rutas: Las rutas están definidas primero por municipio, luego por zonas, estas 
 Cabe recalcar que todas las actividades anteriormente nombradas son llevadas a cabo de manera manual, es por esto que el almacén se ha visto abocado a buscar soluciones tecnológicas para motivar el crecimiento de su negocio y brindar una mejor calidad de vida a sus trabajadores, además de una mejor atención a sus clientes. Debido a que el almacén no centra sus operaciones en un solo lugar, debido a que sus ventas y cobros son realizados de manera ambulante, se busca la manera de que la solución fuera completa y abarcara las dos facetas del negocio por esto se requiere una aplicación de escritorio y una móvil.
 
 ---
-<br />
-<br />
 
 ## Impacto social
 El desarrollo del proyecto genera un gran impacto a nivel social, debido a que se espera mejorar la calidad del servicio que van a recibir los clientes de almacén cadena el CIG, además de hacer más óptima la labor de sus empleados
