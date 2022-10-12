@@ -202,7 +202,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Products }) => {
         console.log(token);
 
         const response = await clienteAxios.put(
-          `/api/v1/productos${idProducto}/cambiar-estado`,
+          `/api/v1/productos/producto/${idProducto}/cambiar-estado`,
           {},
           {
             headers: {

@@ -58,6 +58,8 @@ function ClientToEdit({client}) {
 
   useEffect(() => {
     (async () => {
+      console.log(client);
+      
       try {
         const token = await getAccessTokenSilently({
           audience: "htttps://cig/api",
@@ -280,26 +282,23 @@ function ClientToEdit({client}) {
           audience: "htttps://cig/api",
           scope: "read:cig-vendedor read:cig-cobrador",
         });
-        const response = await clienteAxios.post(
-          "/api/v1/clientes/cliente",
-          cliente,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+        const response = await clienteAxios.put(`/api/v1/clientes/cliente/${client.id}`,
+         cliente, {
+          headers: {
+            Authorization: `Bearer ${token}`
           }
-        );
+        });
         // Mensaje de exito
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: "Cliente registrado exitosamente.",
+          title: "Cliente Actualizado exitosamente.",
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/clientes/gestion_clientes/editar-clientes", {
-          replace: true,
-        });
+        setTimeout(() => {
+            window.location.reload();
+        }, 1500);
       } catch (error) {
         const mensaje = error.response.data.mensaje;
 

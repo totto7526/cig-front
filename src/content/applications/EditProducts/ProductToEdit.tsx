@@ -45,8 +45,8 @@ function ProductAdd({product}) {
   const [listCategorias, setListCategorias] = useState([]);
   const [listMedidas, setListMedidas] = useState([]);
   const [listColores, setListColores] = useState([]);
-  const [precioProductoCredito,setPrecioProductoCredito] = useState([]);
-  const [precioProductoContado,setPrecioProductoContado] = useState([]);
+  const [precioProductoCredito,setPrecioProductoCredito] = useState(0);
+  const [precioProductoContado,setPrecioProductoContado] = useState(0);
 
   const callCategorias = async (token) => {
     const response = await clienteAxios.get(`/api/v1/categorias`, {
@@ -132,21 +132,16 @@ function ProductAdd({product}) {
               },
             }
           );
+
           setPrecioProductoCredito(responseCredito.data.valor);
           setPrecioProductoContado(responseContado.data.valor);
         }
       } catch (e) {
         console.error(e);
       }
+      
     })();
   }, []);
-
-
-
-
-
-
-
 
   useEffect(() => {
     (async () => {
@@ -161,6 +156,13 @@ function ProductAdd({product}) {
   })();
   }, [getAccessTokenSilently, producto.idCategoria])
 
+  useEffect(() => {
+    setProducto({...producto, valorContado: precioProductoContado})
+  }, [precioProductoContado])
+  
+  useEffect(() => {
+    setProducto({...producto, valorCredito: precioProductoCredito})
+  }, [precioProductoCredito])
   
   const [errorValue, setErrorValue] = useState({
     nombre: false,
@@ -220,6 +222,7 @@ function ProductAdd({product}) {
       ...producto,
       [e.target.name]: e.target.value,
     });
+    
 
    if(e.target.name !== 'idColor' && e.target.name !== 'idCategoria' && e.target.name !== 'idDimension'){
 
@@ -267,26 +270,26 @@ function ProductAdd({product}) {
           audience: "htttps://cig/api",
           scope: "read:cig-admin",
         });
-  
-        const response = await clienteAxios.post(
-          "/api/v1/productos/producto",
-          producto,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+        console.log(producto);
+        
+        const response = await clienteAxios.put(`/api/v1/productos/producto/${product.id}`,
+         producto, {
+          headers: {
+            Authorization: `Bearer ${token}`
           }
-        );
+        });
   
         // Mensaje de exito
         Swal.fire({
           position: "top-end",
           icon: "success",
-          title: "Producto registrado exitosamente.",
+          title: "Producto Actualizado exitosamente.",
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/productos/gestion_productos/editar-productos", {replace:true})
+        setTimeout(() => {
+            window.location.reload();
+        }, 1500);
       } catch (error) {
         const mensaje = error.response.data.mensaje;
   
@@ -584,7 +587,7 @@ function ProductAdd({product}) {
                           color="success"
                           name="valorCredito"
                           type="number"
-                          value={precioProductoCredito}
+                          value={producto.valorCredito}
                           onChange={onChangeFormulario}
                           startAdornment={
                             <InputAdornment position="start">$</InputAdornment>
@@ -601,7 +604,7 @@ function ProductAdd({product}) {
                           color="success"
                           name="valorContado"
                           type="number"
-                          value={precioProductoContado}
+                          value={producto.valorContado}
                           onChange={onChangeFormulario}
                           startAdornment={
                             <InputAdornment position="start">$</InputAdornment>

@@ -198,7 +198,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
 
         const token = await getAccessTokenSilently({
           audience: "htttps://cig/api",
-          scope: "read:cig-admin",
+          scope: "read:cig-vendedor read:cig-cobrador",
         });
         console.log(token);
 
@@ -228,7 +228,6 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
   };
 
     const goToClientToEdit = (client) => {
-      console.log(clientEdit);
       setClientEdit(client),
       setIsEdit(true);
   }
@@ -439,7 +438,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
                     )}
                   </TableCell>
                   <TableCell align="right">
-                    <Tooltip title="Edit Order" arrow>
+                    <Tooltip title="Editar Cliente" arrow>
                       <IconButton
                         sx={{
                           '&:hover': {
@@ -449,7 +448,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
                         }}
                         color="inherit"
                         size="small"
-                        onClick={() => goToClientToEdit(Client.cliente)}
+                        onClick={() => goToClientToEdit(Client)}
                       >
                         <EditTwoToneIcon fontSize="small" />
                       </IconButton>
@@ -458,7 +457,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
                       <IconButton
                         sx={{
                           '&:hover': { background: theme.colors.error.lighter },
-                          color: theme.palette.error.main
+                          color: theme.palette.primary.main
                         }}
                         color="inherit"
                         size="small"
@@ -470,7 +469,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
                           )
                         }
                       >
-                        <DeleteTwoToneIcon fontSize="small" />
+                        <ToggleOnIcon fontSize="small" />
                       </IconButton>
                     </Tooltip>
                   </TableCell>
