@@ -12,6 +12,8 @@
 
 <br />
 
+# Página web: https://cig-application.herokuapp.com
+
 ## Visión del proyecto Almacen Cadena el CIG
 </h3></a>
 <p>
@@ -86,11 +88,46 @@ El impact mapping es la metodología que propone concentrar esfuerzos en lo real
 <a href="https://uconet.sharepoint.com/:x:/r/sites/ProyectoMvilCIG/_layouts/15/Doc.aspx?sourcedoc=%7B2D575CE8-0FEE-4891-81D3-C15CEF380A83%7D&file=Requisitos%20de%20información%20modelo%20Seguridad.xlsx&action=default&mobileredirect=true&DefaultItemOpen=1&login_hint=maria.henao1650%40uco.net.co&ct=1662516750678&wdOrigin=OFFICECOM-WEB.MAIN.EDGEWORTH&cid=aa0d063b-54d8-4568-8441-d50e0fd22be2"><img src="RMS.png" /></a>
 
 ---
-## Restricciones de negocio
+### RESTRICCIONES DE NEGOCIO 
 > Barreras de entrada al mercado (legales o acuerdos contractuales, logísticas, de poder de mercado; etc.) Costos ocultos del proceso (inexperiencia en el rubro, gastos no concurrentes, ineficiencia del personal, daños y pérdidas de fuerza mayor o desastres naturales; etc.)
+ 
 
-[Documentación](https://uconet.sharepoint.com/:w:/r/sites/ProyectoMvilCIG/_layouts/15/Doc.aspx?sourcedoc=%7B9BA39620-1C61-4BFD-BB7B-E566BC2E409D%7D&file=Restricciones.docx&action=default&mobileredirect=true)
+* Fecha límite de entrega. 
 
+* Compromiso del cliente para participar. 
+
+* Disponibilidad de equipo de desarrollo. 
+
+* Requerimiento capacitación.  
+
+* Espacios de entrega de avances. 
+
+* Adquisición de los dispositivos móviles para el uso del aplicativo. 
+
+* El usuario final no está completamente familiarizado con la tecnología. 
+
+### RESTRICCIONES TÉCNICAS: 
+
+* El equipo de desarrollo cuenta con poca experiencia en el desarrollo de aplicaciones móviles. 
+
+* Metodología de desarrollo enfocada a scrum y Kanban. 
+
+* Desarrollo nativo para Android. 
+
+* Uso de tecnologías open source y gratuitas, dentro de la medida de lo posible. 
+
+### FUNCIONALIDADES CRÍTICAS: 
+
+* Asegurar que en todo el momento el usuario pueda llevar a cabo sus actividades así sea sin internet. 
+
+* Que se realice la sincronización de los datos cuando identifique la conectividad. 
+
+* Generar la liquidación de manera automática. 
+
+* Gestión de asignación de rutas. 
+
+* Saldos a favor por motivo de devoluciones en productos. 
+   <br>
 ---
 
 ## Simulación de Datos
@@ -134,54 +171,4 @@ que son aplicables en un contexto de desarrollo específico, restringen las deci
 <p> Es un tipo de diagrama UML que muestra la arquitectura de ejecución de un sistema, incluyendo nodos como entornos de ejecución de hardware o software, y el middleware que los conecta. </p>
 <img src="DiagDesp.png"/>
 
-
-## Notas de lo que se tenia hasta la fecha de reunion de entrega y lo que se tiene hasta su entrega 4 dias despues 
-
-Hasta el 08/09/2022
-
-Frontend:
-
-1. Diseño de las pantallas establecidas.
-2. Navegación entre las pantallas operativas.
-3. Conectividad con el backend (solo pantalla crear cliente)
-
-Hasta el 12/09/2022
-
-Frontend:
-1. modificación diseño pantalla crear ruta.
-2. limpieza en código y empalme con backend de pantallas:
-crear cliente.
-crear empleado.
-crear ruta.
-realizar venta.
-visualizar clientes.
-visualizar empleados
-implementacion del auth0 y configuración de roles.
-
-
-Backend:
-
-Hasta el 08-sep-2022
-
-1. Se tenía definida arquitectura hexagonal con la siguiente estructura
-<img src="Back.png"/>
-
--	Se tenía definido el dominio con los puestos expuestos de los repositorios
--	Ya estaba definidas todas las entidades de la base de datos
--	Se tenían los adaptadores para los repositorios expuestos en el dominio
--	Se tienen construidos los casos de uso para administrar 
--	Clientes
--	Empleados
--	Ventas
--	Cobros
--	Productos
--	Estaban creados los controladores rest
--	Despliegue en Heroku
-
-Después del el 08-sep-2022
-
--	Se crearon pruebas unitarias para los casos de uso (no se alcanzó a cubrir el 100%)
--	Se implementó Auth0 para la autorización del api
--	Se crearon casos de uso para la administración de Rutas
--	Se despliega en Heroku con los nuevos cambios
-
+--- 
