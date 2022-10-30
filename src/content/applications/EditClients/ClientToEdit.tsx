@@ -35,6 +35,10 @@ function ClientToEdit({client}) {
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   const [neighborhood, setNeighborhood] = useState([]);
+  const [city, setCity] = useState([]);
+  const [idCiudad, setIdCiudad] = useState(client.cliente.persona.barrio.zona.ciudad.id);
+  const [relationship, setRelationship] = useState([]);
+
 
   const callNeighborhood = async (token) => {
     const response = await clienteAxios.get("/api/v1/barrios", {
@@ -44,8 +48,6 @@ function ClientToEdit({client}) {
     });
     setNeighborhood(await response.data);
   };
-
-  const [relationship, setRelationship] = useState([]);
 
   const callRelationship = async (token) => {
     const response = await clienteAxios.get("/api/v1/parentescos", {
@@ -59,19 +61,51 @@ function ClientToEdit({client}) {
   useEffect(() => {
     (async () => {
       console.log(client);
-      
       try {
         const token = await getAccessTokenSilently({
           audience: "htttps://cig/api",
           scope: "read:cig-vendedor read:cig-cobrador",
         });
+        const response = await clienteAxios.get("api/v1/rutas/ciudades/1", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setCity(await response.data);
         callRelationship(token);
-        callNeighborhood(token);
       } catch (e) {
         console.error(e);
       }
     })();
   }, []);
+
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const token = await getAccessTokenSilently({
+          audience: "htttps://cig/api",
+          scope: "read:cig-vendedor read:cig-cobrador",
+        });
+
+        if (idCiudad != 0) {
+          const response = await clienteAxios.get(
+            `/api/v1/rutas/barrios/${idCiudad}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setNeighborhood(await response.data);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, [idCiudad]);
+
+ 
 
   const [cliente, setCliente] = useState({
     identificacion: client.cliente.persona.identificacion,
@@ -87,7 +121,7 @@ function ClientToEdit({client}) {
     telefonoReferencia1: client.referencias[0].telefono,
     idParentescoReferencia1: client.referencias[0].parentesco,
     nombreReferencia2: client.referencias[1].nombre,
-    telefonoReferencia2: client.referencias[1].nombre,
+    telefonoReferencia2: client.referencias[1].telefono,
     idParentescoReferencia2: client.referencias[1].parentesco,
   });
 
@@ -100,6 +134,7 @@ function ClientToEdit({client}) {
     direccion: false,
     telefono: false,
     cupo: false,
+    idCiudad:false,
     idBarrio: false,
     nombreReferencia1: false,
     telefonoReferencia1: false,
@@ -118,6 +153,7 @@ function ClientToEdit({client}) {
     direccion: "",
     telefono: "",
     cupo: "",
+    idCiudad: "",
     idBarrio: "",
     nombreReferencia1: "",
     telefonoReferencia1: "",
@@ -137,6 +173,7 @@ function ClientToEdit({client}) {
       direccion: false,
       telefono: false,
       cupo: false,
+      idCiudad: false,
       idBarrio:false,
       nombreReferencia1: false,
       telefonoReferencia1: false,
@@ -155,6 +192,7 @@ function ClientToEdit({client}) {
       direccion: "",
       telefono: "",
       cupo: "",
+      idCiudad: "",
       idBarrio:"",
       nombreReferencia1: "",
       telefonoReferencia1: "",
@@ -188,9 +226,14 @@ function ClientToEdit({client}) {
       errors = {...errors, telefono: true};
       errorText = {...errorText, telefono: 'Campo obligatorio'}
     }
-    if (cliente.cupo.trim().length === 0) {
+    if (cliente.cupo === 0) {
       errors = {...errors, cupo: true};
       errorText = {...errorText, cupo: 'Campo obligatorio'}
+    }
+
+    if (idCiudad == 0 ) {
+      errors = {...errors, idCiudad: true};
+      errorText = {...errorText, idCiudad: 'Campo obligatorio'}
     }
     if (cliente.idBarrio == 0 || cliente.idBarrio < 0) {
       errors = {...errors, idBarrio: true};
@@ -228,13 +271,20 @@ function ClientToEdit({client}) {
   };
 
   const onChangeFormulario = (e) => {
-    setCliente({
-      ...cliente,
-      [e.target.name]: e.target.value,
-    });
+    if(e.target.name !=='idCiudad'){
+      setCliente({
+        ...cliente,
+        [e.target.name]: e.target.value,
+      });
+    } else {
+      setIdCiudad(e.target.value)
+    }
+    
 
-   if(e.target.name !== 'idBarrio' && e.target.name !== 'idParentescoReferencia1' && 
-      e.target.name !== 'idParentescoReferencia1'){
+   if(e.target.name !== 'idBarrio' &&
+      e.target.name !== 'idCiudad' &&
+      e.target.name !== 'idParentescoReferencia1' && 
+      e.target.name !== 'idParentescoReferencia2'){
     if (e.target.value.trim().length === 0) {
       setErrorValue({
         ...errorValue,
@@ -270,6 +320,8 @@ function ClientToEdit({client}) {
       !errorValue.primerApellido &&
       !errorValue.segundoApellido &&
       !errorValue.direccion &&
+      !errorValue.idCiudad &&
+      !errorValue.idBarrio &&
       !errorValue.telefono &&
       !errorValue.cupo &&
       !errorValue.nombreReferencia1 &&
@@ -282,7 +334,7 @@ function ClientToEdit({client}) {
           audience: "htttps://cig/api",
           scope: "read:cig-vendedor read:cig-cobrador",
         });
-        const response = await clienteAxios.put(`/api/v1/clientes/cliente/${client.id}`,
+        const response = await clienteAxios.put(`/api/v1/clientes/cliente/${client.cliente.id}`,
          cliente, {
           headers: {
             Authorization: `Bearer ${token}`
@@ -447,6 +499,23 @@ function ClientToEdit({client}) {
                       InputProps={{ inputProps: { min: 0} }}
                     />
 
+                    <TextField
+                      id="outlined-select"
+                      select
+                      error={errorValue.idCiudad}
+                      helperText={helperTextValue.idCiudad}
+                      label="Ciudad"
+                      color="success"
+                      value={idCiudad}
+                      name="idCiudad"
+                      onChange={onChangeFormulario}
+                    >
+                      {city.map((option) => (
+                        <MenuItem key={option.id} value={option.id}>
+                          {option.nombre}
+                        </MenuItem>
+                      ))}
+                    </TextField>
                     <TextField
                       id="outlined-select"
                       select

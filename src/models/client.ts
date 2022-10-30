@@ -59,12 +59,14 @@ export interface Client {
         {
             nombre:string,
             telefono:string,
-            parentesco: string
+            parentesco: number,
+            nombreParentesco: string
         },
         {
             nombre: string,
             telefono: string,
-            parentesco: string
+            parentesco: number,
+            nombreParentesco: string
         }
     ]
 }

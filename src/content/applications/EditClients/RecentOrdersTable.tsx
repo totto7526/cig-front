@@ -381,7 +381,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
                       {Client.referencias[0].telefono}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {Client.referencias[0].parentesco}
+                      {Client.referencias[0].nombreParentesco}
                     </Typography>
                   </TableCell>   
 
@@ -399,7 +399,7 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
                       {Client.referencias[1].telefono}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" noWrap>
-                      {Client.referencias[1].parentesco}
+                      {Client.referencias[1].nombreParentesco}
                     </Typography>
                   </TableCell>     
 
