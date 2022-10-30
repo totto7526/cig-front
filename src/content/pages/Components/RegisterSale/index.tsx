@@ -238,9 +238,9 @@ function RegisterSale() {
       !errorValue.cantidad &&
       !errorValue.descuento &&
       !errorValue.justificacion &&
-      precioProducto !== 0 &&
       puedeAgregar !== 0 &&
-      !details.find( det => det.idProducto === idP)
+      precioProducto !== 0 &&
+      !details.find((det) => det.idProducto === idP)
     ) {
       let newdetail = {
         idProducto: idP,
@@ -251,7 +251,6 @@ function RegisterSale() {
 
       setDetails([...details, newdetail]);
     }
-
     setPuedeAgregar(1);
   };
 
@@ -328,7 +327,7 @@ function RegisterSale() {
           timerProgressBar: true,
           didOpen: () => {
             Swal.showLoading();
-          }
+          },
         }).then((result) => {
           Swal.fire({
             position: "top-end",
@@ -339,7 +338,7 @@ function RegisterSale() {
           });
 
           setTimeout(() => {
-            window.location.reload()
+            window.location.reload();
           }, 2000);
         });
       } catch (error) {
@@ -357,9 +356,9 @@ function RegisterSale() {
   };
 
   const quitarDetalle = (idProducto) => {
-    let newDetails = details.filter(det => det.idProducto != idProducto);
+    let newDetails = details.filter((det) => det.idProducto != idProducto);
     setDetails(newDetails);
-  }
+  };
 
   return (
     <>
@@ -549,9 +548,9 @@ function RegisterSale() {
                                 }}
                               >
                                 <TableCell>
-                                  {idProducto !== 0
+                                  {row.idProducto !== 0
                                     ? listProducto.find(
-                                        (x) => x.id === idProducto
+                                        (x) => x.id === row.idProducto
                                       ).nombre
                                     : "N/A"}
                                 </TableCell>
@@ -577,7 +576,9 @@ function RegisterSale() {
                                       }}
                                       color="inherit"
                                       size="small"
-                                      onClick={() => quitarDetalle(row.idProducto)}
+                                      onClick={() =>
+                                        quitarDetalle(row.idProducto)
+                                      }
                                     >
                                       <DeleteTwoToneIcon fontSize="small" />
                                     </IconButton>
