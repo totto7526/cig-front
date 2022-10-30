@@ -5,6 +5,8 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import HomeIcon from '@mui/icons-material/Home';
+
 
 
 export interface MenuItem {
@@ -25,9 +27,9 @@ const menuItemsSales: MenuItems[] = [
     heading: '',
     items: [
       {
-        name: 'Overview',
+        name: 'Inicio',
         link: '/overview',
-        icon: DesignServicesTwoToneIcon
+        icon: HomeIcon
       }
     ]
   },

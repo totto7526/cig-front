@@ -38,7 +38,9 @@ import Paper from "@mui/material/Paper";
 import { Collections } from "@mui/icons-material";
 import clienteAxios from "src/config/axios";
 import { useAuth0 } from "@auth0/auth0-react";
-import StatusMaintenance from '../../Status/Maintenance/index';
+import StatusMaintenance from "../../Status/Maintenance/index";
+import Swal from "sweetalert2";
+import { DatePicker } from "@mui/lab";
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
@@ -70,7 +72,7 @@ function Liquidateroute() {
 
   const [liquidacionValues, setLiquidacionValues] = useState({
     idTrabajador: 0,
-    fechaRealizacion: "2022-10-11",
+    fechaRealizacion: Date.now(),
     crearLiquidacion: false,
   });
 
@@ -79,7 +81,7 @@ function Liquidateroute() {
     totalCobrosIniciales: 0,
     totalCobrosNormales: 0,
     totalVentas: 0,
-    totalEfectivo: 0
+    totalEfectivo: 0,
   });
 
   useEffect(() => {
@@ -106,7 +108,7 @@ function Liquidateroute() {
         }
       }
     })();
-  }, [liquidacionValues.idTrabajador]);
+  }, [liquidacionValues.idTrabajador, liquidacionValues.fechaRealizacion]);
 
   const onChangeFormulario = (e) => {
     if (e.target.name === "idTrabajador") {
@@ -140,6 +142,67 @@ function Liquidateroute() {
   ) {
     return { name, collection, initials, sales, cash, must };
   }
+
+  const liquidar = async () => {
+    if (liquidacionValues.idTrabajador === 0) {
+      Swal.fire({
+        icon: "error",
+        title: "Error al intentar liquidar",
+        text: "Debe seleccionar un empleado para continuar",
+      });
+    } else if (
+      liquidate.totalCobrosIniciales === 0 &&
+      liquidate.totalCobrosNormales === 0 &&
+      liquidate.totalVentas === 0
+    ) {
+      Swal.fire({
+        icon: "error",
+        title: "Error al intentar liquidar",
+        text: "El empleado no presenta valores para realizar liquidación",
+      });
+    } else {
+      let body = {
+        idTrabajador: liquidacionValues.idTrabajador,
+        fechaRealizacion: liquidacionValues.fechaRealizacion,
+        crearLiquidacion: true,
+      };
+
+      try {
+        const token = await getAccessTokenSilently({
+          audience: "htttps://cig/api",
+          scope: "read:cig-admin",
+        });
+        const response = await clienteAxios.post(
+          "/api/v1/liquidaciones/calcular-valores",
+          body,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        // Mensaje de exito
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Cliente registrado exitosamente.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        console.log(response.data);
+      } catch (error) {
+        const mensaje = error.response.data.mensaje;
+
+        // mensaje de error
+        Swal.fire({
+          icon: "error",
+          title: "Error al crear el cliente",
+          text: mensaje,
+        });
+        console.log(error);
+      }
+    }
+  };
 
   return (
     <>
@@ -206,6 +269,14 @@ function Liquidateroute() {
                         </MenuItem>
                       ))}
                     </TextField>
+                    <DatePicker
+                      label="Fecha Liquidacion"
+                      value={liquidacionValues.fechaRealizacion}
+                      onChange={(newValue) => {
+                        setLiquidacionValues({...liquidacionValues, fechaRealizacion: newValue});
+                      }}
+                      renderInput={(params) => <TextField {...params} />}
+                    />
                     <TextField
                       label="Total Cobrado"
                       id="filled-start-adornment"
@@ -218,7 +289,7 @@ function Liquidateroute() {
                         startAdornment: (
                           <InputAdornment position="start">$</InputAdornment>
                         ),
-                        readOnly: true
+                        readOnly: true,
                       }}
                       variant="filled"
                     />
@@ -234,7 +305,7 @@ function Liquidateroute() {
                         startAdornment: (
                           <InputAdornment position="start">$</InputAdornment>
                         ),
-                        readOnly: true
+                        readOnly: true,
                       }}
                       variant="filled"
                     />
@@ -250,7 +321,7 @@ function Liquidateroute() {
                         startAdornment: (
                           <InputAdornment position="start">$</InputAdornment>
                         ),
-                        readOnly: true
+                        readOnly: true,
                       }}
                       variant="filled"
                     />
@@ -259,6 +330,7 @@ function Liquidateroute() {
                       id="filled-start-adornment"
                       color="success"
                       name="totalCash"
+                      type="number"
                       value={liquidate.totalEfectivo}
                       onChange={onChangeFormulario}
                       sx={{ m: 1, width: "25ch" }}
@@ -270,38 +342,15 @@ function Liquidateroute() {
                       variant="filled"
                     />
                     <div>
-                      <FormControl component="fieldset">
-                        <FormLabel component="legend">
-                          Estado Liquidación
-                        </FormLabel>
-                        <RadioGroup
-                          row
-                          aria-label="Estado Liquidacion"
-                          defaultValue={"Se pago"}
-                          name="state"
-                          value={'todo'}
-                          onChange={onChangeFormulario}
-                        >
-                          <FormControlLabel
-                            value="Se pago"
-                            control={<Radio />}
-                            label="Se pago"
-                          />
-                          <FormControlLabel
-                            value="Sin pagar"
-                            control={<Radio />}
-                            label="Sin pagar"
-                          />
-                        </RadioGroup>
-                      </FormControl>
-                    </div>
-                    <div>
-                      <Button sx={{ margin: 1 }} variant="contained">
+                      <Button
+                        sx={{ margin: 1 }}
+                        variant="contained"
+                        onClick={() => liquidar()}
+                      >
                         Liquidar
                       </Button>
                     </div>
                   </div>
-
                 </Box>
               </CardContent>
             </Card>

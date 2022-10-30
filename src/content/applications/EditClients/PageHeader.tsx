@@ -4,11 +4,7 @@ import AddTwoToneIcon from '@mui/icons-material/AddTwoTone';
 
 function PageHeader() {
 
-  const user =
-  {
-    name: 'Jose Luis Castro',
-    avatar: '/static/images/avatars/3.jpg'
-  };
+
   return (
     <Grid container justifyContent="space-between" alignItems="center">
       <Grid item>
@@ -16,7 +12,7 @@ function PageHeader() {
           Editar Cliente
         </Typography>
         <Typography variant="subtitle2">
-          {user.name}, Aca podras editar un cliente o eliminarlo
+          Proceso para editar clientes
         </Typography>
       </Grid>
       <Grid item>
