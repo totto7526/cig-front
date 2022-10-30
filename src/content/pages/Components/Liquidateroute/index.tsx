@@ -72,7 +72,7 @@ function Liquidateroute() {
 
   const [liquidacionValues, setLiquidacionValues] = useState({
     idTrabajador: 0,
-    fechaRealizacion: new Date().setHours(0,0,0,0),
+    fechaRealizacion: "",
     crearLiquidacion: false,
   });
 
