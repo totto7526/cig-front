@@ -36,39 +36,6 @@ function WorkerToEdit({worker}) {
   const [city, setCity] = useState([]);
   const [idCiudad, setIdCiudad] = useState(worker.persona.barrio.zona.ciudad.id)
 
-  // const callNeighborhood = async (token) => {
-  //   const response = await clienteAxios.get('/api/v1/barrios', {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`
-  //     }
-  //   });
-  //   setNeighborhood(await response.data);
-  // };
-
-  // const callCity = async (token) => {
-  //   const response = await clienteAxios.get('/api/v1/rutas/ciudades/1', {
-  //     headers: {
-  //       Authorization: `Bearer ${token}`
-  //     }
-  //   });
-  //   setCity(await response.data);
-  // };
-
-  // useEffect(() => {
-  //   (async () => {
-  //     try {
-  //       const token = await getAccessTokenSilently({
-  //         audience: "htttps://cig/api",
-  //         scope: "read:cig-vendedor read:cig-cobrador",
-  //       });
-        
-  //       callNeighborhood(token);
-  //       callCity(token);
-  //     } catch (e) {
-  //       console.error(e);
-  //     }
-  //   })();
-  // }, []);
 
   useEffect(() => {
     (async () => {
