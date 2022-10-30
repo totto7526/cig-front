@@ -26,21 +26,66 @@ import { useNavigate } from "react-router-dom";
 
 const label = { inputProps: { "aria-label": "Switch demo" } };
 
+
+
 function ClientAdd() {
   let navigate = useNavigate();
+
+  const [city, setCity] = useState([])
+  const [idCiudad, setIdCiudad] = useState(0)
+
 
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   const [neighborhood, setNeighborhood] = useState([]);
 
-  const callNeighborhood = async (token) => {
-    const response = await clienteAxios.get("/api/v1/barrios", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    setNeighborhood(await response.data);
-  };
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const token = await getAccessTokenSilently({
+          audience: "htttps://cig/api",
+          scope: "read:cig-vendedor read:cig-cobrador",
+        });
+        const response = await clienteAxios.get("api/v1/rutas/ciudades/1", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setCity(await response.data);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, []);
+
+
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const token = await getAccessTokenSilently({
+          audience: "htttps://cig/api",
+          scope: "read:cig-vendedor read:cig-cobrador",
+        });
+
+        if (idCiudad != 0) {
+          const response = await clienteAxios.get(
+            `/api/v1/rutas/barrios/${idCiudad}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setNeighborhood(await response.data);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, [idCiudad]);
+
 
   const [relationship, setRelationship] = useState([]);
 
@@ -61,7 +106,6 @@ function ClientAdd() {
           scope: "read:cig-vendedor read:cig-cobrador",
         });
         callRelationship(token);
-        callNeighborhood(token);
       } catch (e) {
         console.error(e);
       }
@@ -95,6 +139,7 @@ function ClientAdd() {
     direccion: false,
     telefono: false,
     cupo: false,
+    idCiudad: false,
     idBarrio: false,
     nombreReferencia1: false,
     telefonoReferencia1: false,
@@ -113,6 +158,7 @@ function ClientAdd() {
     direccion: "",
     telefono: "",
     cupo: "",
+    idCiudad: "",
     idBarrio: "",
     nombreReferencia1: "",
     telefonoReferencia1: "",
@@ -132,7 +178,8 @@ function ClientAdd() {
       direccion: false,
       telefono: false,
       cupo: false,
-      idBarrio:false,
+      idCiudad: false,
+      idBarrio: false,
       nombreReferencia1: false,
       telefonoReferencia1: false,
       idParentescoReferencia1: false,
@@ -150,7 +197,8 @@ function ClientAdd() {
       direccion: "",
       telefono: "",
       cupo: "",
-      idBarrio:"",
+      idCiudad: "",
+      idBarrio: "",
       nombreReferencia1: "",
       telefonoReferencia1: "",
       idParentescoReferencia1: "",
@@ -160,62 +208,68 @@ function ClientAdd() {
     }
 
     if (cliente.identificacion.trim().length === 0 || cliente.identificacion.trim().length > 10) {
-      errors = {...errors, identificacion: true};
-      errorText = {...errorText, identificacion: 'Campo obligatorio y longitud debe ser menor a 10'}
+      errors = { ...errors, identificacion: true };
+      errorText = { ...errorText, identificacion: 'Campo obligatorio y longitud debe ser menor a 10' }
     }
     if (cliente.primerNombre.trim().length === 0) {
-      errors = {...errors, primerNombre: true};
-      errorText = {...errorText, primerNombre: 'Campo obligatorio'}
+      errors = { ...errors, primerNombre: true };
+      errorText = { ...errorText, primerNombre: 'Campo obligatorio' }
     }
     if (cliente.primerApellido.trim().length === 0) {
-      errors = {...errors, primerApellido: true};
-      errorText = {...errorText, primerApellido: 'Campo obligatorio'}
+      errors = { ...errors, primerApellido: true };
+      errorText = { ...errorText, primerApellido: 'Campo obligatorio' }
     }
     if (cliente.segundoApellido.trim().length === 0) {
-      errors = {...errors, segundoApellido: true};
-      errorText = {...errorText, segundoApellido: 'Campo obligatorio'}
+      errors = { ...errors, segundoApellido: true };
+      errorText = { ...errorText, segundoApellido: 'Campo obligatorio' }
     }
     if (cliente.direccion.trim().length === 0) {
-      errors = {...errors, direccion: true};
-      errorText = {...errorText, direccion: 'Campo obligatorio'}
+      errors = { ...errors, direccion: true };
+      errorText = { ...errorText, direccion: 'Campo obligatorio' }
     }
     if (cliente.telefono.trim().length === 0) {
-      errors = {...errors, telefono: true};
-      errorText = {...errorText, telefono: 'Campo obligatorio'}
+      errors = { ...errors, telefono: true };
+      errorText = { ...errorText, telefono: 'Campo obligatorio' }
     }
     if (cliente.cupo.trim().length === 0) {
-      errors = {...errors, cupo: true};
-      errorText = {...errorText, cupo: 'Campo obligatorio'}
-    }
-    if (cliente.idBarrio == 0 || cliente.idBarrio < 0) {
-      errors = {...errors, idBarrio: true};
-      errorText = {...errorText, idBarrio: 'Campo obligatorio'}
-    }
-    
-    if (cliente.nombreReferencia1.trim().length === 0) {
-      errors = {...errors, nombreReferencia1: true};
-      errorText = {...errorText, nombreReferencia1: 'Campo obligatorio'}
-    }
-    if (cliente.telefonoReferencia1.trim().length === 0) {
-      errors = {...errors, telefonoReferencia1: true};
-      errorText = {...errorText, telefonoReferencia1: 'Campo obligatorio'}
+      errors = { ...errors, cupo: true };
+      errorText = { ...errorText, cupo: 'Campo obligatorio' }
     }
 
-    if (cliente.idParentescoReferencia1 == 0 || cliente.idParentescoReferencia1 < 0){
-      errors = {...errors, idParentescoReferencia1: true};
-      errorText = {...errorText, idParentescoReferencia1: 'Campo obligatorio'}
+    if (idCiudad == 0 || idCiudad < 0) {
+      errors = { ...errors, idCiudad: true };
+      errorText = { ...errorText, idCiudad: 'Campo obligatorio' }
+    }
+
+    if (cliente.idBarrio == 0 || cliente.idBarrio < 0) {
+      errors = { ...errors, idBarrio: true };
+      errorText = { ...errorText, idBarrio: 'Campo obligatorio' }
+    }
+
+    if (cliente.nombreReferencia1.trim().length === 0) {
+      errors = { ...errors, nombreReferencia1: true };
+      errorText = { ...errorText, nombreReferencia1: 'Campo obligatorio' }
+    }
+    if (cliente.telefonoReferencia1.trim().length === 0) {
+      errors = { ...errors, telefonoReferencia1: true };
+      errorText = { ...errorText, telefonoReferencia1: 'Campo obligatorio' }
+    }
+
+    if (cliente.idParentescoReferencia1 == 0 || cliente.idParentescoReferencia1 < 0) {
+      errors = { ...errors, idParentescoReferencia1: true };
+      errorText = { ...errorText, idParentescoReferencia1: 'Campo obligatorio' }
     }
     if (cliente.nombreReferencia2.trim().length === 0) {
-      errors = {...errors, nombreReferencia2: true};
-      errorText = {...errorText, nombreReferencia2: 'Campo obligatorio'}
+      errors = { ...errors, nombreReferencia2: true };
+      errorText = { ...errorText, nombreReferencia2: 'Campo obligatorio' }
     }
     if (cliente.telefonoReferencia2.trim().length === 0) {
-      errors = {...errors, telefonoReferencia2: true};
-      errorText = {...errorText, telefonoReferencia2: 'Campo obligatorio'}
+      errors = { ...errors, telefonoReferencia2: true };
+      errorText = { ...errorText, telefonoReferencia2: 'Campo obligatorio' }
     }
-    if (cliente.idParentescoReferencia2 == 0 || cliente.idParentescoReferencia2 < 0){
-      errors = {...errors, idParentescoReferencia2: true};
-      errorText = {...errorText, idParentescoReferencia2: 'Campo obligatorio'}
+    if (cliente.idParentescoReferencia2 == 0 || cliente.idParentescoReferencia2 < 0) {
+      errors = { ...errors, idParentescoReferencia2: true };
+      errorText = { ...errorText, idParentescoReferencia2: 'Campo obligatorio' }
     }
 
     setErrorValue(errors);
@@ -223,43 +277,50 @@ function ClientAdd() {
   };
 
   const onChangeFormulario = (e) => {
-    setCliente({
-      ...cliente,
-      [e.target.name]: e.target.value,
-    });
 
-   if(e.target.name !== 'idBarrio' && e.target.name !== 'idParentescoReferencia1' && 
-      e.target.name !== 'idParentescoReferencia1'){
-    if (e.target.value.trim().length === 0) {
-      setErrorValue({
-        ...errorValue,
-        [e.target.name]: true,
-      });
-
-      sethelperTextValue({
-        ...helperTextValue,
-        [e.target.name]: "Campo obligatorio",
+    if (e.target.name !== "idCiudad") {
+      setCliente({
+        ...cliente,
+        [e.target.name]: e.target.value,
       });
     } else {
-      setErrorValue({
-        ...errorValue,
-        [e.target.name]: false,
-      });
-
-      sethelperTextValue({
-        ...helperTextValue,
-        [e.target.name]: "",
-      });
+      setIdCiudad(e.target.value)
     }
-   }
+
+
+    if (e.target.name !== 'idBarrio' && e.target.name !== 'idParentescoReferencia1' &&
+      e.target.name !== 'idParentescoReferencia1' && e.target.name !== "idCiudad") {
+      if (e.target.value.trim().length === 0) {
+        setErrorValue({
+          ...errorValue,
+          [e.target.name]: true,
+        });
+
+        sethelperTextValue({
+          ...helperTextValue,
+          [e.target.name]: "Campo obligatorio",
+        });
+      } else {
+        setErrorValue({
+          ...errorValue,
+          [e.target.name]: false,
+        });
+
+        sethelperTextValue({
+          ...helperTextValue,
+          [e.target.name]: "",
+        });
+      }
+    }
   };
 
-  const submitCrearCliente = async (e) =>{ 
+  const submitCrearCliente = async (e) => {
     // Se enviaria el cliente al back
     actualizarExistenciaError();
+    console.log(cliente);
 
     if (
-      !errorValue.identificacion  &&
+      !errorValue.identificacion &&
       !errorValue.primerNombre &&
       !errorValue.segundoNombre &&
       !errorValue.primerApellido &&
@@ -267,6 +328,8 @@ function ClientAdd() {
       !errorValue.direccion &&
       !errorValue.telefono &&
       !errorValue.cupo &&
+      !errorValue.idCiudad &&
+      !errorValue.idBarrio &&
       !errorValue.nombreReferencia1 &&
       !errorValue.nombreReferencia2 &&
       !errorValue.telefonoReferencia1 &&
@@ -354,7 +417,7 @@ function ClientAdd() {
                       name="identificacion"
                       value={cliente.identificacion}
                       onChange={onChangeFormulario}
-                      InputProps={{ inputProps: { min: 0} }}
+                      InputProps={{ inputProps: { min: 0 } }}
                     />
                     <TextField
                       required
@@ -425,7 +488,7 @@ function ClientAdd() {
                       name="telefono"
                       value={cliente.telefono}
                       onChange={onChangeFormulario}
-                      InputProps={{ inputProps: { min: 0} }}
+                      InputProps={{ inputProps: { min: 0 } }}
                     />
 
                     <TextField
@@ -435,13 +498,31 @@ function ClientAdd() {
                       error={errorValue.cupo}
                       helperText={helperTextValue.cupo}
                       color="success"
-                      type= 'number'
+                      type='number'
                       defaultValue="150000"
                       name="cupo"
                       value={cliente.cupo}
                       onChange={onChangeFormulario}
-                      InputProps={{ inputProps: { min: 0} }}
+                      InputProps={{ inputProps: { min: 0 } }}
                     />
+
+                    <TextField
+                      id="outlined-select"
+                      select
+                      error={errorValue.idCiudad}
+                      helperText={helperTextValue.idCiudad}
+                      label="Ciudad"
+                      color="success"
+                      value={idCiudad}
+                      name="idCiudad"
+                      onChange={onChangeFormulario}
+                    >
+                      {city.map((option) => (
+                        <MenuItem key={option.id} value={option.id}>
+                          {option.nombre}
+                        </MenuItem>
+                      ))}
+                    </TextField>
 
                     <TextField
                       id="outlined-select"

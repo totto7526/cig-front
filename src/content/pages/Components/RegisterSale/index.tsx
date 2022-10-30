@@ -94,7 +94,6 @@ function RegisterSale() {
 
   const [errorValue, setErrorValue] = useState({
     identificacion: false,
-    cuotaInicial: false,
     cantidad: false,
     descuento: false,
     justificacion: false,
@@ -102,7 +101,6 @@ function RegisterSale() {
 
   const [helperTextValue, sethelperTextValue] = useState({
     identificacion: "",
-    coutaInicial: "",
     cantidad: "",
     descuento: "",
     justificacion: "",
@@ -153,7 +151,6 @@ function RegisterSale() {
   const actualizarExistenciaError = () => {
     let errors = {
       identificacion: false,
-      cuotaInicial: false,
       cantidad: false,
       descuento: false,
       justificacion: false,
@@ -161,7 +158,6 @@ function RegisterSale() {
 
     let errorText = {
       identificacion: "",
-      coutaInicial: "",
       cantidad: "",
       descuento: "",
       justificacion: "",
@@ -175,13 +171,6 @@ function RegisterSale() {
       errorText = {
         ...errorText,
         identificacion: "Campo obligatorio y longitud debe ser menor a 10",
-      };
-    }
-    if (register.cuotaInicial === 0 || register.cuotaInicial < 1) {
-      errors = { ...errors, cuotaInicial: true };
-      errorText = {
-        ...errorText,
-        coutaInicial: "Campo obligatorio y el valor debe ser mayor a cero",
       };
     }
     if (cantidad === 0 || cantidad < 0) {
@@ -246,7 +235,6 @@ function RegisterSale() {
 
     if (
       !errorValue.identificacion &&
-      !errorValue.cuotaInicial &&
       !errorValue.cantidad &&
       !errorValue.descuento &&
       !errorValue.justificacion &&
@@ -274,7 +262,6 @@ function RegisterSale() {
 
     if (
       !errorValue.identificacion &&
-      !errorValue.cuotaInicial &&
       !errorValue.cantidad &&
       !errorValue.descuento &&
       !errorValue.justificacion
@@ -453,8 +440,6 @@ function RegisterSale() {
 
                     <TextField
                       id="outlined-number"
-                      error={errorValue.cuotaInicial}
-                      helperText={helperTextValue.coutaInicial}
                       label="Cuota Inicial"
                       type="number"
                       color="success"

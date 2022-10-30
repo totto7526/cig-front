@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 import PageTitle from "src/components/PageTitle";
 import { useState, useEffect } from "react";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import PageTitleWrapper from "src/components/PageTitleWrapper";
 import {
@@ -26,19 +26,33 @@ const label = { inputProps: { "aria-label": "Switch demo" } };
 
 function WorkerAdd() {
 
+  const [city, setCity] = useState([])
+  const [idCiudad, setIdCiudad] = useState(0)
+
   let navigate = useNavigate();
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   const [neighborhood, setNeighborhood] = useState([]);
 
-  const callNeighborhood = async (token) => {
-    const response = await clienteAxios.get('/api/v1/barrios', {
-      headers: {
-        Authorization: `Bearer ${token}`
+  useEffect(() => {
+    (async () => {
+      try {
+        const token = await getAccessTokenSilently({
+          audience: "htttps://cig/api",
+          scope: "read:cig-vendedor read:cig-cobrador",
+        });
+        const response = await clienteAxios.get("api/v1/rutas/ciudades/1", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setCity(await response.data);
+      } catch (e) {
+        console.error(e);
       }
-    });
-    setNeighborhood(await response.data);
-  };
+    })();
+  }, []);
+
 
   useEffect(() => {
     (async () => {
@@ -48,12 +62,24 @@ function WorkerAdd() {
           scope: "read:cig-vendedor read:cig-cobrador",
         });
 
-        callNeighborhood(token);
+        if (idCiudad != 0) {
+          const response = await clienteAxios.get(
+            `/api/v1/rutas/barrios/${idCiudad}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setNeighborhood(await response.data);
+        }
       } catch (e) {
         console.error(e);
       }
     })();
-  }, []);
+  }, [idCiudad]);
+
+
 
   const [empleado, setEmpleado] = useState({
     primerNombre: "",
@@ -68,118 +94,134 @@ function WorkerAdd() {
   });
 
   const [errorValue, setErrorValue] = useState({
-    primerNombre:false,
-    segundoNombre:false,
-    primerApellido:false,
+    primerNombre: false,
+    segundoNombre: false,
+    primerApellido: false,
     segundoApellido: false,
     identificacion: false,
     telefono: false,
-    direccion:false,
+    direccion: false,
+    idCiudad: false,
     idBarrio: false,
     correo: false
   });
 
-  
+
   const [helperTextValue, sethelperTextValue] = useState({
     primerNombre: "",
-    segundoNombre:"",
-    primerApellido:"",
-    segundoApellido:"",
-    identificacion:"",
-    telefono:"",
-    direccion:"", 
-    idBarrio: "",  
-    correo: "" 
+    segundoNombre: "",
+    primerApellido: "",
+    segundoApellido: "",
+    identificacion: "",
+    telefono: "",
+    direccion: "",
+    idCiudad: "",
+    idBarrio: "",
+    correo: ""
   });
 
-    const actualizarExistenciaError = () => {
-      let errors = {
-        primerNombre:false,
-        segundoNombre:false,
-        primerApellido:false,
-        segundoApellido: false,
-        identificacion: false,
-        telefono: false,
-        direccion:false,
-        idBarrio:false,
-        correo: false
-      }
+  const actualizarExistenciaError = () => {
+    let errors = {
+      primerNombre: false,
+      segundoNombre: false,
+      primerApellido: false,
+      segundoApellido: false,
+      identificacion: false,
+      telefono: false,
+      direccion: false,
+      idCiudad: false,
+      idBarrio: false,
+      correo: false
+    }
 
-      let errorText = {
-        primerNombre: "",
-        segundoNombre:"",
-        primerApellido:"",
-        segundoApellido:"",
-        identificacion:"",
-        telefono:"",
-        direccion:"",   
-        idBarrio:"",
-        correo:"",  
-      }
+    let errorText = {
+      primerNombre: "",
+      segundoNombre: "",
+      primerApellido: "",
+      segundoApellido: "",
+      identificacion: "",
+      telefono: "",
+      direccion: "",
+      idCiudad: "",
+      idBarrio: "",
+      correo: "",
+    }
 
-      if (empleado.primerNombre.trim().length === 0) {
-        errors = {...errors, primerNombre: true};
-        errorText = {...errorText, primerNombre: 'Campo obligatorio'}
-      }
-      if (empleado.primerApellido.trim().length === 0) {
-        errors = {...errors, primerApellido: true};
-        errorText = {...errorText, primerApellido: 'Campo obligatorio'}
-      }
-      if (empleado.segundoApellido.trim().length === 0) {
-        errors = {...errors, segundoApellido: true};
-        errorText = {...errorText, segundoApellido: 'Campo obligatorio'}
-      }
-      if (empleado.identificacion.trim().length === 0) {
-        errors = {...errors, identificacion: true};
-        errorText = {...errorText, identificacion: 'Campo obligatorio'}
-      }
+    if (empleado.primerNombre.trim().length === 0) {
+      errors = { ...errors, primerNombre: true };
+      errorText = { ...errorText, primerNombre: 'Campo obligatorio' }
+    }
+    if (empleado.primerApellido.trim().length === 0) {
+      errors = { ...errors, primerApellido: true };
+      errorText = { ...errorText, primerApellido: 'Campo obligatorio' }
+    }
+    if (empleado.segundoApellido.trim().length === 0) {
+      errors = { ...errors, segundoApellido: true };
+      errorText = { ...errorText, segundoApellido: 'Campo obligatorio' }
+    }
+    if (empleado.identificacion.trim().length === 0) {
+      errors = { ...errors, identificacion: true };
+      errorText = { ...errorText, identificacion: 'Campo obligatorio' }
+    }
 
-      if (empleado.telefono.trim().length === 0) {
-        errors = {...errors, telefono: true};
-        errorText = {...errorText, telefono: 'Campo obligatorio'}
-      }
-      if (empleado.direccion.trim().length === 0) {
-        errors = {...errors, direccion: true};
-        errorText = {...errorText, direccion: 'Campo obligatorio'}
-      }
-      
-      if(empleado.correo.trim().length === 0){
-        errors = {...errors, correo: true};
-        errorText = {...errorText, correo: 'Campo Obligatorio'}
-      }
+    if (empleado.telefono.trim().length === 0) {
+      errors = { ...errors, telefono: true };
+      errorText = { ...errorText, telefono: 'Campo obligatorio' }
+    }
+    if (empleado.direccion.trim().length === 0) {
+      errors = { ...errors, direccion: true };
+      errorText = { ...errorText, direccion: 'Campo obligatorio' }
+    }
 
-      if(empleado.idBarrio == 0 || empleado.idBarrio < 0){
-        errors = {...errors, idBarrio: true};
-        errorText = {...errorText, idBarrio: 'Campo Obligatorio'}
-      }
-      console.log(empleado.correo.trim().length);
-      
-      let correoRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
-      if(!(correoRegex.test(empleado.correo))){
-        errors = {...errors, correo: true};
-        errorText = {...errorText, correo: 'Formato de correo electrónico incorrecto'}
-      }
+    if (empleado.correo.trim().length === 0) {
+      errors = { ...errors, correo: true };
+      errorText = { ...errorText, correo: 'Campo Obligatorio' }
+    }
 
-      setErrorValue(errors);
-      sethelperTextValue(errorText);
-    };
+    if (idCiudad == 0 || idCiudad < 0) {
+      errors = { ...errors, idCiudad: true };
+      errorText = { ...errorText, idCiudad: 'Campo Obligatorio' }
+    }
 
-  
+    if (empleado.idBarrio == 0 || empleado.idBarrio < 0) {
+      errors = { ...errors, idBarrio: true };
+      errorText = { ...errorText, idBarrio: 'Campo Obligatorio' }
+    }
+
+    console.log(empleado.correo.trim().length);
+
+    let correoRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    if (!(correoRegex.test(empleado.correo))) {
+      errors = { ...errors, correo: true };
+      errorText = { ...errorText, correo: 'Formato de correo electrónico incorrecto' }
+    }
+
+    setErrorValue(errors);
+    sethelperTextValue(errorText);
+  };
+
+
 
   const onChangeFormulario = (e) => {
-    
-    setEmpleado({
-      ...empleado,
-      [e.target.name]: e.target.value
-    })
 
-    if(e.target.name !== 'idBarrio'){
+    if (e.target.name !== "idCiudad") {
+      setEmpleado({
+        ...empleado,
+        [e.target.name]: e.target.value
+      })
+    } else {
+      setIdCiudad(e.target.value)
+    }
+
+
+    if (e.target.name !== 'idCiudad' &&
+      e.target.name !== 'idBarrio') {
       if (e.target.value.trim().length === 0) {
         setErrorValue({
           ...errorValue,
           [e.target.name]: true,
         });
-  
+
         sethelperTextValue({
           ...helperTextValue,
           [e.target.name]: "Campo obligatorio",
@@ -189,7 +231,7 @@ function WorkerAdd() {
           ...errorValue,
           [e.target.name]: false,
         });
-  
+
         sethelperTextValue({
           ...helperTextValue,
           [e.target.name]: "",
@@ -210,6 +252,8 @@ function WorkerAdd() {
       !errorValue.identificacion &&
       !errorValue.telefono &&
       !errorValue.direccion &&
+      !errorValue.idCiudad &&
+      !errorValue.idBarrio &&
       !errorValue.correo
     ) {
 
@@ -223,7 +267,7 @@ function WorkerAdd() {
             Authorization: `Bearer ${token}`
           }
         });
-  
+
         // Mensaje de exito
         Swal.fire({
           position: "top-end",
@@ -232,11 +276,11 @@ function WorkerAdd() {
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate("/empleados/gestion_empleados/editar-empleados", {replace:true})
-        
+        navigate("/empleados/gestion_empleados/editar-empleados", { replace: true })
+
       } catch (error) {
         const mensaje = error.response.data.mensaje;
-  
+
         // mensaje de error
         Swal.fire({
           icon: "error",
@@ -370,6 +414,23 @@ function WorkerAdd() {
                       value={empleado.correo}
                       onChange={onChangeFormulario}
                     />
+
+                    <TextField
+                      id="outlined-select"
+                      select
+                      error={errorValue.idCiudad}
+                      helperText={helperTextValue.idCiudad}
+                      label="Ciudad"
+                      name="idCiudad"
+                      value={idCiudad}
+                      onChange={onChangeFormulario}
+                    >
+                      {city.map((option) => (
+                        <MenuItem key={option.id} value={option.id}>
+                          {option.nombre}
+                        </MenuItem>
+                      ))}
+                    </TextField>
                     <TextField
                       id="outlined-select"
                       select
