@@ -61,7 +61,7 @@ function CreateRuteOptions() {
     idCiudad: 0,
     idZona: 0,
     idBarrio: 0,
-    newDistrict: "",
+    nombreBarrio: "",
   });
 
   const [errorValue, setErrorValue] = useState({
@@ -71,7 +71,7 @@ function CreateRuteOptions() {
     idCiudad: false,
     idZona: false,
     idBarrio: false,
-    newDistrict: false,
+    nombreBarrio: false,
   });
 
   
@@ -82,7 +82,7 @@ function CreateRuteOptions() {
     idCiudad: "",
     idZona: "",
     idBarrio: "",
-    newDistrict: "",
+    nombreBarrio: "",
   });
 
     const actualizarExistenciaError = () => {
@@ -93,7 +93,7 @@ function CreateRuteOptions() {
         idCiudad: false,
         idZona: false,
         idBarrio: false,
-        newDistrict: false,
+        nombreBarrio: false,
       }
 
       let errorText = {
@@ -103,7 +103,7 @@ function CreateRuteOptions() {
         idCiudad: "",
         idZona: "",
         idBarrio: "",
-        newDistrict: "",
+        nombreBarrio: "",
       }
 
       if(CreateRuteOptions.idPais === 0){
@@ -127,11 +127,11 @@ function CreateRuteOptions() {
         errors = {...errors, idZona: true};
         errorText = {...errorText, idZona: 'Campo Obligatorio'}
       }
-      if(CreateRuteOptions.idBarrio === 0 && CreateRuteOptions.newDistrict.trim().length === 0 ){
+      if(CreateRuteOptions.idBarrio === 0 && CreateRuteOptions.nombreBarrio.trim().length === 0 ){
         errors = {...errors, idBarrio: true};
-        errors = {...errors, newDistrict: true};
+        errors = {...errors, nombreBarrio: true};
         errorText = {...errorText, idBarrio: 'Seleccione un barrio o ingrese uno nuevo'}
-        errorText = {...errorText, newDistrict: 'Selecciones un barrio o ingrese uno nuevo'}
+        errorText = {...errorText, nombreBarrio: 'Selecciones un barrio o ingrese uno nuevo'}
       }
       setErrorValue(errors);
       sethelperTextValue(errorText);
@@ -261,7 +261,7 @@ function CreateRuteOptions() {
       !errorValue.idCiudad&&
       !errorValue.idBarrio&&
       !errorValue.idZona&&
-      !errorValue.newDistrict
+      !errorValue.nombreBarrio
     ){
       try {
 
@@ -271,7 +271,7 @@ function CreateRuteOptions() {
         });
   
         const response = await clienteAxios.post(
-          `/api/v1/rutas/ruta`,
+          `/api/v1/barrios/asignar-zona`,
           CreateRuteOptions,
           {
             headers: {
@@ -449,12 +449,12 @@ function CreateRuteOptions() {
                           <TextField
                             id="outlined-select"
                             required
-                            error={errorValue.newDistrict}
-                            helperText={helperTextValue.newDistrict}
+                            error={errorValue.nombreBarrio}
+                            helperText={helperTextValue.nombreBarrio}
                             label="Nuevo Barrio"
-                            name="newDistrict"
+                            name="nombreBarrio"
                             color="success"
-                            value={CreateRuteOptions.newDistrict}
+                            value={CreateRuteOptions.nombreBarrio}
                             onChange={(e) => {
                               onChangeFormulario(e, "null");
                             }}
