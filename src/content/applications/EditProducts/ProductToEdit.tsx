@@ -170,6 +170,16 @@ function ProductAdd({product}) {
     referencia: false,
     descripcion:false,
     valorCredito:false,
+    cantidad: false,
+    idColores:false,
+    nombreColor: false,
+    idCategoria:false,
+    nombreCategoria: false,
+    idMedidas: false,
+    largo:false,
+    ancho: false,
+    Credito: false,
+    Contado: false
 
   });
 
@@ -178,6 +188,16 @@ function ProductAdd({product}) {
     referencia:"",
     descripcion:"",
     valorCredito:"",
+    cantidad: "",
+    idColores:"",
+    nombreColor:"",
+    idCategoria:"",
+    nombreCategoria:"",
+    idMedidas:"",
+    largo:"",
+    ancho:"",
+    Credito:"",
+    Contado:""
   });
 
   
@@ -187,6 +207,16 @@ function ProductAdd({product}) {
       referencia: false,
       descripcion: false,
       valorCredito: false,
+      cantidad: false,
+      idColores:false,
+      nombreColor: false,
+      idCategoria:false,
+      nombreCategoria: false,
+      idMedidas: false,
+      largo:false,
+      ancho: false,
+      Credito: false,
+      Contado: false
       
     }
 
@@ -195,6 +225,16 @@ function ProductAdd({product}) {
       referencia: "",
       descripcion:"",
       valorCredito:"",
+      cantidad:"",
+      idColores:"",
+      nombreColor:"",
+      idCategoria:"",
+      nombreCategoria:"",
+      idMedidas:"",
+      largo:"",
+      ancho:"",
+      Credito:"",
+      Contado:""
     }
 
     if (producto.nombre.trim().length === 0) {
@@ -209,10 +249,44 @@ function ProductAdd({product}) {
       errors = {...errors, descripcion: true};
       errorText = {...errorText, descripcion: 'Campo obligatorio'}
     }
-    // if (producto.valorCredito === 0) {
-    //   errors = {...errors, valorCredito: true};
-    //   errorText = {...errorText, valorCredito: 'Campo obligatorio Ingrese el valor del producto'}
-    // }
+    if (producto.valorCredito < 0) {
+       errors = {...errors, valorCredito: true};
+       errorText = {...errorText, valorCredito: 'Campo obligatorio Ingrese el valor del producto'}
+    }
+    if(producto.cantidad === 0 || producto.cantidad < 0){
+      errors ={...errors, cantidad: true};
+      errorText={...errorText, cantidad: 'Campo Obligatorio, La cantidad no puede ser negativa'}
+    }
+    if(producto.idColor === 0 && producto.nombreColor.trim().length === 0){
+      errors ={...errors, idColores: true};
+      errors ={...errors, nombreColor: true};
+      errorText={...errorText, idColores: 'Campo Obligatorio'}
+      errorText={...errorText, nombreColor: 'Campo Obligatorio'}
+    }
+    if(producto.idCategoria === 0 && producto.nombreCategoria.trim().length === 0){
+      errors ={...errors, idCategoria: true};
+      errors ={...errors, nombreCategoria: true};
+      errorText={...errorText, idCategoria: 'Campo Obligatorio'}
+      errorText={...errorText, nombreCategoria: 'Campo Obligatorio'}
+    }
+    if((producto.idDimension === 0 && producto.largo === 0 && producto.ancho === 0) || 
+       (producto.largo < 0 && producto.ancho < 0)){
+      errors ={...errors, idMedidas: true};
+      errors ={...errors, largo: true};
+      errors ={...errors, ancho: true};
+      errorText={...errorText, idMedidas: 'Campo Obligatorio'}
+      errorText={...errorText, largo: 'Campo Obligatorio y debe contener valores positivos'}
+      errorText={...errorText, ancho: 'Campo Obligatorio y debe contener valores positivos'}
+    }
+    if(producto.valorCredito === 0 || producto.valorCredito < 0){
+      errors = {...errors, Credito: true};
+      errorText = {...errorText, Credito:"Campo Obligatorio"}
+    }
+    if(producto.valorContado === 0 || producto.valorContado <0){
+      errors = {...errors, Contado: true};
+      errorText = {...errorText, Contado:"Campo Obligatorio"}
+    }
+
 
     setErrorValue(errors);
     sethelperTextValue(errorText);
@@ -262,8 +336,17 @@ function ProductAdd({product}) {
       !errorValue.nombre  &&
       !errorValue.referencia &&
       !errorValue.descripcion &&
-      !errorValue.valorCredito
-      
+      !errorValue.valorCredito &&
+      !errorValue.cantidad &&
+      !errorValue.idColores &&
+      !errorValue.nombreColor &&
+      !errorValue.idCategoria &&
+      !errorValue.nombreCategoria &&
+      !errorValue.idMedidas &&
+      !errorValue.largo &&
+      !errorValue.ancho &&
+      !errorValue.Credito &&
+      !errorValue.Contado      
     ) {
       try {
 
@@ -393,6 +476,8 @@ function ProductAdd({product}) {
                     <TextField
                       required
                       id="cantidad"
+                      error={errorValue.cantidad}
+                      helperText={helperTextValue.cantidad}
                       label="Cantidad"
                       color="success"
                       type="number"
@@ -429,8 +514,8 @@ function ProductAdd({product}) {
                             <TextField
                               id="outlined-select"
                               select
-                              //error={errorValue.idColor}
-                              //helperText={helperTextValue.idColor}
+                              error={errorValue.idColores}
+                              helperText={helperTextValue.idColores}
                               label="Color"
                               name="idColor"
                               disabled={!tipoColor}
@@ -446,8 +531,8 @@ function ProductAdd({product}) {
                               <TextField
                               required
                               id="ColorN"
-                              //error={errorValue.nombreColor}
-                              //helperText={helperTextValue.nombreColor}
+                              error={errorValue.nombreColor}
+                              helperText={helperTextValue.nombreColor}
                               label="ColorNuevo"
                               color="success"
                               name="nombreColor"
@@ -488,8 +573,8 @@ function ProductAdd({product}) {
                             <TextField
                               id="outlined-select"
                               select
-                              //error={errorValue.idCategoria}                              
-                              //helperText={helperTextValue.idCategoria}
+                              error={errorValue.idCategoria}                              
+                              helperText={helperTextValue.idCategoria}
                               label="Categoria"
                               name="idCategoria"
                               disabled={!listaCategoria}
@@ -505,8 +590,8 @@ function ProductAdd({product}) {
                                <TextField
                                required
                                id="CategoriaN"
-                               //error={errorValue.nombreCategoria}
-                               //helperText={helperTextValue.nombreCategoria}
+                               error={errorValue.nombreCategoria}
+                               helperText={helperTextValue.nombreCategoria}
                                label="CategoriaNueva"
                                color="success"
                                name="nombreCategoria"
@@ -547,8 +632,8 @@ function ProductAdd({product}) {
                             <TextField
                               id="est"
                               select
-                              //error={errorValue.idDimension}                              
-                              //helperText={helperTextValue.idDimension}
+                              error={errorValue.idMedidas}                              
+                              helperText={helperTextValue.idMedidas}
                               label="Estandar"
                               name="idDimension"
                               disabled={!medidaEstandar}
@@ -564,8 +649,8 @@ function ProductAdd({product}) {
                                <TextField
                                   required
                                   id="lar"
-                                  //error={errorValue.largo}
-                                  //helperText={helperTextValue.largo}
+                                  error={errorValue.largo}
+                                  helperText={helperTextValue.largo}
                                   label="Largo"
                                   color="success"
                                   type="number"
@@ -581,8 +666,8 @@ function ProductAdd({product}) {
                                 <TextField
                                   required
                                   id="anch"
-                                  //error={errorValue.ancho}
-                                  //helperText={helperTextValue.ancho}
+                                  error={errorValue.ancho}
+                                  helperText={helperTextValue.ancho}
                                   label="Ancho"
                                   color="success"
                                   type="number"
@@ -602,7 +687,8 @@ function ProductAdd({product}) {
                         </InputLabel>
                         <Input
                           id="standard-adornment-amount"
-                          error={errorValue.valorCredito}
+                          error={errorValue.Credito}
+                          placeholder={helperTextValue.Credito}
                           required={true}
                           color="success"
                           name="valorCredito"
@@ -620,7 +706,8 @@ function ProductAdd({product}) {
                         </InputLabel>
                         <Input
                           id="standard-adornment-amount"
-                          //error={errorValue.valorContado}
+                          error={errorValue.Contado}
+                          placeholder={helperTextValue.Contado}
                           required={true}
                           color="success"
                           name="valorContado"
