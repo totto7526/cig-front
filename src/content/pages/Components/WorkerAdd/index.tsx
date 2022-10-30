@@ -159,14 +159,14 @@ function WorkerAdd() {
       errors = { ...errors, segundoApellido: true };
       errorText = { ...errorText, segundoApellido: 'Campo obligatorio' }
     }
-    if (empleado.identificacion.trim().length === 0) {
+    if (empleado.identificacion.trim().length === 0 || empleado.identificacion.trim().length < 4 || empleado.identificacion.trim().length >10) {
       errors = { ...errors, identificacion: true };
-      errorText = { ...errorText, identificacion: 'Campo obligatorio' }
+      errorText = { ...errorText, identificacion: 'Campo obligatorio y longitud debe ser mayor a 4 y menor a 10' }
     }
 
-    if (empleado.telefono.trim().length === 0) {
+    if (empleado.telefono.trim().length === 0 || empleado.telefono.trim().length < 10) {
       errors = { ...errors, telefono: true };
-      errorText = { ...errorText, telefono: 'Campo obligatorio' }
+      errorText = { ...errorText, telefono: 'Campo obligatorio y solo recibe datos tipo numero' }
     }
     if (empleado.direccion.trim().length === 0) {
       errors = { ...errors, direccion: true };

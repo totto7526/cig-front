@@ -33,31 +33,88 @@ function WorkerToEdit({worker}) {
   const { user, isAuthenticated, getAccessTokenSilently } = useAuth0();
 
   const [neighborhood, setNeighborhood] = useState([]);
+  const [city, setCity] = useState([]);
+  const [idCiudad, setIdCiudad] = useState(worker.persona.barrio.zona.ciudad.id)
 
-  const callNeighborhood = async (token) => {
-    const response = await clienteAxios.get('/api/v1/barrios', {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
-    setNeighborhood(await response.data);
-  };
+  // const callNeighborhood = async (token) => {
+  //   const response = await clienteAxios.get('/api/v1/barrios', {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`
+  //     }
+  //   });
+  //   setNeighborhood(await response.data);
+  // };
+
+  // const callCity = async (token) => {
+  //   const response = await clienteAxios.get('/api/v1/rutas/ciudades/1', {
+  //     headers: {
+  //       Authorization: `Bearer ${token}`
+  //     }
+  //   });
+  //   setCity(await response.data);
+  // };
+
+  // useEffect(() => {
+  //   (async () => {
+  //     try {
+  //       const token = await getAccessTokenSilently({
+  //         audience: "htttps://cig/api",
+  //         scope: "read:cig-vendedor read:cig-cobrador",
+  //       });
+        
+  //       callNeighborhood(token);
+  //       callCity(token);
+  //     } catch (e) {
+  //       console.error(e);
+  //     }
+  //   })();
+  // }, []);
 
   useEffect(() => {
     (async () => {
-        
+      try {
+        const token = await getAccessTokenSilently({
+          audience: "htttps://cig/api",
+          scope: "read:cig-vendedor read:cig-cobrador",
+        });
+        const response = await clienteAxios.get("api/v1/rutas/ciudades/1", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setCity(await response.data);
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+  }, []);
+
+
+  useEffect(() => {
+    (async () => {
       try {
         const token = await getAccessTokenSilently({
           audience: "htttps://cig/api",
           scope: "read:cig-vendedor read:cig-cobrador",
         });
 
-        callNeighborhood(token);
+        if (idCiudad != 0) {
+          const response = await clienteAxios.get(
+            `/api/v1/rutas/barrios/${idCiudad}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setNeighborhood(await response.data);
+        }
       } catch (e) {
         console.error(e);
       }
     })();
-  }, []);
+  }, [idCiudad]);
+
 
   const [empleado, setEmpleado] = useState({
     primerNombre: worker.persona.primerNombre,
@@ -78,6 +135,8 @@ function WorkerToEdit({worker}) {
     segundoApellido: false,
     identificacion: false,
     telefono: false,
+    idCiudad: false,
+    idBarrio: false,
     direccion:false,
     correo: false
   });
@@ -90,6 +149,8 @@ function WorkerToEdit({worker}) {
     segundoApellido:"",
     identificacion:"",
     telefono:"",
+    idCiudad:"",
+    idBarrio:"",
     direccion:"",   
     correo: "" 
   });
@@ -102,6 +163,8 @@ function WorkerToEdit({worker}) {
         segundoApellido: false,
         identificacion: false,
         telefono: false,
+        idCiudad: false,
+        idBarrio: false,
         direccion:false,
         correo: false
       }
@@ -113,6 +176,8 @@ function WorkerToEdit({worker}) {
         segundoApellido:"",
         identificacion:"",
         telefono:"",
+        idCiudad: "",
+        idBarrio: "",
         direccion:"",   
         correo: ""    
       }
@@ -138,6 +203,17 @@ function WorkerToEdit({worker}) {
         errors = {...errors, telefono: true};
         errorText = {...errorText, telefono: 'Campo obligatorio'}
       }
+
+      if(idCiudad === 0){
+        errors = {...errors, idCiudad: true};
+        errorText = {...errorText, idCiudad: 'Campo Obligatorio'}
+      }
+
+      if(empleado.idBarrio.id === 0){
+        errors = {...errors, idBarrio: true};
+        errorText = {...errorText, idBarrio : 'Campo Obligatorio'}
+      }
+
       if (empleado.direccion.trim().length === 0) {
         errors = {...errors, direccion: true};
         errorText = {...errorText, direccion: 'Campo obligatorio'}
@@ -161,12 +237,19 @@ function WorkerToEdit({worker}) {
   
 
   const onChangeFormulario = (e) => {
-    setEmpleado({
-      ...empleado,
-      [e.target.name]: e.target.value,
-    });
 
-    if(e.target.name !== 'idBarrio'){
+    if(e.target.name !== "idCiudad"){
+      setEmpleado({
+        ...empleado,
+        [e.target.name]: e.target.value,
+      });
+    } else{
+      setIdCiudad(e.target.value)
+    }
+    
+
+    if(e.target.name !== 'idBarrio' && 
+       e.target.name != 'idCiudad'){
       if (e.target.value.trim().length === 0) {
         setErrorValue({
           ...errorValue,
@@ -202,6 +285,8 @@ function WorkerToEdit({worker}) {
       !errorValue.segundoApellido &&
       !errorValue.identificacion &&
       !errorValue.telefono &&
+      !errorValue.idCiudad &&
+      !errorValue.idBarrio &&
       !errorValue.direccion &&
       !errorValue.correo
     ) {
@@ -356,14 +441,31 @@ function WorkerToEdit({worker}) {
                       value={empleado.correo}
                       onChange={onChangeFormulario}
                     />
+                     <TextField
+                      id="outlined-select"
+                      select
+                      error={errorValue.idCiudad}
+                      helperText={helperTextValue.idCiudad} 
+                      label="Ciudad"
+                      name="idCiudad"
+                      value={idCiudad}
+                      onChange={onChangeFormulario}
+                    >
+                      {city.map((option) => (
+                        <MenuItem key={option.id} value={option.id}>
+                          {option.nombre}
+                        </MenuItem>
+                      ))}
+                    </TextField>
                     <TextField
                       id="outlined-select"
                       select
+                      error={errorValue.idBarrio}
+                      helperText={helperTextValue.idBarrio}
                       label="Barrio"
                       name="idBarrio"
                       value={empleado.idBarrio}
                       onChange={onChangeFormulario}
-                      helperText="Por favor seleccione un barrio"
                     >
                       {neighborhood.map((option) => (
                         <MenuItem key={option.id} value={option.id}>

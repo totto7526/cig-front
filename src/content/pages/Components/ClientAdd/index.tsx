@@ -207,9 +207,9 @@ function ClientAdd() {
       idParentescoReferencia2: "",
     }
 
-    if (cliente.identificacion.trim().length === 0 || cliente.identificacion.trim().length > 10) {
+    if (cliente.identificacion.trim().length === 0 || cliente.identificacion.trim().length > 10 ||  cliente.identificacion.trim().length < 4) {
       errors = { ...errors, identificacion: true };
-      errorText = { ...errorText, identificacion: 'Campo obligatorio y longitud debe ser menor a 10' }
+      errorText = { ...errorText, identificacion: 'Campo obligatorio y longitud debe ser mayor a 4 y menor a 10' }
     }
     if (cliente.primerNombre.trim().length === 0) {
       errors = { ...errors, primerNombre: true };
