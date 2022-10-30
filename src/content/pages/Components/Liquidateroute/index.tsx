@@ -72,7 +72,7 @@ function Liquidateroute() {
 
   const [liquidacionValues, setLiquidacionValues] = useState({
     idTrabajador: 0,
-    fechaRealizacion: Date.now(),
+    fechaRealizacion: new Date().setHours(0,0,0,0),
     crearLiquidacion: false,
   });
 
@@ -86,6 +86,8 @@ function Liquidateroute() {
 
   useEffect(() => {
     (async () => {
+      console.log(liquidacionValues);
+      
       if (liquidacionValues.idTrabajador !== 0) {
         try {
           const token = await getAccessTokenSilently({
@@ -241,7 +243,6 @@ function Liquidateroute() {
                   }}
                   noValidate
                   autoComplete="off"
-                  onClick={submitLiquidateRoute}
                 >
                   <div>
                     <TextField
