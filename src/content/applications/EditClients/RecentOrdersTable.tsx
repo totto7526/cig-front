@@ -233,45 +233,19 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
   return (
     !isEdit ?
     <Card>
-      {selectedBulkActions && (
-        <Box flex={1} p={2}>
-          <BulkActions />
-        </Box>
-      )}
-      {!selectedBulkActions && (
         <CardHeader
-          action={
-            <Box width={150}>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel>Status</InputLabel>
-                <Select
-                  value={filters.status || 'all'}
-                  onChange={handleStatusChange}
-                  label="Status"
-                  autoWidth
-                >
-                  {statusOptions.map((statusOption) => (
-                    <MenuItem key={statusOption.id} value={statusOption.id}>
-                      {statusOption.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-          }
           title="Clientes"
         />
-      )}
       <Divider />
       <TableContainer>
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Cedula</TableCell>
+              <TableCell>Cédula</TableCell>
               <TableCell>Nombre Completo</TableCell>
               <TableCell>Apellidos</TableCell>
-              <TableCell>Direccion</TableCell>
-              <TableCell>Telefono</TableCell>
+              <TableCell>Dirección</TableCell>
+              <TableCell>Teléfono</TableCell>
               <TableCell>Cupo</TableCell>
               <TableCell>Referencia</TableCell>
               <TableCell>Referencia</TableCell>

@@ -379,7 +379,7 @@ function WorkerToEdit({worker}) {
                       id="outlined-number"
                       error={errorValue.telefono}
                       helperText={helperTextValue.telefono}
-                      label="Telefono"
+                      label="Teléfono"
                       color="success"
                       type="number"
                       name="telefono"
