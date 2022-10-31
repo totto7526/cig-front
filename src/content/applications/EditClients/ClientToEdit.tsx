@@ -60,7 +60,7 @@ function ClientToEdit({client}) {
 
   useEffect(() => {
     (async () => {
-      console.log(client);
+      
       try {
         const token = await getAccessTokenSilently({
           audience: "htttps://cig/api",

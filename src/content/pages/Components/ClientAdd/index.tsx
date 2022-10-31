@@ -317,7 +317,6 @@ function ClientAdd() {
   const submitCrearCliente = async (e) => {
     // Se enviaria el cliente al back
     actualizarExistenciaError();
-    console.log(cliente);
 
     if (
       !errorValue.identificacion &&

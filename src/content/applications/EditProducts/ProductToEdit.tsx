@@ -354,7 +354,6 @@ function ProductAdd({product}) {
           audience: "htttps://cig/api",
           scope: "read:cig-admin",
         });
-        console.log(producto);
         
         const response = await clienteAxios.put(`/api/v1/productos/producto/${product.id}`,
          producto, {

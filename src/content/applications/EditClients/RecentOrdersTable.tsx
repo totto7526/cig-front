@@ -194,13 +194,11 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Clients }) => {
       cancelButtonText: "Cancelar",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        console.log("CambiarEstado" + idCliente);
 
         const token = await getAccessTokenSilently({
           audience: "htttps://cig/api",
           scope: "read:cig-vendedor read:cig-cobrador",
         });
-        console.log(token);
 
         const response = await clienteAxios.put(
           `/api/v1/clientes/cliente/${idCliente}/cambiar-estado`,

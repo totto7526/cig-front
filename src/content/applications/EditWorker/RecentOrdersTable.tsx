@@ -184,13 +184,11 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
       cancelButtonText: "Cancelar",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        console.log("CambiarEstado" + idTrabajador);
 
         const token = await getAccessTokenSilently({
           audience: "htttps://cig/api",
           scope: "read:cig-admin",
         });
-        console.log(token);
 
         const response = await clienteAxios.put(
           `/api/v1/trabajadores/trabajador/${idTrabajador}/cambiar-estado`,
@@ -218,7 +216,6 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Workers }) => {
   };
 
   const goToWorkerToEdit = (worker) => {
-      console.log(worker);
       setWorkerEdit(worker),
       setIsEdit(true);
   }

@@ -188,8 +188,6 @@ function WorkerAdd() {
       errorText = { ...errorText, idBarrio: 'Campo Obligatorio' }
     }
 
-    console.log(empleado.correo.trim().length);
-
     let correoRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     if (!(correoRegex.test(empleado.correo))) {
       errors = { ...errors, correo: true };

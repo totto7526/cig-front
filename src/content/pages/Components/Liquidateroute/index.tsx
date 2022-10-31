@@ -86,7 +86,6 @@ function Liquidateroute() {
 
   useEffect(() => {
     (async () => {
-      console.log(liquidacionValues);
       
       if (liquidacionValues.idTrabajador !== 0) {
         try {
@@ -103,7 +102,6 @@ function Liquidateroute() {
               },
             }
           );
-          console.log(response.data);
           setLiquidate(response.data);
         } catch (e) {
           console.error(e);
@@ -191,7 +189,6 @@ function Liquidateroute() {
           showConfirmButton: false,
           timer: 1500,
         });
-        console.log(response.data);
       } catch (error) {
         const mensaje = error.response.data.mensaje;
 

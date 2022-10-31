@@ -193,13 +193,11 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Products }) => {
       cancelButtonText: "Cancelar",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        console.log("CambiarEstado" + idProducto);
 
         const token = await getAccessTokenSilently({
           audience: "htttps://cig/api",
           scope: "read:cig-admin",
         });
-        console.log(token);
 
         const response = await clienteAxios.put(
           `/api/v1/productos/producto/${idProducto}/cambiar-estado`,
@@ -227,42 +225,15 @@ const RecentOrdersTable: FC<RecentOrdersTableProps> = ({ Products }) => {
   };
 
   const goToWorkerToEdit = (product) => {
-      console.log(product);
       setProductEdit(product),
       setIsEdit(true);
   }
   return (
     !isEdit ?
-    <Card>
-      {selectedBulkActions && (
-        <Box flex={1} p={2}>
-          <BulkActions />
-        </Box>
-      )}
-      {!selectedBulkActions && (
+    <Card>    
         <CardHeader
-          action={
-            <Box width={150}>
-              <FormControl fullWidth variant="outlined">
-                <InputLabel>Status</InputLabel>
-                <Select
-                  value={filters.status || 'all'}
-                  onChange={handleStatusChange}
-                  label="Status"
-                  autoWidth
-                >
-                  {statusOptions.map((statusOption) => (
-                    <MenuItem key={statusOption.id} value={statusOption.id}>
-                      {statusOption.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-          }
           title="Productos"
         />
-      )}
       <Divider />
       <TableContainer>
         <Table>
